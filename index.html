@@ -8,49 +8,89 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
+  <header class="header-bg-wrapper dark-blue-bg">
+    <div class="container">
+      <div class="row column-full">
+        <h2 class="text-white fw-500">ACNH</h2>
+        <nav></nav>
+      </div>
+    </div>
   </header>
-  <main class="container">
+
+  <main class="container light-gray-bg">
     <div data-view="town-entry-form">
       <form action="" method="GET">
-        <div class="row column-full">
-          <h1>New Town</h1>
-        </div>
-        <div class="column-half">
-          <img src="images/placeholder-image-square.jpg" alt="placeholder-img">
-        </div>
+
         <div class="row">
-          <label for="char-name">Character Name</label>
-          <input type="text" name="char-name" id="char-name" required />
+          <div class="column-full">
+            <h1 class="town-form-title">New Town</h1>
+          </div>
         </div>
+
         <div class="row">
-          <label for="town-name">Town Name</label>
-          <input type="text" name="town-name" id="town-name" required />
+          <div class="column-half">
+            <img class="placeholder-img" src="images/placeholder-image-square.jpg" alt="placeholder-img">
+          </div>
+          <div class="column-half">
+            <div class="row mb-1-rem">
+              <label class="town-form-label" for="char-name">Character Name</label>
+              <input class="town-form-input" type="text" name="char-name" id="char-name" required />
+            </div>
+            <div class="row mb-1-rem">
+              <label class="town-form-label" for="town-name">Town Name</label>
+              <input class="town-form-input" type="text" name="town-name" id="town-name" required />
+            </div>
+            <div class="row column-full mb-1-rem current-villager-mobile">
+              <label class="town-form-label" for="villagers">Current Villagers</label>
+              <input class="town-form-input" type="text" name="villagers-mobile" id="villagers-mobile"/>
+            </div>
+            <div class="row">
+              <p>Town Fruit</p>
+            </div>
+            <div class="row mb-1-rem justify-between">
+              <div class="fruit-card flex-column">
+                <label class="radio-label" for="pear"><img class="fruit-img" src="images/Fruits/pear.png" alt="pear-img"></label>
+                <input type="radio" id="pear" name="fruit" value="pear">
+              </div>
+              <div class="fruit-card flex-column">
+                <label class="radio-label" for="peach"><img class="fruit-img" src="images/Fruits/peach.png" alt="pear-img"></label>
+                <input type="radio" id="peach" name="fruit" value="peach">
+              </div>
+              <div class="fruit-card flex-column">
+                <label class="radio-label" for="cherry"><img class="fruit-img" src="images/Fruits/cherry.png"
+                    alt="pear-img"></label>
+                <input type="radio" id="cherry" name="fruit" value="cherry">
+              </div>
+              <div class="fruit-card flex-column">
+                <label class="radio-label" for="apple"><img class="fruit-img" src="images/Fruits/apple.png" alt="pear-img"></label>
+                <input type="radio" id="apple" name="fruit" value="apple">
+              </div>
+              <div class="fruit-card flex-column">
+                <label class="radio-label" for="orange"><img class="fruit-img" src="images/Fruits/orange.png"
+                    alt="pear-img"></label>
+                <input type="radio" id="orange" name="fruit" value="orange">
+              </div>
+            </div>
+          </div>
+          <div class="row column-full mb-1-rem current-villager-desktop">
+            <label class="town-form-label" for="villagers">Current Villagers</label>
+            <input class="town-form-input" type="text" name="villagers-desktop" id="villagers-desktop"/>
+          </div>
         </div>
-        <div class="row">
-          <label for="villagers">Current Villagers</label>
-          <input type="text" name="villagers" id="villagers" required />
+
+
+        <div class="row column-full justify-end">
+          <button class="town-form-btn" type="submit">SAVE</button>
         </div>
-        <div class="row">
-          <input type="radio" id="pear" name="fruit" value="pear">
-          <label for="pear"><img src="images/Fruits/pear.png" alt="pear-img"></label>
-          <input type="radio" id="peach" name="fruit" value="peach">
-          <label for="peach"><img src="images/Fruits/peach.png" alt="pear-img"></label>
-          <input type="radio" id="cherry" name="fruit" value="cherry">
-          <label for="cherry"><img src="images/Fruits/cherry.png" alt="pear-img"></label>
-          <input type="radio" id="apple" name="fruit" value="apple">
-          <label for="apple"><img src="images/Fruits/apple.png" alt="pear-img"></label>
-          <input type="radio" id="orange" name="fruit" value="orange">
-          <label for="orange"><img src="images/Fruits/orange.png" alt="pear-img"></label>
-        </div>
-        <div class="row">
-          <button type="submit">SAVE</button>
-        </div>
+
       </form>
     </div>
   </main>

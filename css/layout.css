@@ -1,3 +1,11 @@
+* {
+  font-family: Roboto, "Trebuchet MS", Avenir, sans-serif;
+}
+
+.hidden {
+  display: none !important;
+}
+
 .container {
   max-width: 575px;
   margin: 0 auto;
@@ -9,9 +17,24 @@
   flex-wrap: wrap;
 }
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .column-full,
 .column-half {
   width: 100%;
+}
+
+.fruit-card {
+  flex-basis: 17%;
+}
+
+@media screen and (max-width: 768px) {
+  .current-villager-desktop {
+    display: none;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -26,5 +49,9 @@
 
   .column-half {
     width: 50%;
+  }
+
+  .current-villager-mobile {
+    display: none;
   }
 }
