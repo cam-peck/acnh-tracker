@@ -54,6 +54,29 @@ button:active {
   margin-bottom: 1rem;
 }
 
+.villager-card {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border: 3px solid darkgray;
+  background-color: lightgrey;
+}
+
+.villager-icon {
+  width: 45px;
+  height: 45px;
+}
+
+.add-villager-btn {
+  background: #007bff;
+  font-size: 1.5rem;
+  border: 3px solid darkgray;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  color: white;
+}
+
 .justify-end {
   justify-content: end;
 }
@@ -62,8 +85,17 @@ button:active {
   justify-content: space-between;
 }
 
+.justify-and-align-center {
+  justify-content: center;
+  align-items: center;
+}
+
 .text-align-center {
   text-align: center;
+}
+
+.gap-1-rem {
+  gap: 1rem;
 }
 
 .light-gray-bg {
@@ -84,4 +116,8 @@ button:active {
 
 .mb-1-rem {
   margin-bottom: 1.75rem;
+}
+
+.mb-three-quarter-rem {
+  margin-bottom: 0.75rem;
 }

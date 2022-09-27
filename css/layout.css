@@ -31,10 +31,8 @@
   flex-basis: 17%;
 }
 
-@media screen and (max-width: 768px) {
-  .current-villager-desktop {
-    display: none;
-  }
+.villager-card {
+  display: flex;
 }
 
 @media screen and (min-width: 768px) {
@@ -49,9 +47,5 @@
 
   .column-half {
     width: 50%;
-  }
-
-  .current-villager-mobile {
-    display: none;
   }
 }
