@@ -1,6 +1,8 @@
-// New Town Input Form //
+// Global Variables //
 
 var allVillagers = [];
+
+// New Town Input Form //
 
 var $fruitContainer = document.querySelector('.fruit-container');
 var $fruits = document.querySelectorAll('.fruit-img');
@@ -9,14 +11,15 @@ var $addVillagerInput = document.querySelector('.new-villager-input');
 var $addVillagerBtn = document.querySelector('.add-villager-btn');
 var $villagerDatalist = document.querySelector('.villager-datalist');
 var $villagerEntryList = document.querySelector('.villager-entry-list');
+var $townForm = document.querySelector('.town-form');
 
-window.addEventListener('DOMContentLoaded', function (event) {
+window.addEventListener('DOMContentLoaded', function (event) { // get a list of all villagers
   getVillagerNames();
 });
 
 $fruitContainer.addEventListener('click', handleFruitClick);
 
-function handleFruitClick(event) {
+function handleFruitClick(event) { // highlight the clicked fruit with a soft yellow background
   if (event.target.tagName === 'INPUT') {
     var parentDiv = (event.target.closest('div'));
     var labelChild = parentDiv.firstElementChild;
@@ -33,7 +36,7 @@ function handleFruitClick(event) {
 
 $searchVillagerBtn.addEventListener('click', searchVillagers);
 
-function searchVillagers(event) {
+function searchVillagers(event) { // search through the villagers and show them to the user
   $villagerDatalist.textContent = '';
   $addVillagerInput.classList.toggle('hidden');
   $addVillagerBtn.classList.toggle('hidden');
@@ -46,7 +49,7 @@ function searchVillagers(event) {
 
 $addVillagerBtn.addEventListener('click', addVillager);
 
-function addVillager() {
+function addVillager() { // add a villager to both the DOM and the data model
   for (let i = 0; i < allVillagers.length; i++) {
     if (allVillagers[i].name === $addVillagerInput.value && !data.currentVillagers.includes(allVillagers[i]) && data.currentVillagers.length < 10) {
       $villagerEntryList.append(createVillagerIcon(allVillagers[i].name, allVillagers[i].icon));
@@ -56,7 +59,7 @@ function addVillager() {
   $addVillagerInput.value = '';
 }
 
-function createVillagerIcon(villagerName, imageUrl) {
+function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
   /*
   * <li data-id="villagerName">
   *  <div class="villager-card justify-and-align-center">
@@ -80,8 +83,26 @@ function createVillagerIcon(villagerName, imageUrl) {
   return $newLi;
 }
 
+$townForm.addEventListener('submit', function (event) {
+  handleNewSubmit(event);
+  $townForm.reset();
+});
+
+function handleNewSubmit(event) {
+  event.preventDefault();
+  var formData = {};
+  formData.playerName = $townForm.elements['char-name'].value;
+  formData.townName = $townForm.elements['town-name'].value;
+  formData.townFruit = $townForm.elements.fruit.value;
+  formData.townVillagers = data.currentVillagers;
+  data.currentVillagers = [];
+  formData.entryID = data.nextEntryId;
+  data.nextEntryId++;
+  data.towns.unshift(formData);
+}
+
 // ACNH Data Functions //
-function getVillagerNames() {
+function getVillagerNames() { // call the API and grab all villager names and icons
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
   xhr.responseType = 'json';
