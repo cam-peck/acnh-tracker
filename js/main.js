@@ -2,7 +2,7 @@
 
 var allVillagers = [];
 
-// New Town Input Form //
+// Event Listeners //
 
 var $fruitContainer = document.querySelector('.fruit-container');
 var $fruits = document.querySelectorAll('.fruit-img');
@@ -14,6 +14,9 @@ var $villagerEntryList = document.querySelector('.villager-entry-list');
 var $townForm = document.querySelector('.town-form');
 var $imageInput = document.querySelector('.image-input');
 var $townImage = document.querySelector('.town-img');
+var $townContainer = document.querySelector('.town-container');
+
+// New Town Input Form //
 
 window.addEventListener('DOMContentLoaded', function (event) { // get a list of all villagers
   getVillagerNames();
@@ -113,14 +116,15 @@ function clearVillagers() { // clears villagers from the DOM
   }
 }
 
-$townForm.addEventListener('submit', function (event) {
+$townForm.addEventListener('submit', function (event) { // handle submitting a new town
   handleNewSubmit(event);
   $townForm.reset();
   clearFruits();
   clearVillagers();
+  viewSwap('town-entries');
 });
 
-function handleNewSubmit(event) {
+function handleNewSubmit(event) { // handle the form data from a new town submit
   event.preventDefault();
   var formData = {};
   formData.playerName = $townForm.elements['char-name'].value;
@@ -133,11 +137,10 @@ function handleNewSubmit(event) {
   formData.entryID = data.nextEntryId;
   data.nextEntryId++;
   data.towns.unshift(formData);
+  $townContainer.prepend(renderTown(formData));
 }
 
 // Town View Form //
-
-var $townContainer = document.querySelector('.town-container');
 
 window.addEventListener('DOMContentLoaded', function (event) {
   for (let i = 0; i < data.towns.length; i++) {
