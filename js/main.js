@@ -134,7 +134,9 @@ function handleNewSubmit(event) {
   formData.townName = $townForm.elements['town-name'].value;
   formData.townFruit = $townForm.elements.fruit.value;
   formData.townVillagers = data.currentVillagers;
+  formData.imageLink = $townImage.src;
   data.currentVillagers = [];
+  $townImage.src = 'images/placeholder-image-square.jpg';
   formData.entryID = data.nextEntryId;
   data.nextEntryId++;
   data.towns.unshift(formData);
