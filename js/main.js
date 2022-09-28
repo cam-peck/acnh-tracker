@@ -34,6 +34,12 @@ function handleFruitClick(event) { // highlight the clicked fruit with a soft ye
   }
 }
 
+function clearFruits() { // resets the fruits on page reload
+  for (let i = 0; i < $fruits.length; i++) {
+    $fruits[i].className = 'fruit-img';
+  }
+}
+
 $searchVillagerBtn.addEventListener('click', searchVillagers);
 
 function searchVillagers(event) { // search through the villagers and show them to the user
@@ -59,6 +65,13 @@ function addVillager() { // add a villager to both the DOM and the data model
   $addVillagerInput.value = '';
 }
 
+// function clearVillagers() {
+//   var $allChildren = $villagerEntryList.children;
+//   for (let i = 0; i < data.currentVillagers.length; i++) {
+//     console.log(currentVillagers[i]);
+//   }
+// }
+
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
   /*
   * <li data-id="villagerName">
@@ -83,9 +96,18 @@ function createVillagerIcon(villagerName, imageUrl) { // create a villager icon 
   return $newLi;
 }
 
+function clearVillagers() { // clears villagers from the DOM
+  while ($villagerEntryList.children.length > 1) {
+    var $lastVillager = $villagerEntryList.lastChild;
+    $lastVillager.remove();
+  }
+}
+
 $townForm.addEventListener('submit', function (event) {
   handleNewSubmit(event);
   $townForm.reset();
+  clearFruits();
+  clearVillagers();
 });
 
 function handleNewSubmit(event) {
