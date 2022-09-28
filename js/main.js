@@ -82,13 +82,6 @@ function addVillager() { // add a villager to both the DOM and the data model
   $addVillagerInput.value = '';
 }
 
-// function clearVillagers() {
-//   var $allChildren = $villagerEntryList.children;
-//   for (let i = 0; i < data.currentVillagers.length; i++) {
-//     console.log(currentVillagers[i]);
-//   }
-// }
-
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
   /*
   * <li data-id="villagerName">
