@@ -1,6 +1,7 @@
 // Global Variables //
 
 var allVillagers = [];
+var $defaultText = createDefaultText();
 
 // Event Listeners //
 
@@ -117,6 +118,9 @@ function clearVillagers() { // clears villagers from the DOM
 }
 
 $townForm.addEventListener('submit', function (event) { // handle submitting a new town
+  if (data.entries.length === 0) {
+    $defaultText.remove();
+  }
   handleNewSubmit(event);
   $townForm.reset();
   clearFruits();
@@ -143,6 +147,10 @@ function handleNewSubmit(event) { // handle the form data from a new town submit
 // Town View Form //
 
 window.addEventListener('DOMContentLoaded', function (event) {
+  if (data.towns.length === 0) {
+    $townContainer.append($defaultText);
+  }
+
   for (let i = 0; i < data.towns.length; i++) {
     var previousTown = renderTown(data.towns[i]);
     $townContainer.append(previousTown);
@@ -213,6 +221,13 @@ function renderTown(townObj) {
   $parentLi.append($titleDiv, $imageColumnDiv, $villagerColumnDiv);
 
   return $parentLi;
+}
+
+function createDefaultText() {
+  var output = document.createElement('p');
+  output.className = 'text-align-center default-text';
+  output.textContent = 'No towns have been recorded... yet!';
+  return output;
 }
 
 // ACNH Data Functions //
