@@ -118,10 +118,10 @@ function clearVillagers() { // clears villagers from the DOM
 }
 
 $townForm.addEventListener('submit', function (event) { // handle submitting a new town
-  if (data.entries.length === 0) {
+  handleNewSubmit(event);
+  if (data.towns.length !== 0) {
     $defaultText.remove();
   }
-  handleNewSubmit(event);
   $townForm.reset();
   clearFruits();
   clearVillagers();
