@@ -135,6 +135,78 @@ function handleNewSubmit(event) {
   data.towns.unshift(formData);
 }
 
+// Town View Form //
+
+var $townContainer = document.querySelector('.town-container');
+
+window.addEventListener('DOMContentLoaded', function (event) {
+  for (let i = 0; i < data.towns.length; i++) {
+    var previousTown = renderTown(data.towns[i]);
+    $townContainer.append(previousTown);
+  }
+
+});
+
+function renderTown(townObj) {
+  /* <li data-entry-id="" class="row mb-1-rem">
+  *    <div class="row column-full">
+  *      <h2 class="fw-500">Acorn Cove</h2>
+  *    </div>
+  *    <div class="column-half">
+  *      <div class="town-hero-img justify-and-align-center">
+  *        <div class="overlay"></div>
+  *        <button class="overlay-town-btn" type="button">Jump back in!</button>
+  *     </div>
+  *    </div>
+  *    <div class="column-half">
+  *      <ul class="villager-icon-holder row gap-1-rem"></ul>
+  *    </div>
+  *  </li>
+  */
+  var $parentLi = document.createElement('li');
+  $parentLi.setAttribute('data-entry-id', townObj.entryID);
+  $parentLi.className = 'row mb-1-rem';
+
+  var $titleDiv = document.createElement('div');
+  $titleDiv.className = 'row column-full';
+
+  var $titleH2 = document.createElement('h2');
+  $titleH2.className = 'fw-500';
+  $titleH2.textContent = townObj.townName;
+
+  var $imageColumnDiv = document.createElement('div');
+  $imageColumnDiv.className = 'column-half';
+
+  var $imageHeroDiv = document.createElement('div');
+  $imageHeroDiv.className = 'town-hero-img justify-and-align-center';
+
+  var $overlayDiv = document.createElement('div');
+  $overlayDiv.className = 'overlay';
+
+  var $jumpInButton = document.createElement('button');
+  $jumpInButton.type = 'button';
+  $jumpInButton.className = 'overlay-town-btn';
+  $jumpInButton.textContent = 'Jump back in!';
+
+  var $villagerColumnDiv = document.createElement('div');
+  $villagerColumnDiv.className = 'column-half';
+
+  var $villagerUl = document.createElement('ul');
+  $villagerUl.className = 'home-villager-icon-holder row gap-1-rem';
+
+  for (let i = 0; i < townObj.townVillagers.length; i++) {
+    $villagerUl.append(createVillagerIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
+  }
+
+  $villagerColumnDiv.append($villagerUl);
+  $imageHeroDiv.append($overlayDiv, $jumpInButton);
+  $imageColumnDiv.append($imageHeroDiv);
+  $titleDiv.append($titleH2);
+  $parentLi.append($titleDiv, $imageColumnDiv, $villagerColumnDiv);
+
+  return $parentLi;
+}
+
 // ACNH Data Functions //
 function getVillagerNames() { // call the API and grab all villager names and icons
   var xhr = new XMLHttpRequest();
