@@ -109,11 +109,14 @@ a {
   width: 100%;
   height: 305px;
   border-radius: 5px;
-  background-image: url("https://i.pinimg.com/736x/38/8a/d6/388ad6db4a58b8e7fcb63e5f7e1940d9.jpg");
   background-size: cover;
   z-index: 0;
   border: 3px solid #0092e3;
   position: relative;
+}
+
+.default-hero-img {
+  background-image: url("https://i.pinimg.com/736x/38/8a/d6/388ad6db4a58b8e7fcb63e5f7e1940d9.jpg");
 }
 
 .overlay {

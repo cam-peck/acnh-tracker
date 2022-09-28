@@ -182,6 +182,11 @@ function renderTown(townObj) {
 
   var $imageHeroDiv = document.createElement('div');
   $imageHeroDiv.className = 'town-hero-img justify-and-align-center';
+  if (townObj.imageLink !== 'http://localhost:5500/images/placeholder-image-square.jpg') {
+    $imageHeroDiv.style.backgroundImage = 'url(' + townObj.imageLink + ')';
+  } else {
+    $imageHeroDiv.classList.add('default-hero-img');
+  }
 
   var $overlayDiv = document.createElement('div');
   $overlayDiv.className = 'overlay';
