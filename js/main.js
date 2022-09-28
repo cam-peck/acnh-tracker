@@ -224,3 +224,31 @@ function getVillagerNames() { // call the API and grab all villager names and ic
   });
   xhr.send();
 }
+
+// View-Swap //
+
+var $navTowns = document.querySelector('.towns-nav');
+var $addTownBtn = document.querySelector('.add-town-btn');
+
+$navTowns.addEventListener('click', function (event) { // swap to entries view
+  viewSwap('town-entries');
+});
+
+$addTownBtn.addEventListener('click', function (event) { // swap to entry form view
+  $townForm.reset();
+  clearFruits();
+  clearVillagers();
+  viewSwap('town-entry-form');
+});
+
+function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
+  var $dataViews = document.querySelectorAll('[data-view]');
+  for (let i = 0; i < $dataViews.length; i++) {
+    if ($dataViews[i].getAttribute('data-view') === dataView) {
+      $dataViews[i].className = '';
+      data.view = dataView;
+    } else {
+      $dataViews[i].className = 'hidden';
+    }
+  }
+}

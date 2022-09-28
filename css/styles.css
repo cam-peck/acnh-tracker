@@ -12,6 +12,11 @@ button:active {
   transform: translateY(0.1rem);
 }
 
+a {
+  text-decoration: none;
+  color: white;
+}
+
 /* New Town Input Form */
 
 .fruit-img {
@@ -157,6 +162,10 @@ button:active {
   gap: 1rem;
 }
 
+.gap-2-rem {
+  gap: 2rem;
+}
+
 .light-gray-bg {
   background-color: #f6f6f6;
 }
@@ -187,4 +196,8 @@ button:active {
 
 .mb-three-quarter-rem {
   margin-bottom: 0.75rem;
+}
+
+.mr-2-rem {
+  margin-right: 2rem;
 }
