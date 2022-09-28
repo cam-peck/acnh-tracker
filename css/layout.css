@@ -49,3 +49,9 @@
     width: 50%;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .villager-icon-holder {
+    display: none;
+  }
+}
