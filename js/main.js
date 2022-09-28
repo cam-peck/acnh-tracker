@@ -1,8 +1,9 @@
 // Global Variables //
 
 var allVillagers = [];
+var $defaultText = createDefaultText();
 
-// New Town Input Form //
+// Event Listeners //
 
 var $fruitContainer = document.querySelector('.fruit-container');
 var $fruits = document.querySelectorAll('.fruit-img');
@@ -14,6 +15,9 @@ var $villagerEntryList = document.querySelector('.villager-entry-list');
 var $townForm = document.querySelector('.town-form');
 var $imageInput = document.querySelector('.image-input');
 var $townImage = document.querySelector('.town-img');
+var $townContainer = document.querySelector('.town-container');
+
+// New Town Input Form //
 
 window.addEventListener('DOMContentLoaded', function (event) { // get a list of all villagers
   getVillagerNames();
@@ -82,13 +86,6 @@ function addVillager() { // add a villager to both the DOM and the data model
   $addVillagerInput.value = '';
 }
 
-// function clearVillagers() {
-//   var $allChildren = $villagerEntryList.children;
-//   for (let i = 0; i < data.currentVillagers.length; i++) {
-//     console.log(currentVillagers[i]);
-//   }
-// }
-
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
   /*
   * <li data-id="villagerName">
@@ -120,14 +117,18 @@ function clearVillagers() { // clears villagers from the DOM
   }
 }
 
-$townForm.addEventListener('submit', function (event) {
+$townForm.addEventListener('submit', function (event) { // handle submitting a new town
   handleNewSubmit(event);
+  if (data.towns.length !== 0) {
+    $defaultText.remove();
+  }
   $townForm.reset();
   clearFruits();
   clearVillagers();
+  viewSwap('town-entries');
 });
 
-function handleNewSubmit(event) {
+function handleNewSubmit(event) { // handle the form data from a new town submit
   event.preventDefault();
   var formData = {};
   formData.playerName = $townForm.elements['char-name'].value;
@@ -140,6 +141,93 @@ function handleNewSubmit(event) {
   formData.entryID = data.nextEntryId;
   data.nextEntryId++;
   data.towns.unshift(formData);
+  $townContainer.prepend(renderTown(formData));
+}
+
+// Town View Form //
+
+window.addEventListener('DOMContentLoaded', function (event) {
+  if (data.towns.length === 0) {
+    $townContainer.append($defaultText);
+  }
+
+  for (let i = 0; i < data.towns.length; i++) {
+    var previousTown = renderTown(data.towns[i]);
+    $townContainer.append(previousTown);
+  }
+  viewSwap(data.view);
+});
+
+function renderTown(townObj) {
+  /* <li data-entry-id="" class="row mb-1-rem">
+  *    <div class="row column-full">
+  *      <h2 class="fw-500">Acorn Cove</h2>
+  *    </div>
+  *    <div class="column-half">
+  *      <div class="town-hero-img justify-and-align-center">
+  *        <div class="overlay"></div>
+  *        <button class="overlay-town-btn" type="button">Jump back in!</button>
+  *     </div>
+  *    </div>
+  *    <div class="column-half">
+  *      <ul class="villager-icon-holder row gap-1-rem"></ul>
+  *    </div>
+  *  </li>
+  */
+  var $parentLi = document.createElement('li');
+  $parentLi.setAttribute('data-entry-id', townObj.entryID);
+  $parentLi.className = 'row mb-1-rem';
+
+  var $titleDiv = document.createElement('div');
+  $titleDiv.className = 'row column-full';
+
+  var $titleH2 = document.createElement('h2');
+  $titleH2.className = 'fw-500';
+  $titleH2.textContent = townObj.townName;
+
+  var $imageColumnDiv = document.createElement('div');
+  $imageColumnDiv.className = 'column-half';
+
+  var $imageHeroDiv = document.createElement('div');
+  $imageHeroDiv.className = 'town-hero-img justify-and-align-center';
+  if (townObj.imageLink !== 'http://localhost:5500/images/placeholder-image-square.jpg') {
+    $imageHeroDiv.style.backgroundImage = 'url(' + townObj.imageLink + ')';
+  } else {
+    $imageHeroDiv.classList.add('default-hero-img');
+  }
+
+  var $overlayDiv = document.createElement('div');
+  $overlayDiv.className = 'overlay';
+
+  var $jumpInButton = document.createElement('button');
+  $jumpInButton.type = 'button';
+  $jumpInButton.className = 'overlay-town-btn';
+  $jumpInButton.textContent = 'Jump back in!';
+
+  var $villagerColumnDiv = document.createElement('div');
+  $villagerColumnDiv.className = 'column-half';
+
+  var $villagerUl = document.createElement('ul');
+  $villagerUl.className = 'home-villager-icon-holder row gap-1-rem';
+
+  for (let i = 0; i < townObj.townVillagers.length; i++) {
+    $villagerUl.append(createVillagerIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
+  }
+
+  $villagerColumnDiv.append($villagerUl);
+  $imageHeroDiv.append($overlayDiv, $jumpInButton);
+  $imageColumnDiv.append($imageHeroDiv);
+  $titleDiv.append($titleH2);
+  $parentLi.append($titleDiv, $imageColumnDiv, $villagerColumnDiv);
+
+  return $parentLi;
+}
+
+function createDefaultText() {
+  var output = document.createElement('p');
+  output.className = 'text-align-center default-text';
+  output.textContent = 'No towns have been recorded... yet!';
+  return output;
 }
 
 // ACNH Data Functions //
@@ -158,4 +246,32 @@ function getVillagerNames() { // call the API and grab all villager names and ic
     }
   });
   xhr.send();
+}
+
+// View-Swap //
+
+var $navTowns = document.querySelector('.towns-nav');
+var $addTownBtn = document.querySelector('.add-town-btn');
+
+$navTowns.addEventListener('click', function (event) { // swap to entries view
+  viewSwap('town-entries');
+});
+
+$addTownBtn.addEventListener('click', function (event) { // swap to entry form view
+  $townForm.reset();
+  clearFruits();
+  clearVillagers();
+  viewSwap('town-entry-form');
+});
+
+function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
+  var $dataViews = document.querySelectorAll('[data-view]');
+  for (let i = 0; i < $dataViews.length; i++) {
+    if ($dataViews[i].getAttribute('data-view') === dataView) {
+      $dataViews[i].className = '';
+      data.view = dataView;
+    } else {
+      $dataViews[i].className = 'hidden';
+    }
+  }
 }

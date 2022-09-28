@@ -18,15 +18,23 @@
 <body>
   <header class="header-bg-wrapper dark-blue-bg">
     <div class="container">
-      <div class="row column-full">
-        <h2 class="text-white fw-500">ACNH</h2>
-        <nav></nav>
+      <div class="row column-full align-center">
+        <h2 class="text-white fw-500 mr-2-rem">ACNH</h2>
+        <nav>
+          <ul class="row text-white gap-2-rem">
+            <li><a class="towns-nav" href="#">Towns</a></li>
+            <li>Home</li>
+            <li>Collections</li>
+            <li>About</li>
+          </ul>
+        </nav>
       </div>
     </div>
   </header>
 
   <main class="container light-gray-bg">
-    <div data-view="town-entry-form">
+    <!-- User Can Create Their Town -->
+    <div class="hidden" data-view="town-entry-form">
       <form class="town-form" action="" method="GET">
 
         <div class="row">
@@ -98,9 +106,18 @@
         <div class="row column-full justify-end">
           <button class="town-form-btn" type="submit">SAVE</button>
         </div>
-
       </form>
     </div>
+
+    <!-- User Can View Their Towns -->
+    <div data-view="town-entries">
+      <div class="row column-full justify-between align-center text-align-center">
+        <h1 class="town-form-title">ACNH Tracker</h1>
+        <button class="add-town-btn" type="button">ADD TOWN</button>
+      </div>
+      <ul class="town-container"></ul>
+    </div>
+
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
