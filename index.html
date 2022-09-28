@@ -79,19 +79,19 @@
           <div class="row column-full mb-three-quarter-rem">
             <p>Current Villagers</p>
           </div>
-          <div class="column-full mb-1-rem">
+          <div class="column-full mb-three-quarter-rem">
             <ul class="villager-entry-list row gap-1-rem">
               <li class="row justify-and-align-center">
-                <button class="add-villager-btn" type="button">+</button>
-              <li>
-                <div class="villager-card justify-and-align-center">
-                  <img class="villager-icon" src="images/sample_villager.png">
-                </div>
-              </li>
+                <button class="search-villager-btn" type="button">+</button>
             </ul>
           </div>
+          <div class="row column-full">
+            <input class="new-villager-input hidden" list="villager-list">
+            <datalist class="villager-datalist" id="villager-list">
+            </datalist>
+            <button class="add-villager-btn hidden" type="button">ADD</button>
+          </div>
         </div>
-
 
         <div class="row column-full justify-end">
           <button class="town-form-btn" type="submit">SAVE</button>

@@ -3,7 +3,8 @@ var data = {
   view: '',
   towns: [],
   editing: null,
-  nextEntryId: 1
+  nextEntryId: 1,
+  currentVillagers: []
 };
 
 // var town = {
