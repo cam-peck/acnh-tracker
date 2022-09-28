@@ -31,7 +31,6 @@ button:active {
   height: 305px;
   object-fit: cover;
   border-radius: 5px;
-  margin-bottom: 1rem;
 }
 
 .town-form-title {
@@ -137,8 +136,12 @@ button:active {
   font-weight: 500;
 }
 
-.mb-1-rem {
+.mb-1-three-quarter-rem {
   margin-bottom: 1.75rem;
+}
+
+.mb-1-rem {
+  margin-bottom: 1rem;
 }
 
 .mb-three-quarter-rem {

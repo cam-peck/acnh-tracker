@@ -36,15 +36,16 @@
         </div>
 
         <div class="row">
-          <div class="column-half">
-            <img class="placeholder-img" src="images/placeholder-image-square.jpg" alt="placeholder-img">
+          <div class="column-half mb-1-rem">
+            <img class="placeholder-img town-img" src="images/placeholder-image-square.jpg" alt="placeholder-img">
+            <input class="image-input" type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
           </div>
           <div class="column-half">
-            <div class="row mb-1-rem">
+            <div class="row mb-1-three-quarter-rem">
               <label class="town-form-label" for="char-name">Character Name</label>
               <input class="town-form-input" type="text" name="char-name" id="char-name" required />
             </div>
-            <div class="row mb-1-rem">
+            <div class="row mb-1-three-quarter-rem">
               <label class="town-form-label" for="town-name">Town Name</label>
               <input class="town-form-input" type="text" name="town-name" id="town-name" required />
             </div>
@@ -52,7 +53,7 @@
             <div class="row mb-three-quarter-rem">
               <p>Town Fruit</p>
             </div>
-            <div class="row mb-1-rem justify-between fruit-container">
+            <div class="row mb-1-three-quarter-rem justify-between fruit-container">
               <div class="fruit-card flex-column">
                 <label for="pear"><img class="fruit-img" src="images/Fruits/pear.png" alt="pear-img"></label>
                 <input type="radio" id="pear" name="fruit" value="pear">

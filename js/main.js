@@ -12,10 +12,27 @@ var $addVillagerBtn = document.querySelector('.add-villager-btn');
 var $villagerDatalist = document.querySelector('.villager-datalist');
 var $villagerEntryList = document.querySelector('.villager-entry-list');
 var $townForm = document.querySelector('.town-form');
+var $imageInput = document.querySelector('.image-input');
+var $townImage = document.querySelector('.town-img');
 
 window.addEventListener('DOMContentLoaded', function (event) { // get a list of all villagers
   getVillagerNames();
 });
+
+$imageInput.addEventListener('change', function (event) {
+  getImgData();
+});
+
+function getImgData() {
+  var files = $imageInput.files[0];
+  if (files) {
+    var fileReader = new FileReader();
+    fileReader.readAsDataURL(files);
+    fileReader.addEventListener('load', function () {
+      $townImage.src = this.result;
+    });
+  }
+}
 
 $fruitContainer.addEventListener('click', handleFruitClick);
 
