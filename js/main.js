@@ -147,7 +147,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
     var previousTown = renderTown(data.towns[i]);
     $townContainer.append(previousTown);
   }
-
+  viewSwap(data.view);
 });
 
 function renderTown(townObj) {
