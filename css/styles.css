@@ -80,8 +80,8 @@ a {
 
 .villager-card {
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: auto;
+  height: auto;
   border: 3px solid darkgray;
   background-color: lightgrey;
 }
@@ -138,6 +138,84 @@ a {
   padding: 0.75rem 1rem;
 }
 
+/* View Home Page */
+.home-page-fruit {
+  width: 10%;
+  max-width: 60px;
+}
+
+.news-divider {
+  background-color: #0092e3;
+  color: white;
+  padding: 1rem;
+  border-radius: 5px;
+  position: relative;
+  bottom: 65px;
+}
+
+.blue-border-rule {
+  border-bottom: 5px solid rgb(0, 146, 227, 50%);
+  border-radius: 3px;
+}
+
+.free-space {
+  margin-bottom: -65px;
+}
+
+.gray-border-rule {
+  border-bottom: 3px solid lightgray;
+}
+
+.gray-dashed-rule {
+  border-right: 3px dashed lightgray;
+}
+
+.event-hat {
+  width: 70px;
+  height: 55px;
+}
+
+.event-date {
+  border: 3px solid lightgray;
+  border-radius: 5px;
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: white;
+}
+
+.collection-img {
+  height: 50px;
+  width: 50px;
+}
+
+.collection-status {
+  flex-basis: 5%;
+}
+
+/* Progress Bar */
+
+.progress {
+  margin: 1rem;
+  padding: 2px;
+  flex-basis: 95%;
+  border-radius: 12px;
+  height: 30px;
+  background-color: #d9d9d9;
+}
+
+.progress .progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #05e35e;
+}
+
+/* animation: fill-bar 3s infinite; */
+
+@keyframes fill-bar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
 /* Functional CSS Classes */
 
 .justify-end {
@@ -157,8 +235,16 @@ a {
   align-items: center;
 }
 
+.space-between {
+  justify-content: space-between;
+}
+
 .text-align-center {
   text-align: center;
+}
+
+.gap-half-rem {
+  gap: 0.5rem;
 }
 
 .gap-1-rem {
@@ -189,6 +275,34 @@ a {
   font-weight: 500;
 }
 
+.pr-half-rem {
+  padding-right: 0.5rem;
+}
+
+.pr-1-rem {
+  padding-right: 1rem;
+}
+
+.pl-1-rem {
+  padding-left: 1rem;
+}
+
+.pb-1-rem {
+  padding-bottom: 1rem;
+}
+
+.ptb-1-rem {
+  padding: 1rem 0;
+}
+
+.pt-1-rem {
+  padding-top: 1rem;
+}
+
+.pb-4-rem {
+  padding-bottom: 4rem;
+}
+
 .mb-1-three-quarter-rem {
   margin-bottom: 1.75rem;
 }
@@ -201,6 +315,22 @@ a {
   margin-bottom: 0.75rem;
 }
 
+.mr-1-rem {
+  margin-right: 1rem;
+}
+
 .mr-2-rem {
   margin-right: 2rem;
+}
+
+.ml-1-rem {
+  margin-left: 1rem;
+}
+
+.mt-three-quarter-rem {
+  margin-top: 0.75rem;
+}
+
+.mt-0 {
+  margin-top: 0;
 }

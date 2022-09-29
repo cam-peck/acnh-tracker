@@ -110,7 +110,7 @@
     </div>
 
     <!-- User Can View Their Towns -->
-    <div data-view="town-entries">
+    <div class="hidden" data-view="town-entries">
       <div class="row column-full justify-between align-center text-align-center">
         <h1 class="town-form-title">ACNH Tracker</h1>
         <button class="add-town-btn" type="button">ADD TOWN</button>
@@ -118,6 +118,213 @@
       <ul class="town-container"></ul>
     </div>
 
+    <!-- User Can View Their Home Page -->
+    <div data-view="town-home-page" data-entry-id="">
+      <!-- Town Information -->
+      <div class="row column-full justify-and-align-center mt-three-quarter-rem mb-1-rem">
+        <img class="home-page-fruit" src="images/Fruits/cherry.png">
+        <h2 class="home-page-date">Wednesday, September 28th ~</h2>
+      </div>
+
+      <div class="town-information row mb-1-rem pb-4-rem blue-border-rule">
+        <div class="column-half mb-three-quarter-rem">
+          <img class="placeholder-img" src="images/placeholder-image-square.jpg">
+        </div>
+        <div class="column-half">
+          <h2 class="fw-500 mt-0">Acorn Cove</h2>
+          <ul class="villager-icon-holder row gap-1-rem">
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+            <li data-id="villagerName">
+              <div class="villager-card justify-and-align-center">
+                <img class="villager-icon" src="images/sample_villager.png">
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Daily News (Birthdays) -->
+      <div class="daily-news mb-1-rem pb-4-rem blue-border-rule">
+        <div class="row column-full justify-and-align-center free-space">
+          <h3 class="news-divider"><i class="fa-solid fa-calendar-days pr-half-rem"></i>Daily News</h3>
+        </div>
+        <div class="row space-between mb-1-three-quarter-rem">
+          <div class="news-card pb-1-rem gray-border-rule">
+            <div class="row-no-wrap pr-1-rem align-center height-100">
+              <div class="flex-10">
+                <img class="pr-1-rem gray-dashed-rule event-hat" src="images/party-hat.png">
+              </div>
+              <div class="flex-90 row news-data">
+                <div class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
+                  <div class="villager-card justify-and-align-center">
+                    <img class="villager-icon" src="images/sample_villager.png">
+                  </div>
+                  <div class="birthday-text row align-center">
+                    <h3 class="pl-1-rem event-text">Tangy's Birthday!</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Daily News (Quote) -->
+          <div class="news-card pb-1-rem gray-border-rule">
+            <div class="row-no-wrap justify-and-align-center height-100">
+              <div class="flex-10">
+                <img class="pr-1-rem gray-dashed-rule event-hat" src="images/party-hat.png">
+              </div>
+              <div class="flex-90 news-data">
+                <h3 class="fw-500 pl-1-rem">This is some really long text to test and see what happens and this text is even
+                  longer</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Daily News (Events) -->
+        <div class="row event-container">
+          <div class="row-no-wrap justify-and-align-center pr-1-rem">
+            <div class="flex-10">
+              <img class="pr-1-rem gray-dashed-rule event-hat" src="images/event_icon.png">
+            </div>
+            <div class="flex-90 news-data row">
+              <div class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
+                <div class="villager-card justify-and-align-center">
+                  <img class="villager-icon" src="images/sample_villager.png">
+                </div>
+                <div class="birthday-text row align-center">
+                  <h3 class="pl-1-rem event-text">Bug-Off!</h3>
+                  <h3 class="pl-1-rem event-date">~9/30</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row-no-wrap justify-and-align-center pr-1-rem">
+            <div class="flex-10">
+              <img class="pr-1-rem gray-dashed-rule event-hat" src="images/event_icon.png">
+            </div>
+            <div class=" news-data row">
+              <div class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
+                <div class="villager-card justify-and-align-center">
+                  <img class="villager-icon" src="images/sample_villager.png">
+                </div>
+                <div class="birthday-text row align-center">
+                  <h3 class="pl-1-rem event-text">Bug-Off!</h3>
+                  <h3 class="pl-1-rem event-date">~9/30</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row-no-wrap justify-and-align-center pr-1-rem">
+            <div class="flex-10">
+              <img class="pr-1-rem gray-dashed-rule event-hat" src="images/event_icon.png">
+            </div>
+            <div class="flex-90 news-data row">
+              <div class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
+                <div class="villager-card justify-and-align-center">
+                  <img class="villager-icon" src="images/sample_villager.png">
+                </div>
+                <div class="birthday-text row align-center">
+                  <h3 class="pl-1-rem event-text">Bug-Off!</h3>
+                  <h3 class="pl-1-rem event-date">~9/30</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Collections -->
+      <div class="row column-full justify-and-align-center free-space">
+        <h3 class="news-divider"><i class="fa-solid fa-calendar-days pr-half-rem"></i>Collections</h3>
+      </div>
+      <div class="collection-card row-no-wrap align-center">
+        <img class="collection-img" src="images/Collections/fish-col.png">
+        <div class="progress">
+          <div class="progress-bar"></div>
+        </div>
+        <div class="collection-status">
+          <h3>0/80</h3>
+        </div>
+      </div>
+      <div class="collection-card row-no-wrap align-center">
+        <img class="collection-img" src="images/Collections/butterfly-col.png">
+        <div class="progress">
+          <div class="progress-bar"></div>
+        </div>
+        <div class="collection-status">
+          <h3>0/80</h3>
+        </div>
+      </div>
+      <div class="collection-card row-no-wrap align-center">
+        <img class="collection-img" src="images/Collections/fossil-col.png">
+        <div class="progress">
+          <div class="progress-bar"></div>
+        </div>
+        <div class="collection-status">
+          <h3>0/80</h3>
+        </div>
+      </div>
+      <div class="collection-card row-no-wrap align-center">
+        <img class="collection-img" src="images/Collections/sea-col.png">
+        <div class="progress">
+          <div class="progress-bar"></div>
+        </div>
+        <div class="collection-status">
+          <h3>0/80</h3>
+        </div>
+      </div>
+      <div class="collection-card row-no-wrap align-center">
+        <img class="collection-img" src="images/Collections/art-col.png">
+        <div class="progress">
+          <div class="progress-bar"></div>
+        </div>
+        <div class="collection-status">
+          <h3>0/80</h3>
+        </div>
+      </div>
+
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
