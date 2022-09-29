@@ -244,15 +244,18 @@ window.addEventListener('DOMContentLoaded', function (event) {
   var $enterTownBtns = document.querySelectorAll('.overlay-town-btn');
   $enterTownBtns.forEach(btn => {
     btn.addEventListener('click', function (event) {
-      // var dataID = event.target.closest('li').getAttribute(['data-entry-id']);
-      // console.log('DataID: ', dataID);
-      renderHomePage();
+      var dataID = parseInt(event.target.closest('li').getAttribute(['data-entry-id']));
+      for (let i = 0; i < data.towns.length; i++) {
+        if (data.towns[i].entryID === dataID) {
+          renderHomePage(data.towns[i]);
+        }
+      }
     });
   });
 });
 
 function renderHomePage(townObj) {
-  // console.log('rendering home page');
+  // console.log('rendering the town: ', townObj);
   viewSwap('town-home-page');
 }
 
