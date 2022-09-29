@@ -2,6 +2,7 @@
 
 var allVillagers = [];
 var $defaultText = createDefaultText();
+var $birthdayDefText = createBirthdayDefaultText();
 
 // Event Listeners //
 
@@ -108,6 +109,42 @@ function createVillagerIcon(villagerName, imageUrl) { // create a villager icon 
   $newLi.append($newDiv);
 
   return $newLi;
+}
+
+function createVillagerBDIcon(villagerName, imageUrl) { // create a villager birthday icon and returns it
+  /*
+  * <li class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
+  *   <div class="villager-card justify-and-align-center">
+  *     <img class="villager-icon" src="images/sample_villager.png">
+  *   </div>
+  *   <div class="birthday-text row align-center">
+  *     <h3 class="pl-1-rem event-text fw-500">Tangy's Birthday!</h3>
+  *   </div>
+  * </li>
+  */
+  var $newBDLi = document.createElement('li');
+  $newBDLi.setAttribute('data-id', villagerName);
+  $newBDLi.className = 'row-no-wrap pl-1-rem align-center';
+
+  var $newIconDiv = document.createElement('div');
+  $newIconDiv.className = 'villager-card justify-and-align-center';
+
+  var $villagerIcon = document.createElement('img');
+  $villagerIcon.className = 'villager-icon';
+  $villagerIcon.src = imageUrl;
+
+  var $bdTextDiv = document.createElement('div');
+  $bdTextDiv.className = 'birthday-text row align-center';
+
+  var $bdTextH3 = document.createElement('h3');
+  $bdTextH3.textContent = villagerName + '\'s' + ' birthday!';
+  $bdTextH3.className = 'pl-1-rem fw-500';
+
+  $newIconDiv.append($villagerIcon);
+  $bdTextDiv.append($bdTextH3);
+  $newBDLi.append($newIconDiv, $bdTextDiv);
+
+  return $newBDLi;
 }
 
 function clearVillagers() { // clears villagers from the DOM
@@ -230,6 +267,22 @@ function createDefaultText() {
   return output;
 }
 
+function createBirthdayDefaultText() {
+  /* <li class="birthday-default-text row align-center">
+  *   <h3 class="pl-1-rem event-text fw-500">No Birthdays Today...</h3>
+  * </li>
+  */
+  var $parentLi = document.createElement('li');
+  $parentLi.className = 'birthday-default-text row align-center';
+
+  var $childh3 = document.createElement('h3');
+  $childh3.className = 'pl-1-rem event-text fw-500';
+  $childh3.textContent = 'No Birthdays Today...';
+
+  $parentLi.append($childh3);
+  return $parentLi;
+}
+
 // Town Home Page //
 
 var $homeFruit = document.querySelector('.home-page-fruit');
@@ -237,33 +290,55 @@ var $homeDate = document.querySelector('.home-page-date');
 var $homeTownName = document.querySelector('.home-page-town-name');
 var $homeVillagerUl = document.querySelector('.home-page-villagers');
 var $homeImageCont = document.querySelector('.home-page-image');
+var $birthdayUl = document.querySelector('.birthday-container');
 
-window.addEventListener('DOMContentLoaded', function (event) { // on 'jump back in' btn press, pass correct townObj to rendertown function
-  var $enterTownBtns = document.querySelectorAll('.overlay-town-btn');
-  $enterTownBtns.forEach(btn => {
-    btn.addEventListener('click', function (event) {
-      var dataID = parseInt(event.target.closest('li').getAttribute(['data-entry-id']));
-      for (let i = 0; i < data.towns.length; i++) {
-        if (data.towns[i].entryID === dataID) {
-          renderHomePage(data.towns[i]);
-        }
+$townContainer.addEventListener('click', function (event) { // on 'jump back in' btn press, pass correct townObj to rendertown function
+  if (event.target.tagName === 'BUTTON') {
+    var dataID = parseInt(event.target.closest('li').getAttribute(['data-entry-id']));
+    for (let i = 0; i < data.towns.length; i++) {
+      if (data.towns[i].entryID === dataID) {
+        renderHomePage(data.towns[i]);
       }
-    });
-  });
+    }
+  }
 });
 
 function renderHomePage(townObj) {
-  // console.log('rendering the town: ', townObj);
+  var birthdayVillagers = [];
+
   // render the town data //
   $homeFruit.src = 'images/Fruits/' + townObj.townFruit + '.png';
   $homeDate.textContent = getDate();
   $homeTownName.textContent = townObj.townName;
   $homeImageCont.src = townObj.imageLink;
-  for (let i = 0; i < townObj.townVillagers.length; i++) {
-    $homeVillagerUl.append(createVillagerIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
-  }
+  $homeVillagerUl.textContent = '';
+
   // render the town news //
+  for (let i = 0; i < townObj.townVillagers.length; i++) { // append villagers to top of page
+    $homeVillagerUl.append(createVillagerIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
+    if (isBirthday(townObj.townVillagers[i])) { // check for birthdays
+      birthdayVillagers.push(townObj.townVillagers[i]);
+    }
+  }
+  $birthdayUl.textContent = '';
+  if (birthdayVillagers.length !== 0) {
+    for (let i = 0; i < birthdayVillagers.length; i++) {
+      $birthdayUl.append(createVillagerBDIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
+    }
+  } else {
+    $birthdayUl.append($birthdayDefText);
+  }
   viewSwap('town-home-page');
+
+}
+
+function isBirthday(villager) { // if today is the villagers birthday, return true
+  var currentDate = new Date();
+  var todayDate = currentDate.getDate() + '/' + (currentDate.getMonth() + 1);
+  if (todayDate === villager.birthday) {
+    return true;
+  }
+  return false;
 }
 
 function getDate() { // returns todays date
@@ -307,24 +382,6 @@ function getDate() { // returns todays date
   return (splitDate.join(' ') + 'th' + ' ~');
 }
 
-// ACNH Data Functions //
-function getVillagerNames() { // call the API and grab all villager names and icons
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    for (let i = 0; i < xhr.response.length; i++) {
-      var villager = {};
-      var name = xhr.response[i].name['name-USen'];
-      var icon = xhr.response[i].image_uri;
-      villager.name = name;
-      villager.icon = icon;
-      allVillagers.push(villager);
-    }
-  });
-  xhr.send();
-}
-
 // View-Swap //
 
 var $navTowns = document.querySelector('.towns-nav');
@@ -351,4 +408,24 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
       $dataViews[i].className = 'hidden';
     }
   }
+}
+
+// ACNH Data Functions //
+function getVillagerNames() { // call the API and grab all villager names and icons
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    for (let i = 0; i < xhr.response.length; i++) {
+      var villager = {};
+      var name = xhr.response[i].name['name-USen'];
+      var icon = xhr.response[i].image_uri;
+      var birthday = xhr.response[i].birthday;
+      villager.name = name;
+      villager.icon = icon;
+      villager.birthday = birthday;
+      allVillagers.push(villager);
+    }
+  });
+  xhr.send();
 }
