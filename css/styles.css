@@ -206,10 +206,11 @@ a {
 .progress .progress-bar {
   height: 100%;
   width: 0%;
-  background-color: #05e35e;
-}
+  border-radius: 10px;
+  background-color: #0092e3;
 
-/* animation: fill-bar 3s infinite; */
+  /* animation: fill-bar 3s infinite; */
+}
 
 @keyframes fill-bar {
   from { width: 0%; }
@@ -333,4 +334,8 @@ a {
 
 .mt-0 {
   margin-top: 0;
+}
+
+.mtb-half-rem {
+  margin: 0.5rem 0;
 }

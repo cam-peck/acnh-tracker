@@ -230,6 +230,32 @@ function createDefaultText() {
   return output;
 }
 
+// Town Home Page //
+
+// var $homeFruit = document.querySelector('.home-page-fruit');
+// var $homeDate = document.querySelector('.home-page-date');
+// var $homeTownName = document.querySelector('.home-page-town-name');
+// var $homeVillagerUl = document.querySelector('.home-page-villagers');
+// var $homeImageCont = document.querySelector('.home-page-image');
+
+// console.log($homeFruit, $homeDate, $homeImageCont, $homeTownName, $homeVillagerUl);
+
+window.addEventListener('DOMContentLoaded', function (event) {
+  var $enterTownBtns = document.querySelectorAll('.overlay-town-btn');
+  $enterTownBtns.forEach(btn => {
+    btn.addEventListener('click', function (event) {
+      // var dataID = event.target.closest('li').getAttribute(['data-entry-id']);
+      // console.log('DataID: ', dataID);
+      renderHomePage();
+    });
+  });
+});
+
+function renderHomePage(townObj) {
+  // console.log('rendering home page');
+  viewSwap('town-home-page');
+}
+
 // ACNH Data Functions //
 function getVillagerNames() { // call the API and grab all villager names and icons
   var xhr = new XMLHttpRequest();
