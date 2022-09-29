@@ -232,15 +232,13 @@ function createDefaultText() {
 
 // Town Home Page //
 
-// var $homeFruit = document.querySelector('.home-page-fruit');
-// var $homeDate = document.querySelector('.home-page-date');
-// var $homeTownName = document.querySelector('.home-page-town-name');
-// var $homeVillagerUl = document.querySelector('.home-page-villagers');
-// var $homeImageCont = document.querySelector('.home-page-image');
+var $homeFruit = document.querySelector('.home-page-fruit');
+var $homeDate = document.querySelector('.home-page-date');
+var $homeTownName = document.querySelector('.home-page-town-name');
+var $homeVillagerUl = document.querySelector('.home-page-villagers');
+var $homeImageCont = document.querySelector('.home-page-image');
 
-// console.log($homeFruit, $homeDate, $homeImageCont, $homeTownName, $homeVillagerUl);
-
-window.addEventListener('DOMContentLoaded', function (event) {
+window.addEventListener('DOMContentLoaded', function (event) { // on 'jump back in' btn press, pass correct townObj to rendertown function
   var $enterTownBtns = document.querySelectorAll('.overlay-town-btn');
   $enterTownBtns.forEach(btn => {
     btn.addEventListener('click', function (event) {
@@ -256,7 +254,57 @@ window.addEventListener('DOMContentLoaded', function (event) {
 
 function renderHomePage(townObj) {
   // console.log('rendering the town: ', townObj);
+  // render the town data //
+  $homeFruit.src = 'images/Fruits/' + townObj.townFruit + '.png';
+  $homeDate.textContent = getDate();
+  $homeTownName.textContent = townObj.townName;
+  $homeImageCont.src = townObj.imageLink;
+  for (let i = 0; i < townObj.townVillagers.length; i++) {
+    $homeVillagerUl.append(createVillagerIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
+  }
+  // render the town news //
   viewSwap('town-home-page');
+}
+
+function getDate() { // returns todays date
+  var currentDate = new Date();
+  currentDate = currentDate.toDateString();
+  var splitDate = currentDate.split(' ');
+  splitDate.pop();
+  var daysObj = {
+    Sun: 'Sunday,',
+    Mon: 'Monday,',
+    Tue: 'Tuesday,',
+    Wed: 'Wednesday,',
+    Thu: 'Thursday,',
+    Fri: 'Friday',
+    Sat: 'Saturday,'
+  };
+  var monthsObj = {
+    Jan: 'January',
+    Feb: 'Febuary',
+    Mar: 'March',
+    Apr: 'April',
+    May: 'May',
+    Jun: 'June',
+    Jul: 'July',
+    Aug: 'August',
+    Sep: 'September',
+    Oct: 'October',
+    Nov: 'November',
+    Dec: 'December'
+  };
+  for (const key in daysObj) {
+    if (splitDate[0] === key) {
+      splitDate[0] = daysObj[key];
+    }
+  }
+  for (const key in monthsObj) {
+    if (splitDate[1] === key) {
+      splitDate[1] = monthsObj[key];
+    }
+  }
+  return (splitDate.join(' ') + 'th' + ' ~');
 }
 
 // ACNH Data Functions //
