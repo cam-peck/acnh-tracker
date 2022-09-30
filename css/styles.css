@@ -197,51 +197,15 @@ a {
   flex-basis: 5%;
 }
 
-/* Table */
+/* Edit Town */
 
-table {
-  table-layout: fixed;
-  width: 100%;
-  border-collapse: collapse;
-  border-bottom: 3px solid lightgray;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+i:hover {
+  color: rgb(0, 146, 227);
+  cursor: pointer;
 }
 
-th,
-td {
-  padding: 1rem;
-}
-
-thead th:nth-child(1) {
-  width: 60%;
-}
-
-thead th:nth-child(2) {
-  width: 20%;
-}
-
-thead th:nth-child(3) {
-  width: 20%;
-}
-
-tbody tr:nth-child(odd) {
-  background-color: rgb(0, 146, 227, 40%);
-}
-
-tbody tr:nth-child(even) {
-  background-color: rgb(0, 146, 227, 20%);
-}
-
-thead {
-  background-color: rgb(0, 146, 227);
-  background-size: cover;
-  color: white;
-  text-shadow: 1px 1px 1px black;
-  text-align: left;
-}
-
-tbody {
-  color: black;
+i:active {
+  transform: translateY(0.1rem);
 }
 
 /* Progress Bar */
@@ -286,6 +250,10 @@ tbody {
 
 .align-center {
   align-items: center;
+}
+
+.align-baseline {
+  align-items: baseline;
 }
 
 .space-between {

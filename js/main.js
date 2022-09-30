@@ -36,8 +36,17 @@ var $townContainer = document.querySelector('.town-container');
 
 // New Town Input Form //
 
-window.addEventListener('DOMContentLoaded', function (event) { // get the needed data from APIs
+window.addEventListener('DOMContentLoaded', function (event) {
   getCurrentEvents();
+  if (data.towns.length === 0) {
+    $townContainer.append($defaultText);
+  }
+
+  for (let i = 0; i < data.towns.length; i++) {
+    var previousTown = renderTown(data.towns[i]);
+    $townContainer.append(previousTown);
+  }
+  viewSwap(data.view);
 });
 
 $imageInput.addEventListener('change', function (event) {
@@ -78,7 +87,11 @@ function clearFruits() { // resets the fruits on page reload
   }
 }
 
-$searchVillagerBtn.addEventListener('click', searchVillagers);
+$searchVillagerBtn.addEventListener('click', function (event) {
+  if (allVillagers.length === 0) {
+    getVillagerNames();
+  }
+});
 
 function searchVillagers(event) { // search through the villagers and show them to the user
   $villagerDatalist.textContent = '';
@@ -199,19 +212,6 @@ function handleNewSubmit(event) { // handle the form data from a new town submit
 
 // Town View Form //
 
-window.addEventListener('DOMContentLoaded', function (event) {
-
-  if (data.towns.length === 0) {
-    $townContainer.append($defaultText);
-  }
-
-  for (let i = 0; i < data.towns.length; i++) {
-    var previousTown = renderTown(data.towns[i]);
-    $townContainer.append(previousTown);
-  }
-  viewSwap(data.view);
-});
-
 function renderTown(townObj) {
   /* <li data-entry-id="" class="row mb-1-rem">
   *    <div class="row column-full">
@@ -299,6 +299,14 @@ function createBirthdayDefaultText() {
   $parentLi.append($childh3);
   return $parentLi;
 }
+
+// Edit Town //
+
+var $editTownBtn = document.querySelector('.edit-icon');
+
+$editTownBtn.addEventListener('click', function (event) {
+  viewSwap('town-entry-form');
+});
 
 // Town Home Page //
 
@@ -424,9 +432,6 @@ $navTowns.addEventListener('click', function (event) { // swap to entries view
 });
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
-  if (allVillagers.length === 0) {
-    getVillagerNames();
-  }
   $townForm.reset();
   clearFruits();
   clearVillagers();
@@ -468,6 +473,7 @@ function getVillagerNames() { // call the API and grab all villager names and ic
       villager.birthday = birthday;
       allVillagers.push(villager);
     }
+    searchVillagers();
   });
   xhr.send();
 }
