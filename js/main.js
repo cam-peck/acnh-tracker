@@ -3,7 +3,7 @@
 var villagerQuotes = [
   {
     name: 'Sly',
-    quote: 'I want my face on a bag of chips'
+    quote: 'I want my face on a bag of chips.'
   },
   {
     name: 'Cube',
@@ -38,8 +38,6 @@ var $townContainer = document.querySelector('.town-container');
 
 window.addEventListener('DOMContentLoaded', function (event) { // get the needed data from APIs
   getCurrentEvents();
-  getNextMonthEvents();
-  getVillagerNames();
 });
 
 $imageInput.addEventListener('change', function (event) {
@@ -202,6 +200,7 @@ function handleNewSubmit(event) { // handle the form data from a new town submit
 // Town View Form //
 
 window.addEventListener('DOMContentLoaded', function (event) {
+
   if (data.towns.length === 0) {
     $townContainer.append($defaultText);
   }
@@ -310,6 +309,8 @@ var $homeVillagerUl = document.querySelector('.home-page-villagers');
 var $homeImageCont = document.querySelector('.home-page-image');
 var $birthdayUl = document.querySelector('.birthday-container');
 var $villagerQuote = document.querySelector('.villager-quote');
+var $villagerQuoteTag = document.querySelector('.villager-quote-tag');
+var $eventsContainer = document.querySelector('.events-container');
 
 $townContainer.addEventListener('click', function (event) { // on 'jump back in' btn press, pass correct townObj to rendertown function
   if (event.target.tagName === 'BUTTON') {
@@ -317,6 +318,7 @@ $townContainer.addEventListener('click', function (event) { // on 'jump back in'
     for (let i = 0; i < data.towns.length; i++) {
       if (data.towns[i].entryID === dataID) {
         renderHomePage(data.towns[i]);
+        viewSwap('town-home-page');
       }
     }
   }
@@ -326,6 +328,7 @@ function renderHomePage(townObj) {
   var birthdayVillagers = [];
 
   // render the town data //
+  data.currentTown = townObj;
   $homeFruit.src = 'images/Fruits/' + townObj.townFruit + '.png';
   $homeDate.textContent = getDate();
   $homeTownName.textContent = townObj.townName;
@@ -347,10 +350,18 @@ function renderHomePage(townObj) {
   } else {
     $birthdayUl.append($birthdayDefText);
   }
-  $villagerQuote.textContent = villagerQuotes[1].quote;
-  filterEvents(thisWeeksEvents);
-  viewSwap('town-home-page');
+  getRandomQuote();
+  $eventsContainer.textContent = '';
+  var eventsToRender = filterEvents(thisWeeksEvents);
+  for (let i = 0; i < eventsToRender.length; i++) {
+    $eventsContainer.append(renderEvent(eventsToRender[i]));
+  }
+}
 
+function getRandomQuote() {
+  var randomQuote = villagerQuotes[Math.floor(Math.random() * villagerQuotes.length)];
+  $villagerQuote.textContent = randomQuote.quote;
+  $villagerQuoteTag.textContent = '--' + randomQuote.name;
 }
 
 function filterEvents(eventArray) { // filter the events to only show relevant events to user
@@ -366,20 +377,66 @@ function filterEvents(eventArray) { // filter the events to only show relevant e
   return eventsToShow;
 }
 
+function renderEvent(eventObj) {
+  /*
+  * <li class="row-no-wrap justify-and-align-center">
+  *   <img class="event-icon fb-5" src="images/Events/shopping-cart.png">
+  *    <h3 class="fw-500 mtb-0 mr-1-rem fb-80">Grape Harvest Festival Nook Shopping event begins</h3>
+  *    <h3 class="fw-500 mtb-0 event-date fb-15">09/01</h3>
+  *  </li>
+  */
+  var $newLi = document.createElement('li');
+  $newLi.className = 'row-no-wrap justify-and-align-center';
+
+  var $newImg = document.createElement('img');
+  if (eventObj.type === 'Event') {
+    $newImg.src = 'images/Events/trophy-icon.png';
+  } else if (eventObj.type === 'Nook Shopping') {
+    $newImg.src = 'images/Events/shopping-cart.png';
+  } else {
+    $newImg.src = 'images/Events/recipe-icon.png';
+  }
+  $newImg.className = 'event-icon fb-5';
+
+  var $eventNameH3 = document.createElement('h3');
+  $eventNameH3.className = 'fw-500 mtb-0 mr-1-rem fb-80';
+  $eventNameH3.textContent = eventObj.event;
+
+  var $eventDateH3 = document.createElement('h3');
+  $eventDateH3.className = 'fw-500 mtb-0 event-date fb-15';
+  var splitDate = eventObj.date.split('-');
+  var monthDayOnly = splitDate[1] + '/' + splitDate[2];
+  $eventDateH3.textContent = monthDayOnly;
+
+  $newLi.append($newImg, $eventNameH3, $eventDateH3);
+
+  return $newLi;
+}
+
 // View-Swap //
 
 var $navTowns = document.querySelector('.towns-nav');
 var $addTownBtn = document.querySelector('.add-town-btn');
+var $homeBtn = document.querySelector('.home-nav');
 
 $navTowns.addEventListener('click', function (event) { // swap to entries view
   viewSwap('town-entries');
 });
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
+  if (allVillagers.length === 0) {
+    getVillagerNames();
+  }
   $townForm.reset();
   clearFruits();
   clearVillagers();
   viewSwap('town-entry-form');
+});
+
+$homeBtn.addEventListener('click', function (event) {
+  if (data.currentTown.townName !== undefined) {
+    viewSwap('town-home-page');
+  }
 });
 
 function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
@@ -395,6 +452,7 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
 }
 
 // ACNH Data Functions //
+
 function getVillagerNames() { // call the API and grab all villager names and icons
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
@@ -428,24 +486,24 @@ function getCurrentEvents() { // call the API and grab current events
         }
       }
     }
-  });
-  xhr.send();
-}
-
-function getNextMonthEvents() { // call the API and grab current events
-  var xhr = new XMLHttpRequest();
-  var params = 'month=October&year=2022';
-  xhr.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params);
-  xhr.responseType = 'json';
-  xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
-  xhr.addEventListener('load', function () {
-    if (xhr.response.length !== 0) {
-      for (let i = 0; i < xhr.response.length; i++) {
-        if (xhr.response[i].type !== 'Birthday') {
-          thisWeeksEvents.push(xhr.response[i]);
+    var xhr2 = new XMLHttpRequest();
+    var params2 = 'month=October&year=2022';
+    xhr2.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params2);
+    xhr2.responseType = 'json';
+    xhr2.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
+    xhr2.addEventListener('load', function () {
+      if (xhr2.response.length !== 0) {
+        for (let i = 0; i < xhr2.response.length; i++) {
+          if (xhr2.response[i].type !== 'Birthday') {
+            thisWeeksEvents.push(xhr2.response[i]);
+          }
         }
       }
-    }
+      if (data.view === 'town-home-page') {
+        renderHomePage(data.currentTown);
+      }
+    });
+    xhr2.send();
   });
   xhr.send();
 }

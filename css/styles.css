@@ -296,6 +296,10 @@ tbody {
   text-align: center;
 }
 
+.text-align-end {
+  text-align: end;
+}
+
 .gap-half-rem {
   gap: 0.5rem;
 }
@@ -386,6 +390,10 @@ tbody {
 
 .mt-0 {
   margin-top: 0;
+}
+
+.mb-quarter-rem {
+  margin-bottom: 0.25rem;
 }
 
 .mtb-half-rem {

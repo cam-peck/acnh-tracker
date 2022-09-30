@@ -1,9 +1,9 @@
 /* exported data */
-/* exportd villageQuotes */
 
 var data = {
   view: '',
   towns: [],
+  currentTown: {},
   editing: null,
   nextEntryId: 1,
   currentVillagers: []
