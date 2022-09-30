@@ -27,6 +27,7 @@ var $fruits = document.querySelectorAll('.fruit-img');
 var $searchVillagerBtn = document.querySelector('.search-villager-btn');
 var $addVillagerInput = document.querySelector('.new-villager-input');
 var $addVillagerBtn = document.querySelector('.add-villager-btn');
+var $removeVillagerBtn = document.querySelector('.remove-villager-btn');
 var $villagerDatalist = document.querySelector('.villager-datalist');
 var $villagerEntryList = document.querySelector('.villager-entry-list');
 var $townForm = document.querySelector('.town-form');
@@ -97,6 +98,7 @@ function searchVillagers(event) { // search through the villagers and show them 
   $villagerDatalist.textContent = '';
   $addVillagerInput.classList.toggle('hidden');
   $addVillagerBtn.classList.toggle('hidden');
+  $removeVillagerBtn.classList.toggle('hidden');
   for (let i = 0; i < allVillagers.length; i++) {
     var $villagerDataTag = document.createElement('option');
     $villagerDataTag.value = allVillagers[i].name;
@@ -108,12 +110,35 @@ $addVillagerBtn.addEventListener('click', addVillager);
 
 function addVillager() { // add a villager to both the DOM and the data model
   for (let i = 0; i < allVillagers.length; i++) {
-    if (allVillagers[i].name === $addVillagerInput.value && !data.currentVillagers.includes(allVillagers[i]) && data.currentVillagers.length < 10) {
+    if (allVillagers[i].name === $addVillagerInput.value && data.currentVillagers.length < 10) {
+      for (let j = 0; j < data.currentVillagers.length; j++) { // check for same villagers
+        if (data.currentVillagers[j].name === allVillagers[i].name) {
+          $addVillagerInput.value = '';
+          return;
+        }
+      }
       $villagerEntryList.append(createVillagerIcon(allVillagers[i].name, allVillagers[i].icon));
       data.currentVillagers.push(allVillagers[i]);
     }
   }
   $addVillagerInput.value = '';
+}
+
+$removeVillagerBtn.addEventListener('click', removeVillager);
+
+function removeVillager() {
+  for (let i = 0; i < data.currentVillagers.length; i++) {
+    if (data.currentVillagers[i].name === $addVillagerInput.value) { // ensure the villager we're deleting is in currentVillagers
+      var $entryChildren = $villagerEntryList.children;
+      for (let j = 1; i < $entryChildren.length; j++) { // start iterating at 1 because 0 index is add button
+        if ($entryChildren[j].getAttribute('data-id') === $addVillagerInput.value) {
+          $entryChildren[j].remove();
+          data.currentVillagers.splice(i, 1);
+          break;
+        }
+      }
+    }
+  }
 }
 
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
@@ -305,6 +330,21 @@ function createBirthdayDefaultText() {
 var $editTownBtn = document.querySelector('.edit-icon');
 
 $editTownBtn.addEventListener('click', function (event) {
+  var $formTitle = document.querySelector('.town-form-title');
+  data.editing = data.currentTown;
+  $formTitle.textContent = 'Edit Town';
+  $townForm.elements['char-name'].value = data.editing.playerName;
+  $townForm.elements['town-name'].value = data.editing.townName;
+  $townImage.src = data.editing.imageLink;
+  for (let i = 0; i < $fruits.length; i++) {
+    if ($fruits[i].classList.contains(data.editing.townFruit)) {
+      $fruits[i].classList.add($fruits[i].classList.add('light-yellow-bg'));
+    }
+  }
+  for (let i = 0; i < data.editing.townVillagers.length; i++) {
+    $villagerEntryList.append(createVillagerIcon(data.editing.townVillagers[i].name, data.editing.townVillagers[i].icon));
+    data.currentVillagers.push(data.editing.townVillagers[i]);
+  }
   viewSwap('town-entry-form');
 });
 
