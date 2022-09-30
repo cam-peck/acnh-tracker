@@ -175,10 +175,15 @@ a {
   height: 55px;
 }
 
+.event-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 1rem;
+}
+
 .event-date {
   border: 3px solid lightgray;
   border-radius: 5px;
-  margin-left: 1rem;
   padding: 0.5rem 1rem;
   background-color: white;
 }
@@ -190,6 +195,53 @@ a {
 
 .collection-status {
   flex-basis: 5%;
+}
+
+/* Table */
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border-bottom: 3px solid lightgray;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+th,
+td {
+  padding: 1rem;
+}
+
+thead th:nth-child(1) {
+  width: 60%;
+}
+
+thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 20%;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgb(0, 146, 227, 40%);
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgb(0, 146, 227, 20%);
+}
+
+thead {
+  background-color: rgb(0, 146, 227);
+  background-size: cover;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  text-align: left;
+}
+
+tbody {
+  color: black;
 }
 
 /* Progress Bar */
@@ -338,4 +390,21 @@ a {
 
 .mtb-half-rem {
   margin: 0.5rem 0;
+}
+
+.mtb-0 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.fb-5 {
+  flex-basis: 5%;
+}
+
+.fb-80 {
+  flex-basis: 85%;
+}
+
+.fb-15 {
+  flex-basis: 10%;
 }

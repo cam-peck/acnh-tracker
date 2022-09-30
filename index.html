@@ -122,13 +122,13 @@
     <div data-view="town-home-page" data-entry-id="">
       <!-- Town Information -->
       <div class="row column-full justify-and-align-center mt-three-quarter-rem mb-1-rem">
-        <img class="home-page-fruit" src="images/Fruits/cherry.png">
+        <img class="home-page-fruit" src="images/Fruits/cherry.png" alt="town-fruit-img">
         <h2 class="home-page-date">Wednesday, September 28th ~</h2>
       </div>
 
       <div class="town-information row mb-1-rem pb-4-rem blue-border-rule">
         <div class="column-half mb-three-quarter-rem">
-          <img class="placeholder-img home-page-image" src="images/placeholder-image-square.jpg">
+          <img class="placeholder-img home-page-image" src="images/placeholder-image-square.jpg" alt="placeholder-img">
         </div>
         <div class="column-half">
           <h2 class="fw-500 mt-0 home-page-town-name">Acorn Cove</h2>
@@ -144,11 +144,10 @@
           <div class="news-card pb-1-rem gray-border-rule">
             <div class="row-no-wrap pr-1-rem align-center height-100">
               <div class="flex-10">
-                <img class="pr-1-rem gray-dashed-rule event-hat" src="images/party-hat.png">
+                <img class="pr-1-rem gray-dashed-rule event-hat" src="images/Events/party-hat.png" alt="bday-icon">
               </div>
               <div class="flex-90 row news-data">
-                <ul class="birthday-container">
-                </ul>
+                <ul class="birthday-container"></ul>
               </div>
             </div>
           </div>
@@ -156,62 +155,39 @@
           <div class="news-card pb-1-rem gray-border-rule">
             <div class="row-no-wrap justify-and-align-center height-100">
               <div class="flex-10">
-                <img class="pr-1-rem gray-dashed-rule event-hat" src="images/party-hat.png">
+                <img class="pr-1-rem gray-dashed-rule event-hat" src="images/Events/speech-icon.png" alt="speech-icon">
               </div>
               <div class="flex-90 news-data">
-                <h3 class="fw-500 pl-1-rem">This is some really long text to test and see what happens and this text is even
-                  longer</h3>
+                <h3 class="fw-500 pl-1-rem villager-quote"></h3>
               </div>
             </div>
           </div>
         </div>
         <!-- Daily News (Events) -->
         <div class="row event-container">
-          <div class="row-no-wrap justify-and-align-center pr-1-rem">
-            <div class="flex-10">
-              <img class="pr-1-rem gray-dashed-rule event-hat" src="images/event_icon.png">
-            </div>
-            <div class="flex-90 news-data row">
-              <div class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
-                <div class="villager-card justify-and-align-center">
-                  <img class="villager-icon" src="images/sample_villager.png">
-                </div>
-                <div class="birthday-text row align-center">
-                  <h3 class="pl-1-rem event-text">Bug-Off!</h3>
-                  <h3 class="pl-1-rem event-date">~9/30</h3>
-                </div>
+          <div class="pb-1-rem gray-border-rule">
+            <div class="row-no-wrap justify-and-align-center">
+              <div class="flex-10">
+                <img class="pr-1-rem gray-dashed-rule event-hat" src="images/Events/event_icon.png" alt="event-icon">
               </div>
-            </div>
-          </div>
-          <div class="row-no-wrap justify-and-align-center pr-1-rem">
-            <div class="flex-10">
-              <img class="pr-1-rem gray-dashed-rule event-hat" src="images/event_icon.png">
-            </div>
-            <div class=" news-data row">
-              <div class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
-                <div class="villager-card justify-and-align-center">
-                  <img class="villager-icon" src="images/sample_villager.png">
-                </div>
-                <div class="birthday-text row align-center">
-                  <h3 class="pl-1-rem event-text">Bug-Off!</h3>
-                  <h3 class="pl-1-rem event-date">~9/30</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row-no-wrap justify-and-align-center pr-1-rem">
-            <div class="flex-10">
-              <img class="pr-1-rem gray-dashed-rule event-hat" src="images/event_icon.png">
-            </div>
-            <div class="flex-90 news-data row">
-              <div class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
-                <div class="villager-card justify-and-align-center">
-                  <img class="villager-icon" src="images/sample_villager.png">
-                </div>
-                <div class="birthday-text row align-center">
-                  <h3 class="pl-1-rem event-text">Bug-Off!</h3>
-                  <h3 class="pl-1-rem event-date">~9/30</h3>
-                </div>
+              <div class="flex-90 news-data">
+                <ul class="events-container flex-column gap-1-rem">
+                  <li class="row-no-wrap justify-and-align-center">
+                    <img class="event-icon pl fb-5" src="images/Events/shopping-cart.png">
+                    <h3 class="fw-500 mtb-0 mr-1-rem fb-80">Grape Harvest Festival Nook Shopping event begins</h3>
+                    <h3 class="fw-500 mtb-0 event-date fb-15">09/01</h3>
+                  </li>
+                  <li class="row-no-wrap justify-and-align-center">
+                    <img class="event-icon pl fb-5" src="images/Events/recipe-icon.png">
+                    <h3 class="fw-500 mtb-0 mr-1-rem fb-80">Acorn and pinecone recipes become available</h3>
+                    <h3 class="fw-500 mtb-0 event-date fb-15">10/07</h3>
+                  </li>
+                  <li class="row-no-wrap justify-and-align-center">
+                    <img class="event-icon pl fb-5" src="images/Events/trophy-icon.png">
+                    <h3 class="fw-500 mtb-0 mr-1-rem fb-80">Bug-off</h3>
+                    <h3 class="fw-500 mtb-0 event-date fb-15">12/25</h3>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -223,7 +199,7 @@
       </div>
       <div class="collections-container mb-1-three-quarter-rem">
         <div class="row collection-header justify-and-align-center">
-          <h3 class="fw-500 mtb-half-rem">Click on a collection to open its respective page.</h3>
+          <h3 class="fw-500 mtb-half-rem">Click on a collection to open its page.</h3>
         </div>
         <div class="collection-card row-no-wrap align-center">
           <img class="collection-img" src="images/Collections/fish-col.png">

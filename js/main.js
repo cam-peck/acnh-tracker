@@ -1,6 +1,22 @@
 // Global Variables //
 
+var villagerQuotes = [
+  {
+    name: 'Sly',
+    quote: 'I want my face on a bag of chips'
+  },
+  {
+    name: 'Cube',
+    quote: 'Would I need an ice pick?'
+  },
+  {
+    name: 'Audie',
+    quote: 'Be the kind of person your future self won\'t regret having been.'
+  }
+];
+
 var allVillagers = [];
+var thisWeeksEvents = [];
 var $defaultText = createDefaultText();
 var $birthdayDefText = createBirthdayDefaultText();
 
@@ -20,7 +36,9 @@ var $townContainer = document.querySelector('.town-container');
 
 // New Town Input Form //
 
-window.addEventListener('DOMContentLoaded', function (event) { // get a list of all villagers
+window.addEventListener('DOMContentLoaded', function (event) { // get the needed data from APIs
+  getCurrentEvents();
+  getNextMonthEvents();
   getVillagerNames();
 });
 
@@ -291,6 +309,7 @@ var $homeTownName = document.querySelector('.home-page-town-name');
 var $homeVillagerUl = document.querySelector('.home-page-villagers');
 var $homeImageCont = document.querySelector('.home-page-image');
 var $birthdayUl = document.querySelector('.birthday-container');
+var $villagerQuote = document.querySelector('.villager-quote');
 
 $townContainer.addEventListener('click', function (event) { // on 'jump back in' btn press, pass correct townObj to rendertown function
   if (event.target.tagName === 'BUTTON') {
@@ -328,9 +347,110 @@ function renderHomePage(townObj) {
   } else {
     $birthdayUl.append($birthdayDefText);
   }
+  $villagerQuote.textContent = villagerQuotes[1].quote;
+  filterEvents(thisWeeksEvents);
   viewSwap('town-home-page');
 
 }
+
+function filterEvents(eventArray) { // filter the events to only show relevant events to user
+  var eventsToShow = [];
+  var validDays = getOneWeekForward();
+  for (let i = 0; i < eventArray.length; i++) {
+    if (eventArray[i].type === 'Recipe') {
+      eventsToShow.push(eventArray[i]);
+    } else if (validDays.includes(eventArray[i].date)) {
+      eventsToShow.push(eventArray[i]);
+    }
+  }
+  return eventsToShow;
+}
+
+// View-Swap //
+
+var $navTowns = document.querySelector('.towns-nav');
+var $addTownBtn = document.querySelector('.add-town-btn');
+
+$navTowns.addEventListener('click', function (event) { // swap to entries view
+  viewSwap('town-entries');
+});
+
+$addTownBtn.addEventListener('click', function (event) { // swap to entry form view
+  $townForm.reset();
+  clearFruits();
+  clearVillagers();
+  viewSwap('town-entry-form');
+});
+
+function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
+  var $dataViews = document.querySelectorAll('[data-view]');
+  for (let i = 0; i < $dataViews.length; i++) {
+    if ($dataViews[i].getAttribute('data-view') === dataView) {
+      $dataViews[i].className = '';
+      data.view = dataView;
+    } else {
+      $dataViews[i].className = 'hidden';
+    }
+  }
+}
+
+// ACNH Data Functions //
+function getVillagerNames() { // call the API and grab all villager names and icons
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    for (let i = 0; i < xhr.response.length; i++) {
+      var villager = {};
+      var name = xhr.response[i].name['name-USen'];
+      var icon = xhr.response[i].image_uri;
+      var birthday = xhr.response[i].birthday;
+      villager.name = name;
+      villager.icon = icon;
+      villager.birthday = birthday;
+      allVillagers.push(villager);
+    }
+  });
+  xhr.send();
+}
+
+function getCurrentEvents() { // call the API and grab current events
+  var xhr = new XMLHttpRequest();
+  var params = 'month=September&year=2022';
+  xhr.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params);
+  xhr.responseType = 'json';
+  xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
+  xhr.addEventListener('load', function () {
+    if (xhr.response.length !== 0) {
+      for (let i = 0; i < xhr.response.length; i++) {
+        if (xhr.response[i].type !== 'Birthday') {
+          thisWeeksEvents.push(xhr.response[i]);
+        }
+      }
+    }
+  });
+  xhr.send();
+}
+
+function getNextMonthEvents() { // call the API and grab current events
+  var xhr = new XMLHttpRequest();
+  var params = 'month=October&year=2022';
+  xhr.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params);
+  xhr.responseType = 'json';
+  xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
+  xhr.addEventListener('load', function () {
+    if (xhr.response.length !== 0) {
+      for (let i = 0; i < xhr.response.length; i++) {
+        if (xhr.response[i].type !== 'Birthday') {
+          thisWeeksEvents.push(xhr.response[i]);
+        }
+      }
+    }
+  });
+  xhr.send();
+}
+
+// Date Functions //
 
 function isBirthday(villager) { // if today is the villagers birthday, return true
   var currentDate = new Date();
@@ -382,50 +502,56 @@ function getDate() { // returns todays date
   return (splitDate.join(' ') + 'th' + ' ~');
 }
 
-// View-Swap //
-
-var $navTowns = document.querySelector('.towns-nav');
-var $addTownBtn = document.querySelector('.add-town-btn');
-
-$navTowns.addEventListener('click', function (event) { // swap to entries view
-  viewSwap('town-entries');
-});
-
-$addTownBtn.addEventListener('click', function (event) { // swap to entry form view
-  $townForm.reset();
-  clearFruits();
-  clearVillagers();
-  viewSwap('town-entry-form');
-});
-
-function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
-  var $dataViews = document.querySelectorAll('[data-view]');
-  for (let i = 0; i < $dataViews.length; i++) {
-    if ($dataViews[i].getAttribute('data-view') === dataView) {
-      $dataViews[i].className = '';
-      data.view = dataView;
-    } else {
-      $dataViews[i].className = 'hidden';
-    }
+function getOneWeekForward() { // returns an array of valid dates to check
+  var validDays = [];
+  var monthObj = {
+    1: 31,
+    2: 28,
+    3: 31,
+    4: 30,
+    5: 31,
+    6: 30,
+    7: 31,
+    8: 31,
+    9: 30,
+    10: 31,
+    11: 30,
+    12: 31
+  };
+  if (isLeapYear) {
+    monthObj[2] = 29;
   }
+  var todaysDate = new Date();
+  var todayDay = todaysDate.getDate();
+  var todayMonth = todaysDate.getMonth() + 1;
+  var todayYear = todaysDate.getFullYear();
+  for (let i = 0; i < 8; i++) {
+    var ForwardDay = todayDay + i;
+    var ForwardMonth = todayMonth;
+    var ForwardYear = todayYear;
+    for (const key in monthObj) {
+      if (parseInt(key) === todayMonth) {
+        if (ForwardDay > parseInt(monthObj[key])) { // check if day > day in month object for current month
+          ForwardMonth += 1; // increment the month by 1
+          if (ForwardMonth === 13) { // if it's time for a new year
+            ForwardYear += 1;
+            ForwardMonth = 1;
+          }
+          ForwardDay = ForwardDay - monthObj[key]; // if it is, subtract the value in monthObj at the month from todays date
+        }
+      }
+    }
+    if (ForwardDay < 10) {
+      ForwardDay = '0' + ForwardDay;
+    }
+    if (ForwardMonth < 10) {
+      ForwardMonth = '0' + ForwardMonth;
+    }
+    validDays.push(ForwardYear + '-' + ForwardMonth + '-' + ForwardDay);
+  }
+  return validDays;
 }
 
-// ACNH Data Functions //
-function getVillagerNames() { // call the API and grab all villager names and icons
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    for (let i = 0; i < xhr.response.length; i++) {
-      var villager = {};
-      var name = xhr.response[i].name['name-USen'];
-      var icon = xhr.response[i].image_uri;
-      var birthday = xhr.response[i].birthday;
-      villager.name = name;
-      villager.icon = icon;
-      villager.birthday = birthday;
-      allVillagers.push(villager);
-    }
-  });
-  xhr.send();
+function isLeapYear(year) {
+  return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 }
