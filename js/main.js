@@ -31,6 +31,7 @@ var $removeVillagerBtn = document.querySelector('.remove-villager-btn');
 var $villagerDatalist = document.querySelector('.villager-datalist');
 var $villagerEntryList = document.querySelector('.villager-entry-list');
 var $townForm = document.querySelector('.town-form');
+var $formTitle = document.querySelector('.town-form-title');
 var $imageInput = document.querySelector('.image-input');
 var $townImage = document.querySelector('.town-img');
 var $townContainer = document.querySelector('.town-container');
@@ -330,7 +331,6 @@ function createBirthdayDefaultText() {
 var $editTownBtn = document.querySelector('.edit-icon');
 
 $editTownBtn.addEventListener('click', function (event) {
-  var $formTitle = document.querySelector('.town-form-title');
   data.editing = data.currentTown;
   $formTitle.textContent = 'Edit Town';
   $townForm.elements['char-name'].value = data.editing.playerName;
@@ -341,6 +341,8 @@ $editTownBtn.addEventListener('click', function (event) {
       $fruits[i].classList.add($fruits[i].classList.add('light-yellow-bg'));
     }
   }
+  clearVillagers();
+  data.currentVillagers = [];
   for (let i = 0; i < data.editing.townVillagers.length; i++) {
     $villagerEntryList.append(createVillagerIcon(data.editing.townVillagers[i].name, data.editing.townVillagers[i].icon));
     data.currentVillagers.push(data.editing.townVillagers[i]);
@@ -473,6 +475,8 @@ $navTowns.addEventListener('click', function (event) { // swap to entries view
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
   $townForm.reset();
+  $formTitle.textContent = 'New Town';
+  data.currentVillagers = [];
   clearFruits();
   clearVillagers();
   viewSwap('town-entry-form');
@@ -567,6 +571,7 @@ function isBirthday(villager) { // if today is the villagers birthday, return tr
 
 function getDate() { // returns todays date
   var currentDate = new Date();
+  var currentDay = currentDate.getDate();
   currentDate = currentDate.toDateString();
   var splitDate = currentDate.split(' ');
   splitDate.pop();
@@ -603,7 +608,16 @@ function getDate() { // returns todays date
       splitDate[1] = monthsObj[key];
     }
   }
-  return (splitDate.join(' ') + 'th' + ' ~');
+  splitDate[2] = currentDay;
+  if (currentDay === 1 || currentDay === 21 || currentDay === 31) {
+    return (splitDate.join(' ') + 'st' + ' ~');
+  } else if (currentDay === 2 || currentDay === 22) {
+    return (splitDate.join(' ') + 'nd' + ' ~');
+  } else if (currentDay === 3 || currentDay === 23) {
+    return (splitDate.join(' ') + 'rd' + ' ~');
+  } else {
+    return (splitDate.join(' ') + 'th' + ' ~');
+  }
 }
 
 function getOneWeekForward() { // returns an array of valid dates to check
