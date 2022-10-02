@@ -86,6 +86,7 @@ function handleFruitClick(event) { // highlight the clicked fruit with a soft ye
 function clearFruits() { // resets the fruits on page reload
   for (let i = 0; i < $fruits.length; i++) {
     $fruits[i].classList.remove('light-yellow-bg');
+    $fruits[i].closest('div').children[1].removeAttribute('checked');
   }
 }
 
@@ -422,7 +423,7 @@ function renderHomePage(townObj) {
   $birthdayUl.textContent = '';
   if (birthdayVillagers.length !== 0) {
     for (let i = 0; i < birthdayVillagers.length; i++) {
-      $birthdayUl.append(createVillagerBDIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
+      $birthdayUl.append(createVillagerBDIcon(birthdayVillagers[i].name, birthdayVillagers[i].icon));
     }
   } else {
     $birthdayUl.append($birthdayDefText);
@@ -502,6 +503,7 @@ $navTowns.addEventListener('click', function (event) { // swap to entries view
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
   $townForm.reset();
+  $townImage.src = 'images/placeholder-image-square.jpg';
   $formTitle.textContent = 'New Town';
   data.currentVillagers = [];
   clearFruits();
