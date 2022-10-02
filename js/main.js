@@ -77,7 +77,7 @@ function handleFruitClick(event) { // highlight the clicked fruit with a soft ye
       if ($fruits[i] === fruitImg) {
         $fruits[i].classList.add('light-yellow-bg');
       } else {
-        $fruits[i].className = 'fruit-img';
+        $fruits[i].classList.remove('light-yellow-bg');
       }
     }
   }
@@ -85,7 +85,7 @@ function handleFruitClick(event) { // highlight the clicked fruit with a soft ye
 
 function clearFruits() { // resets the fruits on page reload
   for (let i = 0; i < $fruits.length; i++) {
-    $fruits[i].className = 'fruit-img';
+    $fruits[i].classList.remove('light-yellow-bg');
   }
 }
 
@@ -132,7 +132,7 @@ function removeVillager() {
     if (data.currentVillagers[i].name === $addVillagerInput.value) { // ensure the villager we're deleting is in currentVillagers
       var $entryChildren = $villagerEntryList.children;
       for (let j = 1; i < $entryChildren.length; j++) { // start iterating at 1 because 0 index is add button
-        if ($entryChildren[j].getAttribute('data-id') === $addVillagerInput.value) {
+        if ($entryChildren[j].getAttribute('data-villager-id') === $addVillagerInput.value) {
           $entryChildren[j].remove();
           data.currentVillagers.splice(i, 1);
           break;
@@ -144,14 +144,14 @@ function removeVillager() {
 
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
   /*
-  * <li data-id="villagerName">
+  * <li data-villager-id="villagerName">
   *  <div class="villager-card justify-and-align-center">
   *    <img class="villager-icon" src="images/sample_villager.png">
   *  </div>
   * </li>
   */
   var $newLi = document.createElement('li');
-  $newLi.setAttribute('data-id', villagerName);
+  $newLi.setAttribute('data-villager-id', villagerName);
 
   var $newDiv = document.createElement('div');
   $newDiv.className = 'villager-card justify-and-align-center';
@@ -168,7 +168,7 @@ function createVillagerIcon(villagerName, imageUrl) { // create a villager icon 
 
 function createVillagerBDIcon(villagerName, imageUrl) { // create a villager birthday icon and returns it
   /*
-  * <li class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
+  * <li class="row-no-wrap pl-1-rem align-center" data-villager-id="villagerName">
   *   <div class="villager-card justify-and-align-center">
   *     <img class="villager-icon" src="images/sample_villager.png">
   *   </div>
@@ -178,7 +178,7 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
   * </li>
   */
   var $newBDLi = document.createElement('li');
-  $newBDLi.setAttribute('data-id', villagerName);
+  $newBDLi.setAttribute('data-villager-id', villagerName);
   $newBDLi.className = 'row-no-wrap pl-1-rem align-center';
 
   var $newIconDiv = document.createElement('div');
@@ -209,8 +209,12 @@ function clearVillagers() { // clears villagers from the DOM
   }
 }
 
-$townForm.addEventListener('submit', function (event) { // handle submitting a new town
-  handleNewSubmit(event);
+$townForm.addEventListener('submit', function (event) { // handle submitting a town (either new or edit)
+  if (!data.editing) {
+    handleNewSubmit(event);
+  } else {
+    handleEditSubmit(event);
+  }
   if (data.towns.length !== 0) {
     $defaultText.remove();
   }
@@ -234,6 +238,25 @@ function handleNewSubmit(event) { // handle the form data from a new town submit
   data.nextEntryId++;
   data.towns.unshift(formData);
   $townContainer.prepend(renderTown(formData));
+}
+
+function handleEditSubmit(event) {
+  event.preventDefault();
+  data.editing.playerName = $townForm.elements['char-name'].value;
+  data.editing.townName = $townForm.elements['town-name'].value;
+  data.editing.townFruit = $townForm.elements.fruit.value;
+  data.editing.townVillagers = data.currentVillagers;
+  data.editing.imageLink = $townImage.src;
+  data.currentVillagers = [];
+  $townImage.src = 'images/placeholder-image-square.jpg';
+  var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryID}"]`);
+  $nodeToReplace.replaceWith(renderTown(data.editing));
+  for (let i = 0; i < data.towns.length; i++) {
+    if (data.towns[i].entryID === data.editing.entryID) {
+      data.towns[i] = data.editing;
+    }
+  }
+  data.editing = null;
 }
 
 // Town View Form //
@@ -336,14 +359,13 @@ $editTownBtn.addEventListener('click', function (event) { // preload all town in
   $townForm.elements['char-name'].value = data.editing.playerName;
   $townForm.elements['town-name'].value = data.editing.townName;
   $townImage.src = data.editing.imageLink;
-  for (let i = 0; i < $fruits.length; i++) { // weird buggy behavior with checked -- need to clear all checks before rechecking a radio-btn
-    $fruits[i].classList.remove('light-yellow-bg');
-    $fruits[i].closest('div').children[1].removeAttribute('checked');
-  }
   for (let i = 0; i < $fruits.length; i++) {
     if ($fruits[i].classList.contains(data.editing.townFruit)) {
       $fruits[i].classList.add('light-yellow-bg');
       $fruits[i].closest('div').children[1].setAttribute('checked', '');
+    } else {
+      $fruits[i].classList.remove('light-yellow-bg');
+      $fruits[i].closest('div').children[1].removeAttribute('checked');
     }
   }
   clearVillagers();
