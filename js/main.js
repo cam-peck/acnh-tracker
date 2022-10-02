@@ -330,15 +330,20 @@ function createBirthdayDefaultText() {
 
 var $editTownBtn = document.querySelector('.edit-icon');
 
-$editTownBtn.addEventListener('click', function (event) {
+$editTownBtn.addEventListener('click', function (event) { // preload all town information into the town form for editing
   data.editing = data.currentTown;
   $formTitle.textContent = 'Edit Town';
   $townForm.elements['char-name'].value = data.editing.playerName;
   $townForm.elements['town-name'].value = data.editing.townName;
   $townImage.src = data.editing.imageLink;
+  for (let i = 0; i < $fruits.length; i++) { // weird buggy behavior with checked -- need to clear all checks before rechecking a radio-btn
+    $fruits[i].classList.remove('light-yellow-bg');
+    $fruits[i].closest('div').children[1].removeAttribute('checked');
+  }
   for (let i = 0; i < $fruits.length; i++) {
     if ($fruits[i].classList.contains(data.editing.townFruit)) {
-      $fruits[i].classList.add($fruits[i].classList.add('light-yellow-bg'));
+      $fruits[i].classList.add('light-yellow-bg');
+      $fruits[i].closest('div').children[1].setAttribute('checked', '');
     }
   }
   clearVillagers();
