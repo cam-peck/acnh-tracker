@@ -63,24 +63,24 @@
             </div>
             <div class="row mb-1-three-quarter-rem justify-between fruit-container">
               <div class="fruit-card flex-column">
-                <label for="pear"><img class="fruit-img" src="images/Fruits/pear.png" alt="pear-img"></label>
+                <label for="pear"><img class="fruit-img pear" src="images/Fruits/pear.png" alt="pear-img"></label>
                 <input type="radio" id="pear" name="fruit" value="pear">
               </div>
               <div class="fruit-card flex-column">
-                <label for="peach"><img class="fruit-img" src="images/Fruits/peach.png" alt="peach-img"></label>
+                <label for="peach"><img class="fruit-img peach" src="images/Fruits/peach.png" alt="peach-img"></label>
                 <input type="radio" id="peach" name="fruit" value="peach">
               </div>
               <div class="fruit-card flex-column">
-                <label for="cherry"><img class="fruit-img" src="images/Fruits/cherry.png" alt="cherry-img"></label>
+                <label for="cherry"><img class="fruit-img cherry" src="images/Fruits/cherry.png" alt="cherry-img"></label>
                 <input type="radio" id="cherry" name="fruit" value="cherry">
               </div>
               <div class="fruit-card flex-column">
-                <label for="apple"><img class="fruit-img" src="images/Fruits/apple.png" alt="apple-img"></label>
+                <label for="apple"><img class="fruit-img apple" src="images/Fruits/apple.png" alt="apple-img"></label>
                 <input type="radio" id="apple" name="fruit" value="apple">
               </div>
               <div class="fruit-card flex-column">
-                <label for="orange"><img class="fruit-img" src="images/Fruits/orange.png" alt="orange-img"></label>
-                <input type="radio" id="orange" name="fruit" value="orange">
+                <label for="orange"><img class="fruit-img orange" src="images/Fruits/orange.png" alt="orange-img"></label>
+                <input type="radio" id="orange" name="fruit" value="orange" required>
               </div>
             </div>
           </div>
@@ -100,6 +100,7 @@
             <datalist class="villager-datalist" id="villager-list">
             </datalist>
             <button class="add-villager-btn hidden" type="button">ADD</button>
+            <button class="remove-villager-btn hidden" type="button">REMOVE</button>
           </div>
         </div>
 
@@ -123,7 +124,7 @@
       <!-- Town Information -->
       <div class="row column-full justify-and-align-center mt-three-quarter-rem mb-1-rem">
         <img class="home-page-fruit" src="images/Fruits/cherry.png" alt="town-fruit-img">
-        <h2 class="home-page-date">Wednesday, September 28th ~</h2>
+        <h2 class="home-page-date"></h2>
       </div>
 
       <div class="town-information row mb-1-rem pb-4-rem blue-border-rule">
@@ -131,8 +132,13 @@
           <img class="placeholder-img home-page-image" src="images/placeholder-image-square.jpg" alt="placeholder-img">
         </div>
         <div class="column-half">
-          <h2 class="fw-500 mt-0 home-page-town-name">Acorn Cove</h2>
-          <ul class="villager-icon-holder row gap-1-rem home-page-villagers"></ul>
+          <div class="row space-between align-baseline">
+            <h2 class="fw-500 mt-0 home-page-town-name"></h2>
+            <i class="fa-solid fa-pen-to-square fa-xl edit-icon"></i>
+          </div>
+          <div class="row">
+            <ul class="villager-icon-holder row gap-1-rem home-page-villagers"></ul>
+          </div>
         </div>
       </div>
       <!-- Daily News (Birthdays) -->

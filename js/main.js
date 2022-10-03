@@ -27,17 +27,28 @@ var $fruits = document.querySelectorAll('.fruit-img');
 var $searchVillagerBtn = document.querySelector('.search-villager-btn');
 var $addVillagerInput = document.querySelector('.new-villager-input');
 var $addVillagerBtn = document.querySelector('.add-villager-btn');
+var $removeVillagerBtn = document.querySelector('.remove-villager-btn');
 var $villagerDatalist = document.querySelector('.villager-datalist');
 var $villagerEntryList = document.querySelector('.villager-entry-list');
 var $townForm = document.querySelector('.town-form');
+var $formTitle = document.querySelector('.town-form-title');
 var $imageInput = document.querySelector('.image-input');
 var $townImage = document.querySelector('.town-img');
 var $townContainer = document.querySelector('.town-container');
 
 // New Town Input Form //
 
-window.addEventListener('DOMContentLoaded', function (event) { // get the needed data from APIs
+window.addEventListener('DOMContentLoaded', function (event) {
   getCurrentEvents();
+  if (data.towns.length === 0) {
+    $townContainer.append($defaultText);
+  }
+
+  for (let i = 0; i < data.towns.length; i++) {
+    var previousTown = renderTown(data.towns[i]);
+    $townContainer.append(previousTown);
+  }
+  viewSwap(data.view);
 });
 
 $imageInput.addEventListener('change', function (event) {
@@ -66,7 +77,7 @@ function handleFruitClick(event) { // highlight the clicked fruit with a soft ye
       if ($fruits[i] === fruitImg) {
         $fruits[i].classList.add('light-yellow-bg');
       } else {
-        $fruits[i].className = 'fruit-img';
+        $fruits[i].classList.remove('light-yellow-bg');
       }
     }
   }
@@ -74,16 +85,22 @@ function handleFruitClick(event) { // highlight the clicked fruit with a soft ye
 
 function clearFruits() { // resets the fruits on page reload
   for (let i = 0; i < $fruits.length; i++) {
-    $fruits[i].className = 'fruit-img';
+    $fruits[i].classList.remove('light-yellow-bg');
+    $fruits[i].closest('div').children[1].removeAttribute('checked');
   }
 }
 
-$searchVillagerBtn.addEventListener('click', searchVillagers);
+$searchVillagerBtn.addEventListener('click', function (event) {
+  if (allVillagers.length === 0) {
+    getVillagerNames();
+  }
+});
 
 function searchVillagers(event) { // search through the villagers and show them to the user
   $villagerDatalist.textContent = '';
   $addVillagerInput.classList.toggle('hidden');
   $addVillagerBtn.classList.toggle('hidden');
+  $removeVillagerBtn.classList.toggle('hidden');
   for (let i = 0; i < allVillagers.length; i++) {
     var $villagerDataTag = document.createElement('option');
     $villagerDataTag.value = allVillagers[i].name;
@@ -95,7 +112,13 @@ $addVillagerBtn.addEventListener('click', addVillager);
 
 function addVillager() { // add a villager to both the DOM and the data model
   for (let i = 0; i < allVillagers.length; i++) {
-    if (allVillagers[i].name === $addVillagerInput.value && !data.currentVillagers.includes(allVillagers[i]) && data.currentVillagers.length < 10) {
+    if (allVillagers[i].name === $addVillagerInput.value && data.currentVillagers.length < 10) {
+      for (let j = 0; j < data.currentVillagers.length; j++) { // check for same villagers
+        if (data.currentVillagers[j].name === allVillagers[i].name) {
+          $addVillagerInput.value = '';
+          return;
+        }
+      }
       $villagerEntryList.append(createVillagerIcon(allVillagers[i].name, allVillagers[i].icon));
       data.currentVillagers.push(allVillagers[i]);
     }
@@ -103,16 +126,33 @@ function addVillager() { // add a villager to both the DOM and the data model
   $addVillagerInput.value = '';
 }
 
+$removeVillagerBtn.addEventListener('click', removeVillager);
+
+function removeVillager() {
+  for (let i = 0; i < data.currentVillagers.length; i++) {
+    if (data.currentVillagers[i].name === $addVillagerInput.value) { // ensure the villager we're deleting is in currentVillagers
+      var $entryChildren = $villagerEntryList.children;
+      for (let j = 1; i < $entryChildren.length; j++) { // start iterating at 1 because 0 index is add button
+        if ($entryChildren[j].getAttribute('data-villager-id') === $addVillagerInput.value) {
+          $entryChildren[j].remove();
+          data.currentVillagers.splice(i, 1);
+          break;
+        }
+      }
+    }
+  }
+}
+
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
   /*
-  * <li data-id="villagerName">
+  * <li data-villager-id="villagerName">
   *  <div class="villager-card justify-and-align-center">
   *    <img class="villager-icon" src="images/sample_villager.png">
   *  </div>
   * </li>
   */
   var $newLi = document.createElement('li');
-  $newLi.setAttribute('data-id', villagerName);
+  $newLi.setAttribute('data-villager-id', villagerName);
 
   var $newDiv = document.createElement('div');
   $newDiv.className = 'villager-card justify-and-align-center';
@@ -129,7 +169,7 @@ function createVillagerIcon(villagerName, imageUrl) { // create a villager icon 
 
 function createVillagerBDIcon(villagerName, imageUrl) { // create a villager birthday icon and returns it
   /*
-  * <li class="row-no-wrap pl-1-rem align-center" data-id="villagerName">
+  * <li class="row-no-wrap pl-1-rem align-center" data-villager-id="villagerName">
   *   <div class="villager-card justify-and-align-center">
   *     <img class="villager-icon" src="images/sample_villager.png">
   *   </div>
@@ -139,7 +179,7 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
   * </li>
   */
   var $newBDLi = document.createElement('li');
-  $newBDLi.setAttribute('data-id', villagerName);
+  $newBDLi.setAttribute('data-villager-id', villagerName);
   $newBDLi.className = 'row-no-wrap pl-1-rem align-center';
 
   var $newIconDiv = document.createElement('div');
@@ -170,8 +210,12 @@ function clearVillagers() { // clears villagers from the DOM
   }
 }
 
-$townForm.addEventListener('submit', function (event) { // handle submitting a new town
-  handleNewSubmit(event);
+$townForm.addEventListener('submit', function (event) { // handle submitting a town (either new or edit)
+  if (!data.editing) {
+    handleNewSubmit(event);
+  } else {
+    handleEditSubmit(event);
+  }
   if (data.towns.length !== 0) {
     $defaultText.remove();
   }
@@ -197,20 +241,26 @@ function handleNewSubmit(event) { // handle the form data from a new town submit
   $townContainer.prepend(renderTown(formData));
 }
 
-// Town View Form //
-
-window.addEventListener('DOMContentLoaded', function (event) {
-
-  if (data.towns.length === 0) {
-    $townContainer.append($defaultText);
-  }
-
+function handleEditSubmit(event) {
+  event.preventDefault();
+  data.editing.playerName = $townForm.elements['char-name'].value;
+  data.editing.townName = $townForm.elements['town-name'].value;
+  data.editing.townFruit = $townForm.elements.fruit.value;
+  data.editing.townVillagers = data.currentVillagers;
+  data.editing.imageLink = $townImage.src;
+  data.currentVillagers = [];
+  $townImage.src = 'images/placeholder-image-square.jpg';
+  var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryID}"]`);
+  $nodeToReplace.replaceWith(renderTown(data.editing));
   for (let i = 0; i < data.towns.length; i++) {
-    var previousTown = renderTown(data.towns[i]);
-    $townContainer.append(previousTown);
+    if (data.towns[i].entryID === data.editing.entryID) {
+      data.towns[i] = data.editing;
+    }
   }
-  viewSwap(data.view);
-});
+  data.editing = null;
+}
+
+// Town View Form //
 
 function renderTown(townObj) {
   /* <li data-entry-id="" class="row mb-1-rem">
@@ -300,6 +350,34 @@ function createBirthdayDefaultText() {
   return $parentLi;
 }
 
+// Edit Town //
+
+var $editTownBtn = document.querySelector('.edit-icon');
+
+$editTownBtn.addEventListener('click', function (event) { // preload all town information into the town form for editing
+  data.editing = data.currentTown;
+  $formTitle.textContent = 'Edit Town';
+  $townForm.elements['char-name'].value = data.editing.playerName;
+  $townForm.elements['town-name'].value = data.editing.townName;
+  $townImage.src = data.editing.imageLink;
+  for (let i = 0; i < $fruits.length; i++) {
+    if ($fruits[i].classList.contains(data.editing.townFruit)) {
+      $fruits[i].classList.add('light-yellow-bg');
+      $fruits[i].closest('div').children[1].setAttribute('checked', '');
+    } else {
+      $fruits[i].classList.remove('light-yellow-bg');
+      $fruits[i].closest('div').children[1].removeAttribute('checked');
+    }
+  }
+  clearVillagers();
+  data.currentVillagers = [];
+  for (let i = 0; i < data.editing.townVillagers.length; i++) {
+    $villagerEntryList.append(createVillagerIcon(data.editing.townVillagers[i].name, data.editing.townVillagers[i].icon));
+    data.currentVillagers.push(data.editing.townVillagers[i]);
+  }
+  viewSwap('town-entry-form');
+});
+
 // Town Home Page //
 
 var $homeFruit = document.querySelector('.home-page-fruit');
@@ -345,7 +423,7 @@ function renderHomePage(townObj) {
   $birthdayUl.textContent = '';
   if (birthdayVillagers.length !== 0) {
     for (let i = 0; i < birthdayVillagers.length; i++) {
-      $birthdayUl.append(createVillagerBDIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
+      $birthdayUl.append(createVillagerBDIcon(birthdayVillagers[i].name, birthdayVillagers[i].icon));
     }
   } else {
     $birthdayUl.append($birthdayDefText);
@@ -424,10 +502,10 @@ $navTowns.addEventListener('click', function (event) { // swap to entries view
 });
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
-  if (allVillagers.length === 0) {
-    getVillagerNames();
-  }
   $townForm.reset();
+  $townImage.src = 'images/placeholder-image-square.jpg';
+  $formTitle.textContent = 'New Town';
+  data.currentVillagers = [];
   clearFruits();
   clearVillagers();
   viewSwap('town-entry-form');
@@ -468,6 +546,7 @@ function getVillagerNames() { // call the API and grab all villager names and ic
       villager.birthday = birthday;
       allVillagers.push(villager);
     }
+    searchVillagers();
   });
   xhr.send();
 }
@@ -521,6 +600,7 @@ function isBirthday(villager) { // if today is the villagers birthday, return tr
 
 function getDate() { // returns todays date
   var currentDate = new Date();
+  var currentDay = currentDate.getDate();
   currentDate = currentDate.toDateString();
   var splitDate = currentDate.split(' ');
   splitDate.pop();
@@ -557,7 +637,16 @@ function getDate() { // returns todays date
       splitDate[1] = monthsObj[key];
     }
   }
-  return (splitDate.join(' ') + 'th' + ' ~');
+  splitDate[2] = currentDay;
+  if (currentDay === 1 || currentDay === 21 || currentDay === 31) {
+    return (splitDate.join(' ') + 'st' + ' ~');
+  } else if (currentDay === 2 || currentDay === 22) {
+    return (splitDate.join(' ') + 'nd' + ' ~');
+  } else if (currentDay === 3 || currentDay === 23) {
+    return (splitDate.join(' ') + 'rd' + ' ~');
+  } else {
+    return (splitDate.join(' ') + 'th' + ' ~');
+  }
 }
 
 function getOneWeekForward() { // returns an array of valid dates to check

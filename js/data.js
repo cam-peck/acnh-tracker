@@ -1,7 +1,7 @@
 /* exported data */
 
 var data = {
-  view: '',
+  view: 'town-entries',
   towns: [],
   currentTown: {},
   editing: null,
