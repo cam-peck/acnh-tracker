@@ -380,8 +380,8 @@ $editTownBtn.addEventListener('click', function (event) { // preload all town in
 
 // Town Home Page //
 
-var $homeFruit = document.querySelector('.home-page-fruit');
-var $homeDate = document.querySelector('.home-page-date');
+var $allFruit = document.querySelectorAll('.town-fruit-header');
+var $allDates = document.querySelectorAll('.today-date');
 var $homeTownName = document.querySelector('.home-page-town-name');
 var $homeVillagerUl = document.querySelector('.home-page-villagers');
 var $homeImageCont = document.querySelector('.home-page-image');
@@ -407,8 +407,12 @@ function renderHomePage(townObj) {
 
   // render the town data //
   data.currentTown = townObj;
-  $homeFruit.src = 'images/Fruits/' + townObj.townFruit + '.png';
-  $homeDate.textContent = getDate();
+  for (let i = 0; i < $allFruit.length; i++) {
+    $allFruit[i].src = 'images/Fruits/' + townObj.townFruit + '.png';
+  }
+  for (let i = 0; i < $allDates.length; i++) {
+    $allDates[i].textContent = getDate();
+  }
   $homeTownName.textContent = townObj.townName;
   $homeImageCont.src = townObj.imageLink;
   $homeVillagerUl.textContent = '';
