@@ -270,6 +270,12 @@ i:active {
   -webkit-user-drag: none;
 }
 
+.fish-card {
+  border: 2px solid grey;
+  margin-right: -2px;
+  margin-bottom: -2px;
+}
+
 /* Functional CSS Classes */
 
 .justify-end {
@@ -420,4 +426,20 @@ i:active {
 
 .fb-15 {
   flex-basis: 10%;
+}
+
+.br-top-left {
+  border-top-left-radius: 5px;
+}
+
+.br-top-right {
+  border-top-right-radius: 5px;
+}
+
+.br-bottom-left {
+  border-bottom-left-radius: 5px;
+}
+
+.br-bottom-right {
+  border-bottom-right-radius: 5px;
 }

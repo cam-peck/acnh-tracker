@@ -734,10 +734,12 @@ function isLeapYear(year) {
 
 // Slider JS //
 
-const $slider = document.querySelector('.slider-container');
-let isDown = false;
-let StartX;
-let scrollLeft;
+var $slider = document.querySelector('.slider-container');
+var isDown = false;
+var StartX;
+var scrollLeft;
+
+// Desktop //
 
 $slider.addEventListener('mousedown', function (event) {
   isDown = true;
@@ -762,4 +764,36 @@ $slider.addEventListener('mousemove', function (event) {
   const x = event.pageX - $slider.offsetLeft;
   const walk = x - StartX; // how far have we deviated from initial position
   $slider.scrollLeft = scrollLeft - walk;
+});
+
+// Mobile //
+
+// $slider.addEventListener('touchstart', function (event) {
+//   isDown = true;
+//   $slider.classList.add('active');
+//   StartX = event.pageX - $slider.offsetLeft; // grab the initial point
+//   scrollLeft = $slider.scrollLeft; // initial capture prevents jumping
+// });
+
+// $slider.addEventListener('touchend', function (event) {
+//   isDown = false;
+//   $slider.classList.remove('active');
+// });
+
+// $slider.addEventListener('touchmove', function (event) {
+//   if (!isDown) return;
+//   event.preventDefault();
+//   const x = event.pageX - $slider.offsetLeft;
+//   const walk = x - StartX; // how far have we deviated from initial position
+//   $slider.scrollLeft = scrollLeft - walk;
+// });
+
+// Collections //
+
+var $homePageFishWrapper = document.querySelector('.fish-collection-wrapper');
+
+$homePageFishWrapper.addEventListener('click', function (event) {
+  if (event.target.tagName === 'IMG' || event.target.tagName === 'DIV') {
+    viewSwap('fish-collection');
+  }
 });
