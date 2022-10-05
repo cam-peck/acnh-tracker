@@ -591,6 +591,31 @@ function getCurrentEvents() { // call the API and grab current events
   xhr.send();
 }
 
+// function getFishCollectionItems() {
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+//   xhr.responseType = 'json';
+//   xhr.addEventListener('load', function () {
+//     var acnhFish = [];
+//     for (let i = 0; i < xhr.response.length; i++) {
+//       var currentFish = {};
+//       currentFish.name = xhr.response[i].name['name-EUen'];
+//       currentFish.iconUrl = xhr.response[i].icon_uri;
+//       currentFish.image = xhr.response[i].image_uri;
+//       currentFish['price-reg'] = xhr.response[i].price;
+//       currentFish['price-cj'] = xhr.response[i]['price-cj'];
+//       currentFish.location = xhr.response[i].availability.location;
+//       currentFish.time = xhr.response[i].availability['time-array'];
+//       currentFish.shadow = xhr.response[i].shadow;
+//       currentFish['season-north'] = xhr.response[i].availability['month-array-northern'];
+//       currentFish['season-south'] = xhr.response[i].availability['month-array-southern'];
+//       acnhFish.push(currentFish);
+//     }
+//     return acnhFish;
+//   });
+//   xhr.send();
+// }
+
 // Date Functions //
 
 function isBirthday(villager) { // if today is the villagers birthday, return true
@@ -706,3 +731,35 @@ function getOneWeekForward() { // returns an array of valid dates to check
 function isLeapYear(year) {
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 }
+
+// Slider JS //
+
+const $slider = document.querySelector('.slider-container');
+let isDown = false;
+let StartX;
+let scrollLeft;
+
+$slider.addEventListener('mousedown', function (event) {
+  isDown = true;
+  $slider.classList.add('active');
+  StartX = event.pageX - $slider.offsetLeft; // grab the initial point
+  scrollLeft = $slider.scrollLeft; // initial capture prevents jumping
+});
+
+$slider.addEventListener('mouseleave', () => {
+  isDown = false;
+  $slider.classList.remove('active');
+});
+
+$slider.addEventListener('mouseup', () => {
+  isDown = false;
+  $slider.classList.remove('active');
+});
+
+$slider.addEventListener('mousemove', function (event) {
+  if (!isDown) return;
+  event.preventDefault();
+  const x = event.pageX - $slider.offsetLeft;
+  const walk = x - StartX; // how far have we deviated from initial position
+  $slider.scrollLeft = scrollLeft - walk;
+});

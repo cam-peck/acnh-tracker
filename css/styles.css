@@ -233,6 +233,43 @@ i:active {
   to { width: 100%; }
 }
 
+/* Collections */
+
+.slider-container {
+  display: flex;
+  padding: 2rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  transform: scale(0.99);
+}
+
+.slider-container:active {
+  background: rgba(255, 255, 255, 0.3);
+  cursor: grabbing;
+  transform: scale(1);
+}
+
+.slide {
+  background-color: #efe7b9;
+  width: 12%;
+  min-width: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fish-icon {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  filter: brightness(0) opacity(0.15);
+  -webkit-user-drag: none;
+}
+
 /* Functional CSS Classes */
 
 .justify-end {
