@@ -941,27 +941,47 @@ function renderTable(itemArray) {
 
 function renderCollection(collectionType) {
   if (collectionType === 'fish') {
-    getFishCollectionItems();
+    if (data.collectionData.fish === undefined) { // if a user collection does not exist create a new one
+      getFishCollectionItems();
+    } else { // if a user collection does exist, use that one
+      renderTable(data.collectionData.fish);
+    }
     $collectionImage.src = 'images/Collections/fish-col.png';
     $collectionProgressCount.textContent = '0/80';
     data.currentCollection = 'fish';
   } else if (collectionType === 'bug') {
-    getBugCollectionItems();
+    if (data.collectionData.bugs === undefined) {
+      getBugCollectionItems();
+    } else {
+      renderTable(data.collectionData.bugs);
+    }
     $collectionImage.src = 'images/Collections/butterfly-col.png';
     $collectionProgressCount.textContent = '0/80';
     data.currentCollection = 'bug';
   } else if (collectionType === 'sea') {
-    getSeaCollectionItems();
+    if (data.collectionData.sea === undefined) {
+      getSeaCollectionItems();
+    } else {
+      renderTable(data.collectionData.sea);
+    }
     $collectionImage.src = 'images/Collections/sea-col.png';
     $collectionProgressCount.textContent = '0/40';
     data.currentCollection = 'sea';
   } else if (collectionType === 'fossil') {
-    getFossilCollectionItems();
+    if (data.collectionData.fossils === undefined) {
+      getFossilCollectionItems();
+    } else {
+      renderTable(data.collectionData.fossils);
+    }
     $collectionImage.src = 'images/Collections/fossil-col.png';
     $collectionProgressCount.textContent = '0/73';
     data.currentCollection = 'fossil';
   } else {
-    getArtCollectionItems();
+    if (data.collectionData.art === undefined) {
+      getArtCollectionItems();
+    } else {
+      renderTable(data.collectionData.art);
+    }
     $collectionImage.src = 'images/Collections/art-col.png';
     $collectionProgressCount.textContent = '0/43';
     data.currentCollection = 'art';
