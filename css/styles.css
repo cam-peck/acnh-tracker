@@ -236,7 +236,6 @@ i:active {
 /* Collections */
 
 .slider-container {
-  display: flex;
   padding: 2rem;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -258,7 +257,6 @@ i:active {
   width: 12%;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
 }
 
 .collection-icon {

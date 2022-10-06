@@ -533,10 +533,10 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
       $dataViews[i].className = 'hidden';
     }
   }
-  if (dataView === 'collections' && $allDates[1].textContent === '') {
+  if (dataView === 'collections' && $allDates[1].textContent === '') { // if page is refreshed collections needs loaded in
     $allDates[1].textContent = getDate();
     $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.png';
-    renderCollection(data.collectionType);
+    renderCollection(data.currentCollection);
   }
 }
 
@@ -903,7 +903,7 @@ $collectionContainer.addEventListener('click', function (event) {
 });
 
 function renderIcon(object) { // render an icon square with data from acnhObject
-  /*  <div data-collection-id="" class="collection-card br-top-left">
+  /*  <div data-collection-id="" class="collection-card">
   *      <img class="collection-icon" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
   *   </div>
   */
