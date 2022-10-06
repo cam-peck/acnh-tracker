@@ -612,7 +612,7 @@ function getFishCollectionItems() {
       currentFish['season-south'] = xhr.response[i].availability['month-array-southern'];
       acnhFish.push(currentFish);
     }
-    renderFishTable(acnhFish); // render the fish table for the main collection page
+    renderTable(acnhFish); // render the fish table for the main collection page
     data.collectionData.fish = acnhFish;
   });
   xhr.send();
@@ -637,7 +637,7 @@ function getBugCollectionItems() {
       currentBug['season-south'] = xhr.response[i].availability['month-array-southern'];
       acnhBugs.push(currentBug);
     }
-    renderBugTable(acnhBugs); // render the fish table for the main collection page
+    renderTable(acnhBugs); // render the fish table for the main collection page
     data.collectionData.bugs = acnhBugs;
   });
   xhr.send();
@@ -645,49 +645,66 @@ function getBugCollectionItems() {
 
 function getSeaCollectionItems() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.open('GET', 'https://acnhapi.com/v1a/sea');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    var acnhFish = [];
+    var acnhSea = [];
     for (let i = 0; i < xhr.response.length; i++) {
-      var currentFish = {};
-      acnhFish.push(currentFish);
+      var currentSea = {};
+      currentSea.name = xhr.response[i].name['name-EUen'];
+      currentSea.iconUrl = xhr.response[i].icon_uri;
+      currentSea.image = xhr.response[i].image_uri;
+      currentSea['price-reg'] = xhr.response[i].price;
+      currentSea.speed = xhr.response[i].speed;
+      currentSea.shadow = xhr.response[i].shadow;
+      currentSea.time = xhr.response[i].availability['time-array'];
+      currentSea['season-north'] = xhr.response[i].availability['month-array-northern'];
+      currentSea['season-south'] = xhr.response[i].availability['month-array-southern'];
+      acnhSea.push(currentSea);
     }
-    renderFishTable(acnhFish); // render the fish table for the main collection page
-    data.collectionData.fish = acnhFish;
+    renderTable(acnhSea); // render the fish table for the main collection page
+    data.collectionData.sea = acnhSea;
   });
   xhr.send();
 }
 
 function getFossilCollectionItems() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.open('GET', 'https://acnhapi.com/v1a/fossils');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    var acnhFish = [];
+    var acnhFossils = [];
     for (let i = 0; i < xhr.response.length; i++) {
-      var currentFish = {};
-      currentFish.name = xhr.response[i].name['name-EUen'];
-      acnhFish.push(currentFish);
+      var currentFossil = {};
+      currentFossil.name = xhr.response[i].name['name-EUen'];
+      currentFossil.iconUrl = xhr.response[i].image_uri;
+      currentFossil.image = xhr.response[i].image_uri;
+      currentFossil.price = xhr.response[i].price;
+      acnhFossils.push(currentFossil);
     }
-    renderFishTable(acnhFish); // render the fish table for the main collection page
-    data.collectionData.fish = acnhFish;
+    renderTable(acnhFossils); // render the fish table for the main collection page
+    data.collectionData.fossils = acnhFossils;
   });
   xhr.send();
 }
 
 function getArtCollectionItems() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.open('GET', 'https://acnhapi.com/v1a/art');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    var acnhFish = [];
+    var acnhArt = [];
     for (let i = 0; i < xhr.response.length; i++) {
-      var currentFish = {};
-      acnhFish.push(currentFish);
+      var currentArt = {};
+      currentArt.name = xhr.response[i].name['name-EUen'];
+      currentArt.iconUrl = xhr.response[i].image_uri;
+      currentArt.image = xhr.response[i].image_uri;
+      currentArt['buy-price'] = xhr.response[i]['buy-price'];
+      currentArt['sell-price'] = xhr.response[i]['sell-price'];
+      acnhArt.push(currentArt);
     }
-    renderFishTable(acnhFish); // render the fish table for the main collection page
-    data.collectionData.fish = acnhFish;
+    renderTable(acnhArt); // render the fish table for the main collection page
+    data.collectionData.art = acnhArt;
   });
   xhr.send();
 }
@@ -868,6 +885,7 @@ $slider.addEventListener('mousemove', function (event) {
 
 var $collectionContainer = document.querySelector('.collections-container');
 var $collectionImage = document.querySelector('.collection-img-header');
+var $collectionProgressCount = document.querySelector('.collection-count');
 
 $collectionContainer.addEventListener('click', function (event) {
   if (event.target.tagName === 'IMG' || event.target.tagName === 'DIV') {
@@ -876,18 +894,23 @@ $collectionContainer.addEventListener('click', function (event) {
     if (collectionType === 'fish') {
       getFishCollectionItems();
       $collectionImage.src = 'images/Collections/fish-col.png';
+      $collectionProgressCount.textContent = '0/80';
     } else if (collectionType === 'bug') {
       getBugCollectionItems();
       $collectionImage.src = 'images/Collections/butterfly-col.png';
+      $collectionProgressCount.textContent = '0/80';
     } else if (collectionType === 'sea') {
       getSeaCollectionItems();
       $collectionImage.src = 'images/Collections/sea-col.png';
+      $collectionProgressCount.textContent = '0/40';
     } else if (collectionType === 'fossil') {
       getFossilCollectionItems();
       $collectionImage.src = 'images/Collections/fossil-col.png';
+      $collectionProgressCount.textContent = '0/73';
     } else {
       getArtCollectionItems();
       $collectionImage.src = 'images/Collections/art-col.png';
+      $collectionProgressCount.textContent = '0/43';
     }
     viewSwap('collections');
   }
@@ -912,10 +935,10 @@ function renderIcon(object) { // render an icon square with data from acnhObject
   return $cardDiv;
 }
 
-function renderFishTable(fishArray) {
+function renderTable(itemArray) {
   var columnLength = 5;
   var $newLi;
-  for (let i = 0; i < fishArray.length; i++) {
+  for (let i = 0; i < itemArray.length; i++) {
     if (i % columnLength === 0) { // columns should have 5 items
       if (i !== 0) {
         $slideContainer.append($newLi);
@@ -923,26 +946,8 @@ function renderFishTable(fishArray) {
       $newLi = document.createElement('li');
       $newLi.className = 'slide flex-column';
     }
-    $newLi.append(renderIcon(fishArray[i]));
-    if (i === fishArray.length - 1) { // catch final column
-      $slideContainer.append($newLi);
-    }
-  }
-}
-
-function renderBugTable(bugArray) {
-  var columnLength = 5;
-  var $newLi;
-  for (let i = 0; i < bugArray.length; i++) {
-    if (i % columnLength === 0) { // columns should have 5 items
-      if (i !== 0) {
-        $slideContainer.append($newLi);
-      }
-      $newLi = document.createElement('li');
-      $newLi.className = 'slide flex-column';
-    }
-    $newLi.append(renderIcon(bugArray[i]));
-    if (i === bugArray.length - 1) { // catch final column
+    $newLi.append(renderIcon(itemArray[i]));
+    if (i === itemArray.length - 1) { // catch final column
       $slideContainer.append($newLi);
     }
   }
