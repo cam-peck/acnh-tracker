@@ -616,6 +616,7 @@ function getFishCollectionItems() {
       currentFish.shadow = xhr.response[i].shadow;
       currentFish['season-north'] = xhr.response[i].availability['month-array-northern'];
       currentFish['season-south'] = xhr.response[i].availability['month-array-southern'];
+      currentFish.acquired = false;
       acnhFish.push(currentFish);
     }
     renderTable(acnhFish); // render the fish table for the main collection page
@@ -641,6 +642,7 @@ function getBugCollectionItems() {
       currentBug.time = xhr.response[i].availability['time-array'];
       currentBug['season-north'] = xhr.response[i].availability['month-array-northern'];
       currentBug['season-south'] = xhr.response[i].availability['month-array-southern'];
+      currentBug.acquired = false;
       acnhBugs.push(currentBug);
     }
     renderTable(acnhBugs); // render the fish table for the main collection page
@@ -666,6 +668,7 @@ function getSeaCollectionItems() {
       currentSea.time = xhr.response[i].availability['time-array'];
       currentSea['season-north'] = xhr.response[i].availability['month-array-northern'];
       currentSea['season-south'] = xhr.response[i].availability['month-array-southern'];
+      currentSea.acquired = false;
       acnhSea.push(currentSea);
     }
     renderTable(acnhSea); // render the fish table for the main collection page
@@ -686,6 +689,7 @@ function getFossilCollectionItems() {
       currentFossil.iconUrl = xhr.response[i].image_uri;
       currentFossil.image = xhr.response[i].image_uri;
       currentFossil.price = xhr.response[i].price;
+      currentFossil.acquired = false;
       acnhFossils.push(currentFossil);
     }
     renderTable(acnhFossils); // render the fish table for the main collection page
@@ -707,6 +711,7 @@ function getArtCollectionItems() {
       currentArt.image = xhr.response[i].image_uri;
       currentArt['buy-price'] = xhr.response[i]['buy-price'];
       currentArt['sell-price'] = xhr.response[i]['sell-price'];
+      currentArt.acquired = false;
       acnhArt.push(currentArt);
     }
     renderTable(acnhArt); // render the fish table for the main collection page
