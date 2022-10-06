@@ -518,6 +518,7 @@ $addTownBtn.addEventListener('click', function (event) { // swap to entry form v
 
 $homeBtn.addEventListener('click', function (event) {
   if (data.currentTown.townName !== undefined) {
+    renderHomePage(data.currentTown);
     viewSwap('town-home-page');
   }
 });
@@ -531,6 +532,11 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
     } else {
       $dataViews[i].className = 'hidden';
     }
+  }
+  if (dataView === 'collections' && $allDates[1].textContent === '') {
+    $allDates[1].textContent = getDate();
+    $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.png';
+    renderCollection(data.collectionType);
   }
 }
 
@@ -891,27 +897,7 @@ $collectionContainer.addEventListener('click', function (event) {
   if (event.target.tagName === 'IMG' || event.target.tagName === 'DIV') {
     $slideContainer.textContent = ''; // clear collection container from previous collections if present
     var collectionType = event.target.closest('li').getAttribute(['data-collection-type-id']);
-    if (collectionType === 'fish') {
-      getFishCollectionItems();
-      $collectionImage.src = 'images/Collections/fish-col.png';
-      $collectionProgressCount.textContent = '0/80';
-    } else if (collectionType === 'bug') {
-      getBugCollectionItems();
-      $collectionImage.src = 'images/Collections/butterfly-col.png';
-      $collectionProgressCount.textContent = '0/80';
-    } else if (collectionType === 'sea') {
-      getSeaCollectionItems();
-      $collectionImage.src = 'images/Collections/sea-col.png';
-      $collectionProgressCount.textContent = '0/40';
-    } else if (collectionType === 'fossil') {
-      getFossilCollectionItems();
-      $collectionImage.src = 'images/Collections/fossil-col.png';
-      $collectionProgressCount.textContent = '0/73';
-    } else {
-      getArtCollectionItems();
-      $collectionImage.src = 'images/Collections/art-col.png';
-      $collectionProgressCount.textContent = '0/43';
-    }
+    renderCollection(collectionType);
     viewSwap('collections');
   }
 });
@@ -950,5 +936,34 @@ function renderTable(itemArray) {
     if (i === itemArray.length - 1) { // catch final column
       $slideContainer.append($newLi);
     }
+  }
+}
+
+function renderCollection(collectionType) {
+  if (collectionType === 'fish') {
+    getFishCollectionItems();
+    $collectionImage.src = 'images/Collections/fish-col.png';
+    $collectionProgressCount.textContent = '0/80';
+    data.currentCollection = 'fish';
+  } else if (collectionType === 'bug') {
+    getBugCollectionItems();
+    $collectionImage.src = 'images/Collections/butterfly-col.png';
+    $collectionProgressCount.textContent = '0/80';
+    data.currentCollection = 'bug';
+  } else if (collectionType === 'sea') {
+    getSeaCollectionItems();
+    $collectionImage.src = 'images/Collections/sea-col.png';
+    $collectionProgressCount.textContent = '0/40';
+    data.currentCollection = 'sea';
+  } else if (collectionType === 'fossil') {
+    getFossilCollectionItems();
+    $collectionImage.src = 'images/Collections/fossil-col.png';
+    $collectionProgressCount.textContent = '0/73';
+    data.currentCollection = 'fossil';
+  } else {
+    getArtCollectionItems();
+    $collectionImage.src = 'images/Collections/art-col.png';
+    $collectionProgressCount.textContent = '0/43';
+    data.currentCollection = 'art';
   }
 }

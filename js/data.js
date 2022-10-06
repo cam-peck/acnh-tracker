@@ -4,6 +4,7 @@ var data = {
   view: 'town-entries',
   towns: [],
   currentTown: {},
+  currentCollection: '',
   editing: null,
   nextEntryId: 1,
   currentVillagers: [],
