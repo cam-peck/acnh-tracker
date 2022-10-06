@@ -35,6 +35,7 @@ var $formTitle = document.querySelector('.town-form-title');
 var $imageInput = document.querySelector('.image-input');
 var $townImage = document.querySelector('.town-img');
 var $townContainer = document.querySelector('.town-container');
+var $slideContainer = document.querySelector('.slider-container');
 
 // New Town Input Form //
 
@@ -591,30 +592,31 @@ function getCurrentEvents() { // call the API and grab current events
   xhr.send();
 }
 
-// function getFishCollectionItems() {
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('GET', 'https://acnhapi.com/v1a/fish');
-//   xhr.responseType = 'json';
-//   xhr.addEventListener('load', function () {
-//     var acnhFish = [];
-//     for (let i = 0; i < xhr.response.length; i++) {
-//       var currentFish = {};
-//       currentFish.name = xhr.response[i].name['name-EUen'];
-//       currentFish.iconUrl = xhr.response[i].icon_uri;
-//       currentFish.image = xhr.response[i].image_uri;
-//       currentFish['price-reg'] = xhr.response[i].price;
-//       currentFish['price-cj'] = xhr.response[i]['price-cj'];
-//       currentFish.location = xhr.response[i].availability.location;
-//       currentFish.time = xhr.response[i].availability['time-array'];
-//       currentFish.shadow = xhr.response[i].shadow;
-//       currentFish['season-north'] = xhr.response[i].availability['month-array-northern'];
-//       currentFish['season-south'] = xhr.response[i].availability['month-array-southern'];
-//       acnhFish.push(currentFish);
-//     }
-//     return acnhFish;
-//   });
-//   xhr.send();
-// }
+function getFishCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhFish = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentFish = {};
+      currentFish.name = xhr.response[i].name['name-EUen'];
+      currentFish.iconUrl = xhr.response[i].icon_uri;
+      currentFish.image = xhr.response[i].image_uri;
+      currentFish['price-reg'] = xhr.response[i].price;
+      currentFish['price-cj'] = xhr.response[i]['price-cj'];
+      currentFish.location = xhr.response[i].availability.location;
+      currentFish.time = xhr.response[i].availability['time-array'];
+      currentFish.shadow = xhr.response[i].shadow;
+      currentFish['season-north'] = xhr.response[i].availability['month-array-northern'];
+      currentFish['season-south'] = xhr.response[i].availability['month-array-southern'];
+      acnhFish.push(currentFish);
+    }
+    renderFishTable(acnhFish); // render the fish table for the main collection page
+    data.collectionData.fish = acnhFish;
+  });
+  xhr.send();
+}
 
 // Date Functions //
 
@@ -794,6 +796,44 @@ var $homePageFishWrapper = document.querySelector('.fish-collection-wrapper');
 
 $homePageFishWrapper.addEventListener('click', function (event) {
   if (event.target.tagName === 'IMG' || event.target.tagName === 'DIV') {
+    getFishCollectionItems();
     viewSwap('fish-collection');
   }
 });
+
+function renderFishCard(object) { // render a single fish card with data from acnhObject
+  /*  <div data-collection-id="" class="fish-card br-top-left">
+  *      <img class="fish-icon" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
+  *   </div>
+  */
+  var $cardDiv = document.createElement('div');
+  $cardDiv.setAttribute('data-collection-id', object.name);
+  $cardDiv.className = 'fish-card';
+
+  var $cardIcon = document.createElement('img');
+  $cardIcon.className = 'fish-icon';
+  $cardIcon.src = object.iconUrl;
+  $cardIcon.alt = object.name + 'img';
+
+  $cardDiv.append($cardIcon);
+
+  return $cardDiv;
+}
+
+function renderFishTable(fishArray) {
+  var columnLength = 5;
+  var $newLi;
+  for (let i = 0; i < fishArray.length; i++) {
+    if (i % columnLength === 0) { // columns should have 5 items
+      if (i !== 0) {
+        $slideContainer.append($newLi);
+      }
+      $newLi = document.createElement('li');
+      $newLi.className = 'slide flex-column';
+    }
+    $newLi.append(renderFishCard(fishArray[i]));
+    if (i === fishArray.length - 1) { // catch final column
+      $slideContainer.append($newLi);
+    }
+  }
+}

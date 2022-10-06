@@ -6,7 +6,8 @@ var data = {
   currentTown: {},
   editing: null,
   nextEntryId: 1,
-  currentVillagers: []
+  currentVillagers: [],
+  collectionData: {}
 };
 
 var previousData = localStorage.getItem('acnh-tracker-data');

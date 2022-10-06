@@ -78,6 +78,10 @@
     justify-content: center;
     align-items: center;
   }
+
+  .slide {
+    min-width: 100px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -105,5 +109,9 @@
 
   h3 {
     font-size: 1rem;
+  }
+
+  .slide {
+    min-width: 80px;
   }
 }
