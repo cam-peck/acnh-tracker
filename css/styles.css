@@ -261,14 +261,14 @@ i:active {
   justify-content: center;
 }
 
-.fish-icon {
+.collection-icon {
   width: 100%;
   padding: 1rem;
   filter: brightness(0) opacity(0.15);
   -webkit-user-drag: none;
 }
 
-.fish-card {
+.collection-card {
   border: 2px solid grey;
   margin-right: -2px;
   margin-bottom: -2px;

@@ -618,6 +618,80 @@ function getFishCollectionItems() {
   xhr.send();
 }
 
+function getBugCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/bugs');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhBugs = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentBug = {};
+      currentBug.name = xhr.response[i].name['name-EUen'];
+      currentBug.iconUrl = xhr.response[i].icon_uri;
+      currentBug.image = xhr.response[i].image_uri;
+      currentBug['price-reg'] = xhr.response[i].price;
+      currentBug['price-flick'] = xhr.response[i]['price-flick'];
+      currentBug.location = xhr.response[i].availability.location;
+      currentBug.time = xhr.response[i].availability['time-array'];
+      currentBug['season-north'] = xhr.response[i].availability['month-array-northern'];
+      currentBug['season-south'] = xhr.response[i].availability['month-array-southern'];
+      acnhBugs.push(currentBug);
+    }
+    renderBugTable(acnhBugs); // render the fish table for the main collection page
+    data.collectionData.bugs = acnhBugs;
+  });
+  xhr.send();
+}
+
+function getSeaCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhFish = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentFish = {};
+      acnhFish.push(currentFish);
+    }
+    renderFishTable(acnhFish); // render the fish table for the main collection page
+    data.collectionData.fish = acnhFish;
+  });
+  xhr.send();
+}
+
+function getFossilCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhFish = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentFish = {};
+      currentFish.name = xhr.response[i].name['name-EUen'];
+      acnhFish.push(currentFish);
+    }
+    renderFishTable(acnhFish); // render the fish table for the main collection page
+    data.collectionData.fish = acnhFish;
+  });
+  xhr.send();
+}
+
+function getArtCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhFish = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentFish = {};
+      acnhFish.push(currentFish);
+    }
+    renderFishTable(acnhFish); // render the fish table for the main collection page
+    data.collectionData.fish = acnhFish;
+  });
+  xhr.send();
+}
+
 // Date Functions //
 
 function isBirthday(villager) { // if today is the villagers birthday, return true
@@ -792,26 +866,44 @@ $slider.addEventListener('mousemove', function (event) {
 
 // Collections //
 
-var $homePageFishWrapper = document.querySelector('.fish-collection-wrapper');
+var $collectionContainer = document.querySelector('.collections-container');
+var $collectionImage = document.querySelector('.collection-img-header');
 
-$homePageFishWrapper.addEventListener('click', function (event) {
+$collectionContainer.addEventListener('click', function (event) {
   if (event.target.tagName === 'IMG' || event.target.tagName === 'DIV') {
-    getFishCollectionItems();
-    viewSwap('fish-collection');
+    $slideContainer.textContent = ''; // clear collection container from previous collections if present
+    var collectionType = event.target.closest('li').getAttribute(['data-collection-type-id']);
+    if (collectionType === 'fish') {
+      getFishCollectionItems();
+      $collectionImage.src = 'images/Collections/fish-col.png';
+    } else if (collectionType === 'bug') {
+      getBugCollectionItems();
+      $collectionImage.src = 'images/Collections/butterfly-col.png';
+    } else if (collectionType === 'sea') {
+      getSeaCollectionItems();
+      $collectionImage.src = 'images/Collections/sea-col.png';
+    } else if (collectionType === 'fossil') {
+      getFossilCollectionItems();
+      $collectionImage.src = 'images/Collections/fossil-col.png';
+    } else {
+      getArtCollectionItems();
+      $collectionImage.src = 'images/Collections/art-col.png';
+    }
+    viewSwap('collections');
   }
 });
 
-function renderFishCard(object) { // render a single fish card with data from acnhObject
-  /*  <div data-collection-id="" class="fish-card br-top-left">
-  *      <img class="fish-icon" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
+function renderIcon(object) { // render an icon square with data from acnhObject
+  /*  <div data-collection-id="" class="collection-card br-top-left">
+  *      <img class="collection-icon" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
   *   </div>
   */
   var $cardDiv = document.createElement('div');
   $cardDiv.setAttribute('data-collection-id', object.name);
-  $cardDiv.className = 'fish-card';
+  $cardDiv.className = 'collection-card';
 
   var $cardIcon = document.createElement('img');
-  $cardIcon.className = 'fish-icon';
+  $cardIcon.className = 'collection-icon';
   $cardIcon.src = object.iconUrl;
   $cardIcon.alt = object.name + 'img';
 
@@ -831,8 +923,26 @@ function renderFishTable(fishArray) {
       $newLi = document.createElement('li');
       $newLi.className = 'slide flex-column';
     }
-    $newLi.append(renderFishCard(fishArray[i]));
+    $newLi.append(renderIcon(fishArray[i]));
     if (i === fishArray.length - 1) { // catch final column
+      $slideContainer.append($newLi);
+    }
+  }
+}
+
+function renderBugTable(bugArray) {
+  var columnLength = 5;
+  var $newLi;
+  for (let i = 0; i < bugArray.length; i++) {
+    if (i % columnLength === 0) { // columns should have 5 items
+      if (i !== 0) {
+        $slideContainer.append($newLi);
+      }
+      $newLi = document.createElement('li');
+      $newLi.className = 'slide flex-column';
+    }
+    $newLi.append(renderIcon(bugArray[i]));
+    if (i === bugArray.length - 1) { // catch final column
       $slideContainer.append($newLi);
     }
   }
