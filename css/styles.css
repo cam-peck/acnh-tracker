@@ -139,7 +139,7 @@ a {
 }
 
 /* View Home Page */
-.home-page-fruit {
+.town-fruit-header {
   width: 10%;
   max-width: 60px;
 }
@@ -231,6 +231,57 @@ i:active {
 @keyframes fill-bar {
   from { width: 0%; }
   to { width: 100%; }
+}
+
+/* Collections */
+
+.slider-container {
+  padding: 2rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  transform: scale(0.99);
+}
+
+.slider-container:active {
+  background: rgba(255, 255, 255, 0.3);
+  cursor: grabbing;
+  transform: scale(1);
+}
+
+.slide {
+  background-color: #efe7b9;
+  width: 12%;
+  display: inline-flex;
+  align-items: center;
+}
+
+.collection-icon {
+  width: 100%;
+  padding: 1rem;
+  filter: brightness(0) opacity(0.15);
+  -webkit-user-drag: none;
+}
+
+.collection-card {
+  border: 2px solid grey;
+  margin-right: -2px;
+  margin-bottom: -2px;
+}
+
+.home-page.collection-img:hover {
+  transform: scale(1.1);
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+
+.home-page.progress:hover {
+  transform: scale(1.01);
+  transition-duration: 0.5s;
+  cursor: pointer;
 }
 
 /* Functional CSS Classes */
@@ -383,4 +434,20 @@ i:active {
 
 .fb-15 {
   flex-basis: 10%;
+}
+
+.br-top-left {
+  border-top-left-radius: 5px;
+}
+
+.br-top-right {
+  border-top-right-radius: 5px;
+}
+
+.br-bottom-left {
+  border-bottom-left-radius: 5px;
+}
+
+.br-bottom-right {
+  border-bottom-right-radius: 5px;
 }

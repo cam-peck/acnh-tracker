@@ -35,6 +35,7 @@ var $formTitle = document.querySelector('.town-form-title');
 var $imageInput = document.querySelector('.image-input');
 var $townImage = document.querySelector('.town-img');
 var $townContainer = document.querySelector('.town-container');
+var $slideContainer = document.querySelector('.slider-container');
 
 // New Town Input Form //
 
@@ -380,8 +381,8 @@ $editTownBtn.addEventListener('click', function (event) { // preload all town in
 
 // Town Home Page //
 
-var $homeFruit = document.querySelector('.home-page-fruit');
-var $homeDate = document.querySelector('.home-page-date');
+var $allFruit = document.querySelectorAll('.town-fruit-header');
+var $allDates = document.querySelectorAll('.today-date');
 var $homeTownName = document.querySelector('.home-page-town-name');
 var $homeVillagerUl = document.querySelector('.home-page-villagers');
 var $homeImageCont = document.querySelector('.home-page-image');
@@ -407,8 +408,12 @@ function renderHomePage(townObj) {
 
   // render the town data //
   data.currentTown = townObj;
-  $homeFruit.src = 'images/Fruits/' + townObj.townFruit + '.png';
-  $homeDate.textContent = getDate();
+  for (let i = 0; i < $allFruit.length; i++) {
+    $allFruit[i].src = 'images/Fruits/' + townObj.townFruit + '.png';
+  }
+  for (let i = 0; i < $allDates.length; i++) {
+    $allDates[i].textContent = getDate();
+  }
   $homeTownName.textContent = townObj.townName;
   $homeImageCont.src = townObj.imageLink;
   $homeVillagerUl.textContent = '';
@@ -513,6 +518,7 @@ $addTownBtn.addEventListener('click', function (event) { // swap to entry form v
 
 $homeBtn.addEventListener('click', function (event) {
   if (data.currentTown.townName !== undefined) {
+    renderHomePage(data.currentTown);
     viewSwap('town-home-page');
   }
 });
@@ -526,6 +532,11 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
     } else {
       $dataViews[i].className = 'hidden';
     }
+  }
+  if (dataView === 'collections' && $allDates[1].textContent === '') { // if page is refreshed collections needs loaded in
+    $allDates[1].textContent = getDate();
+    $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.png';
+    renderCollection(data.currentCollection);
   }
 }
 
@@ -583,6 +594,123 @@ function getCurrentEvents() { // call the API and grab current events
       }
     });
     xhr2.send();
+  });
+  xhr.send();
+}
+
+function getFishCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhFish = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentFish = {};
+      currentFish.name = xhr.response[i].name['name-EUen'];
+      currentFish.iconUrl = xhr.response[i].icon_uri;
+      currentFish.image = xhr.response[i].image_uri;
+      currentFish['price-reg'] = xhr.response[i].price;
+      currentFish['price-cj'] = xhr.response[i]['price-cj'];
+      currentFish.location = xhr.response[i].availability.location;
+      currentFish.time = xhr.response[i].availability['time-array'];
+      currentFish.shadow = xhr.response[i].shadow;
+      currentFish['season-north'] = xhr.response[i].availability['month-array-northern'];
+      currentFish['season-south'] = xhr.response[i].availability['month-array-southern'];
+      acnhFish.push(currentFish);
+    }
+    renderTable(acnhFish); // render the fish table for the main collection page
+    data.collectionData.fish = acnhFish;
+  });
+  xhr.send();
+}
+
+function getBugCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/bugs');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhBugs = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentBug = {};
+      currentBug.name = xhr.response[i].name['name-EUen'];
+      currentBug.iconUrl = xhr.response[i].icon_uri;
+      currentBug.image = xhr.response[i].image_uri;
+      currentBug['price-reg'] = xhr.response[i].price;
+      currentBug['price-flick'] = xhr.response[i]['price-flick'];
+      currentBug.location = xhr.response[i].availability.location;
+      currentBug.time = xhr.response[i].availability['time-array'];
+      currentBug['season-north'] = xhr.response[i].availability['month-array-northern'];
+      currentBug['season-south'] = xhr.response[i].availability['month-array-southern'];
+      acnhBugs.push(currentBug);
+    }
+    renderTable(acnhBugs); // render the fish table for the main collection page
+    data.collectionData.bugs = acnhBugs;
+  });
+  xhr.send();
+}
+
+function getSeaCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/sea');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhSea = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentSea = {};
+      currentSea.name = xhr.response[i].name['name-EUen'];
+      currentSea.iconUrl = xhr.response[i].icon_uri;
+      currentSea.image = xhr.response[i].image_uri;
+      currentSea['price-reg'] = xhr.response[i].price;
+      currentSea.speed = xhr.response[i].speed;
+      currentSea.shadow = xhr.response[i].shadow;
+      currentSea.time = xhr.response[i].availability['time-array'];
+      currentSea['season-north'] = xhr.response[i].availability['month-array-northern'];
+      currentSea['season-south'] = xhr.response[i].availability['month-array-southern'];
+      acnhSea.push(currentSea);
+    }
+    renderTable(acnhSea); // render the fish table for the main collection page
+    data.collectionData.sea = acnhSea;
+  });
+  xhr.send();
+}
+
+function getFossilCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/fossils');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhFossils = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentFossil = {};
+      currentFossil.name = xhr.response[i].name['name-EUen'];
+      currentFossil.iconUrl = xhr.response[i].image_uri;
+      currentFossil.image = xhr.response[i].image_uri;
+      currentFossil.price = xhr.response[i].price;
+      acnhFossils.push(currentFossil);
+    }
+    renderTable(acnhFossils); // render the fish table for the main collection page
+    data.collectionData.fossils = acnhFossils;
+  });
+  xhr.send();
+}
+
+function getArtCollectionItems() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://acnhapi.com/v1a/art');
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    var acnhArt = [];
+    for (let i = 0; i < xhr.response.length; i++) {
+      var currentArt = {};
+      currentArt.name = xhr.response[i].name['name-EUen'];
+      currentArt.iconUrl = xhr.response[i].image_uri;
+      currentArt.image = xhr.response[i].image_uri;
+      currentArt['buy-price'] = xhr.response[i]['buy-price'];
+      currentArt['sell-price'] = xhr.response[i]['sell-price'];
+      acnhArt.push(currentArt);
+    }
+    renderTable(acnhArt); // render the fish table for the main collection page
+    data.collectionData.art = acnhArt;
   });
   xhr.send();
 }
@@ -701,4 +829,141 @@ function getOneWeekForward() { // returns an array of valid dates to check
 
 function isLeapYear(year) {
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+}
+
+// Slider JS //
+
+var $slider = document.querySelector('.slider-container');
+var isDown = false;
+var StartX;
+var scrollLeft;
+
+// Desktop //
+
+$slider.addEventListener('mousedown', function (event) {
+  isDown = true;
+  $slider.classList.add('active');
+  StartX = event.pageX - $slider.offsetLeft; // grab the initial point
+  scrollLeft = $slider.scrollLeft; // initial capture prevents jumping
+});
+
+$slider.addEventListener('mouseleave', () => {
+  isDown = false;
+  $slider.classList.remove('active');
+});
+
+$slider.addEventListener('mouseup', () => {
+  isDown = false;
+  $slider.classList.remove('active');
+});
+
+$slider.addEventListener('mousemove', function (event) {
+  if (!isDown) return;
+  event.preventDefault();
+  const x = event.pageX - $slider.offsetLeft;
+  const walk = x - StartX; // how far have we deviated from initial position
+  $slider.scrollLeft = scrollLeft - walk;
+});
+
+// Mobile //
+
+// $slider.addEventListener('touchstart', function (event) {
+//   isDown = true;
+//   $slider.classList.add('active');
+//   StartX = event.pageX - $slider.offsetLeft; // grab the initial point
+//   scrollLeft = $slider.scrollLeft; // initial capture prevents jumping
+// });
+
+// $slider.addEventListener('touchend', function (event) {
+//   isDown = false;
+//   $slider.classList.remove('active');
+// });
+
+// $slider.addEventListener('touchmove', function (event) {
+//   if (!isDown) return;
+//   event.preventDefault();
+//   const x = event.pageX - $slider.offsetLeft;
+//   const walk = x - StartX; // how far have we deviated from initial position
+//   $slider.scrollLeft = scrollLeft - walk;
+// });
+
+// Collections //
+
+var $collectionContainer = document.querySelector('.collections-container');
+var $collectionImage = document.querySelector('.collection-img-header');
+var $collectionProgressCount = document.querySelector('.collection-count');
+
+$collectionContainer.addEventListener('click', function (event) {
+  if (event.target.tagName === 'IMG' || event.target.tagName === 'DIV') {
+    $slideContainer.textContent = ''; // clear collection container from previous collections if present
+    var collectionType = event.target.closest('li').getAttribute(['data-collection-type-id']);
+    renderCollection(collectionType);
+    viewSwap('collections');
+  }
+});
+
+function renderIcon(object) { // render an icon square with data from acnhObject
+  /*  <div data-collection-id="" class="collection-card">
+  *      <img class="collection-icon" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
+  *   </div>
+  */
+  var $cardDiv = document.createElement('div');
+  $cardDiv.setAttribute('data-collection-id', object.name);
+  $cardDiv.className = 'collection-card';
+
+  var $cardIcon = document.createElement('img');
+  $cardIcon.className = 'collection-icon';
+  $cardIcon.src = object.iconUrl;
+  $cardIcon.alt = object.name + 'img';
+
+  $cardDiv.append($cardIcon);
+
+  return $cardDiv;
+}
+
+function renderTable(itemArray) {
+  var columnLength = 5;
+  var $newLi;
+  for (let i = 0; i < itemArray.length; i++) {
+    if (i % columnLength === 0) { // columns should have 5 items
+      if (i !== 0) {
+        $slideContainer.append($newLi);
+      }
+      $newLi = document.createElement('li');
+      $newLi.className = 'slide flex-column';
+    }
+    $newLi.append(renderIcon(itemArray[i]));
+    if (i === itemArray.length - 1) { // catch final column
+      $slideContainer.append($newLi);
+    }
+  }
+}
+
+function renderCollection(collectionType) {
+  if (collectionType === 'fish') {
+    getFishCollectionItems();
+    $collectionImage.src = 'images/Collections/fish-col.png';
+    $collectionProgressCount.textContent = '0/80';
+    data.currentCollection = 'fish';
+  } else if (collectionType === 'bug') {
+    getBugCollectionItems();
+    $collectionImage.src = 'images/Collections/butterfly-col.png';
+    $collectionProgressCount.textContent = '0/80';
+    data.currentCollection = 'bug';
+  } else if (collectionType === 'sea') {
+    getSeaCollectionItems();
+    $collectionImage.src = 'images/Collections/sea-col.png';
+    $collectionProgressCount.textContent = '0/40';
+    data.currentCollection = 'sea';
+  } else if (collectionType === 'fossil') {
+    getFossilCollectionItems();
+    $collectionImage.src = 'images/Collections/fossil-col.png';
+    $collectionProgressCount.textContent = '0/73';
+    data.currentCollection = 'fossil';
+  } else {
+    getArtCollectionItems();
+    $collectionImage.src = 'images/Collections/art-col.png';
+    $collectionProgressCount.textContent = '0/43';
+    data.currentCollection = 'art';
+  }
 }

@@ -4,9 +4,11 @@ var data = {
   view: 'town-entries',
   towns: [],
   currentTown: {},
+  currentCollection: '',
   editing: null,
   nextEntryId: 1,
-  currentVillagers: []
+  currentVillagers: [],
+  collectionData: {}
 };
 
 var previousData = localStorage.getItem('acnh-tracker-data');
