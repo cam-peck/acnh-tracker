@@ -284,6 +284,11 @@ i:active {
   cursor: pointer;
 }
 
+.collection-icon:hover {
+  transform: scale(1.05);
+  transition-duration: 0.5s;
+}
+
 /* Functional CSS Classes */
 
 .justify-end {

@@ -840,6 +840,7 @@ function isLeapYear(year) {
 
 var $slider = document.querySelector('.slider-container');
 var isDown = false;
+var isDragging = false;
 var StartX;
 var scrollLeft;
 
@@ -857,40 +858,23 @@ $slider.addEventListener('mouseleave', () => {
   $slider.classList.remove('active');
 });
 
-$slider.addEventListener('mouseup', () => {
+$slider.addEventListener('mouseup', function (event) {
   isDown = false;
+  if (isDragging) {
+    event.stopImmediatePropagation();
+  }
   $slider.classList.remove('active');
+  isDragging = false;
 });
 
 $slider.addEventListener('mousemove', function (event) {
   if (!isDown) return;
+  isDragging = true;
   event.preventDefault();
   const x = event.pageX - $slider.offsetLeft;
   const walk = x - StartX; // how far have we deviated from initial position
   $slider.scrollLeft = scrollLeft - walk;
 });
-
-// Mobile //
-
-// $slider.addEventListener('touchstart', function (event) {
-//   isDown = true;
-//   $slider.classList.add('active');
-//   StartX = event.pageX - $slider.offsetLeft; // grab the initial point
-//   scrollLeft = $slider.scrollLeft; // initial capture prevents jumping
-// });
-
-// $slider.addEventListener('touchend', function (event) {
-//   isDown = false;
-//   $slider.classList.remove('active');
-// });
-
-// $slider.addEventListener('touchmove', function (event) {
-//   if (!isDown) return;
-//   event.preventDefault();
-//   const x = event.pageX - $slider.offsetLeft;
-//   const walk = x - StartX; // how far have we deviated from initial position
-//   $slider.scrollLeft = scrollLeft - walk;
-// });
 
 // Collections //
 
@@ -992,3 +976,13 @@ function renderCollection(collectionType) {
     data.currentCollection = 'art';
   }
 }
+
+// Collection Interactivity //
+
+$slider.addEventListener('mouseup', function (event) {
+  if (event.target.tagName === 'IMG') {
+    if (!isDragging) {
+      // console.log('clicked');
+    }
+  }
+});
