@@ -893,6 +893,7 @@ $collectionContainer.addEventListener('click', function (event) {
 
 function renderIcon(object) { // render an icon square with data from acnhObject
   /*  <div data-collection-id="" class="collection-card">
+  *      <span class="label hidden">???</span>
   *      <img class="collection-icon" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
   *   </div>
   */
@@ -900,12 +901,16 @@ function renderIcon(object) { // render an icon square with data from acnhObject
   $cardDiv.setAttribute('data-collection-id', object.name);
   $cardDiv.className = 'collection-card';
 
+  var $labelSpan = document.createElement('span');
+  $labelSpan.className = 'label label-not-acquired-bg hidden';
+  $labelSpan.textContent = '???';
+
   var $cardIcon = document.createElement('img');
   $cardIcon.className = 'collection-icon';
   $cardIcon.src = object.iconUrl;
   $cardIcon.alt = object.name + 'img';
 
-  $cardDiv.append($cardIcon);
+  $cardDiv.append($labelSpan, $cardIcon);
 
   return $cardDiv;
 }
@@ -986,3 +991,56 @@ $slider.addEventListener('mouseup', function (event) {
     }
   }
 });
+
+$slider.addEventListener('mouseover', function (event) { // add
+  handleLabelHover(event);
+});
+
+function handleLabelHover(event) { // add label to currently hovered collection card and remove from rest
+  if (event.target.tagName === 'IMG') {
+    var $collectionLabels = document.querySelectorAll('.label');
+    var $hoveredDiv = event.target.closest('div');
+    var $hoveredLabel = $hoveredDiv.firstElementChild;
+    for (let i = 0; i < $collectionLabels.length; i++) { // iterate through all labels
+      if ($hoveredLabel === $collectionLabels[i]) { // if label is the one we want...
+        var hoveredDataId = $hoveredDiv.getAttribute(['data-collection-id']); // grab the dataID
+        for (let i = 0; i < data.collectionData.fish.length; i++) { // iterate through all collection data
+          if (data.collectionData.fish[i].name === hoveredDataId) { // find the collection item that matches the dataID
+            if (data.collectionData.fish[i].acquired === true) {
+              $hoveredLabel.textContent = toTitleCase(data.collectionData.fish[i].name); // if the fish is acquired, add it's name
+              $hoveredLabel.classList.remove('label-not-acquired-bg');
+              $hoveredLabel.classList.add('label-acquired-bg');
+            } else {
+              $hoveredLabel.textContent = '???'; // else, add the question mark text
+              $hoveredLabel.classList.add('label-not-acquired-bg');
+              $hoveredLabel.classList.remove('label-acquired-bg');
+            }
+          }
+        }
+        $collectionLabels[i].classList.remove('hidden');
+      } else {
+        $collectionLabels[i].classList.add('hidden');
+      }
+    }
+  }
+}
+
+$slider.addEventListener('mouseleave', function (event) {
+  removeAllLabels();
+});
+
+function removeAllLabels(event) { // remove all labels from collection cards
+  var $collectionLabels = document.querySelectorAll('.label');
+  for (let i = 0; i < $collectionLabels.length; i++) {
+    $collectionLabels[i].classList.add('hidden');
+  }
+}
+
+function toTitleCase(string) {
+  var output = '';
+  output += string[0].toUpperCase();
+  for (let i = 1; i < string.length; i++) {
+    output += string[i];
+  }
+  return output;
+}

@@ -267,6 +267,7 @@ i:active {
 }
 
 .collection-card {
+  position: relative;
   border: 2px solid grey;
   margin-right: -2px;
   margin-bottom: -2px;
@@ -287,6 +288,37 @@ i:active {
 .collection-icon:hover {
   transform: scale(1.05);
   transition-duration: 0.5s;
+}
+
+.label {
+  position: absolute;
+  border: 1px solid grey;
+  color: black;
+  border-radius: 5px;
+  padding: 0.5rem;
+  left: 4rem;
+  top: -1rem;
+  z-index: 2;
+  opacity: 0.9;
+  animation: fadein ease 0.6s;
+}
+
+.label-acquired-bg {
+  background-color: rgb(176, 241, 201);
+}
+
+.label-not-acquired-bg {
+  background-color: rgb(241, 202, 202);
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.9;
+  }
 }
 
 /* Functional CSS Classes */
