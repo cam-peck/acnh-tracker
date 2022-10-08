@@ -43,6 +43,14 @@
   width: 100%;
 }
 
+.column-25 {
+  width: 25%;
+}
+
+.column-75 {
+  width: 75%;
+}
+
 .fruit-card {
   flex-basis: 17%;
 }

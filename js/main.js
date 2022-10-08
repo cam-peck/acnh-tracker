@@ -464,7 +464,7 @@ function renderEvent(eventObj) {
   /*
   * <li class="row-no-wrap justify-and-align-center">
   *   <img class="event-icon fb-5" src="images/Events/shopping-cart.png">
-  *    <h3 class="fw-500 mtb-0 mr-1-rem fb-80">Grape Harvest Festival Nook Shopping event begins</h3>
+  *    <h3 class="fw-500 mtb-0 mr-1-rem fb-85">Grape Harvest Festival Nook Shopping event begins</h3>
   *    <h3 class="fw-500 mtb-0 event-date fb-15">09/01</h3>
   *  </li>
   */
@@ -482,7 +482,7 @@ function renderEvent(eventObj) {
   $newImg.className = 'event-icon fb-5';
 
   var $eventNameH3 = document.createElement('h3');
-  $eventNameH3.className = 'fw-500 mtb-0 mr-1-rem fb-80';
+  $eventNameH3.className = 'fw-500 mtb-0 mr-1-rem fb-85';
   $eventNameH3.textContent = eventObj.event;
 
   var $eventDateH3 = document.createElement('h3');
@@ -984,10 +984,14 @@ function renderCollection(collectionType) {
 
 // Collection Interactivity //
 
+var $closeModal = document.querySelector('.close-modal-btn');
+var $modal = document.querySelector('.modal');
+
 $slider.addEventListener('mouseup', function (event) {
   if (event.target.tagName === 'IMG') {
     if (!isDragging) {
       // console.log('clicked');
+      $modal.classList.remove('hidden');
     }
   }
 });
@@ -1043,4 +1047,10 @@ function toTitleCase(string) {
     output += string[i];
   }
   return output;
+}
+
+$closeModal.addEventListener('click', closeModal);
+
+function closeModal() {
+  $modal.classList.add('hidden');
 }
