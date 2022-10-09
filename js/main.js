@@ -600,122 +600,137 @@ function getCurrentEvents() { // call the API and grab current events
 
 function getFishCollectionItems() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/fish');
+  xhr.open('GET', 'https://api.nookipedia.com/nh/fish');
   xhr.responseType = 'json';
+  xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     var acnhFish = [];
     for (let i = 0; i < xhr.response.length; i++) {
       var currentFish = {};
-      currentFish.name = xhr.response[i].name['name-EUen'];
-      currentFish.iconUrl = xhr.response[i].icon_uri;
-      currentFish.image = xhr.response[i].image_uri;
-      currentFish['price-reg'] = xhr.response[i].price;
-      currentFish['price-cj'] = xhr.response[i]['price-cj'];
-      currentFish.location = xhr.response[i].availability.location;
-      currentFish.time = xhr.response[i].availability['time-array'];
-      currentFish.shadow = xhr.response[i].shadow;
-      currentFish['season-north'] = xhr.response[i].availability['month-array-northern'];
-      currentFish['season-south'] = xhr.response[i].availability['month-array-southern'];
+      currentFish.name = xhr.response[i].name;
+      currentFish.number = xhr.response[i].number;
+      currentFish.iconUrl = xhr.response[i].image_url;
+      currentFish.imageUrl = xhr.response[i].render_url;
+      currentFish['price-reg'] = xhr.response[i].sell_nook;
+      currentFish['price-cj'] = xhr.response[i].sell_cj;
+      currentFish.location = xhr.response[i].location;
+      currentFish.shadow = xhr.response[i].shadow_size;
+      currentFish['north-availability'] = xhr.response[i].north.availability_array;
+      currentFish['south-availability'] = xhr.response[i].south.availability_array;
       currentFish.acquired = false;
       acnhFish.push(currentFish);
     }
-    renderTable(acnhFish); // render the fish table for the main collection page
-    data.collectionData.fish = acnhFish;
+    var sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fish by number property
+    renderTable(sortedFish); // render the fish table for the main collection page
+    data.collectionData.fish = sortedFish;
   });
   xhr.send();
 }
 
 function getBugCollectionItems() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/bugs');
+  xhr.open('GET', 'https://api.nookipedia.com/nh/bugs');
   xhr.responseType = 'json';
+  xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     var acnhBugs = [];
     for (let i = 0; i < xhr.response.length; i++) {
       var currentBug = {};
-      currentBug.name = xhr.response[i].name['name-EUen'];
-      currentBug.iconUrl = xhr.response[i].icon_uri;
-      currentBug.image = xhr.response[i].image_uri;
-      currentBug['price-reg'] = xhr.response[i].price;
-      currentBug['price-flick'] = xhr.response[i]['price-flick'];
-      currentBug.location = xhr.response[i].availability.location;
-      currentBug.time = xhr.response[i].availability['time-array'];
-      currentBug['season-north'] = xhr.response[i].availability['month-array-northern'];
-      currentBug['season-south'] = xhr.response[i].availability['month-array-southern'];
+      currentBug.name = xhr.response[i].name;
+      currentBug.number = xhr.response[i].number;
+      currentBug.iconUrl = xhr.response[i].image_url;
+      currentBug.imageUrl = xhr.response[i].render_url;
+      currentBug['price-reg'] = xhr.response[i].sell_nook;
+      currentBug['price-flick'] = xhr.response[i].sell_flick;
+      currentBug.location = xhr.response[i].location;
+      currentBug['north-availability'] = xhr.response[i].north.availability_array;
+      currentBug['south-availability'] = xhr.response[i].south.availability_array;
       currentBug.acquired = false;
       acnhBugs.push(currentBug);
     }
-    renderTable(acnhBugs); // render the fish table for the main collection page
-    data.collectionData.bugs = acnhBugs;
+    var sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the bugs by number property
+    renderTable(sortedBugs); // render the fish table for the main collection page
+    data.collectionData.bugs = sortedBugs;
   });
   xhr.send();
 }
 
 function getSeaCollectionItems() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/sea');
+  xhr.open('GET', 'https://api.nookipedia.com/nh/sea');
   xhr.responseType = 'json';
+  xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     var acnhSea = [];
     for (let i = 0; i < xhr.response.length; i++) {
       var currentSea = {};
-      currentSea.name = xhr.response[i].name['name-EUen'];
-      currentSea.iconUrl = xhr.response[i].icon_uri;
-      currentSea.image = xhr.response[i].image_uri;
-      currentSea['price-reg'] = xhr.response[i].price;
-      currentSea.speed = xhr.response[i].speed;
-      currentSea.shadow = xhr.response[i].shadow;
-      currentSea.time = xhr.response[i].availability['time-array'];
-      currentSea['season-north'] = xhr.response[i].availability['month-array-northern'];
-      currentSea['season-south'] = xhr.response[i].availability['month-array-southern'];
+      currentSea.name = xhr.response[i].name;
+      currentSea.number = xhr.response[i].number;
+      currentSea.iconUrl = xhr.response[i].image_url;
+      currentSea.imageUrl = xhr.response[i].render_url;
+      currentSea['price-reg'] = xhr.response[i].sell_nook;
+      currentSea['shadow-size'] = xhr.response.shadow_size;
+      currentSea['shadow-movement'] = xhr.response.shadow_movement;
+      currentSea['north-availability'] = xhr.response[i].north.availability_array;
+      currentSea['south-availability'] = xhr.response[i].south.availability_array;
       currentSea.acquired = false;
       acnhSea.push(currentSea);
     }
-    renderTable(acnhSea); // render the fish table for the main collection page
-    data.collectionData.sea = acnhSea;
+    var sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the sea creatures by number property
+    renderTable(sortedSea); // render the fish table for the main collection page
+    data.collectionData.sea = sortedSea;
   });
   xhr.send();
 }
 
 function getFossilCollectionItems() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/fossils');
+  xhr.open('GET', 'https://api.nookipedia.com/nh/fossils/individuals');
   xhr.responseType = 'json';
+  xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     var acnhFossils = [];
     for (let i = 0; i < xhr.response.length; i++) {
       var currentFossil = {};
-      currentFossil.name = xhr.response[i].name['name-EUen'];
-      currentFossil.iconUrl = xhr.response[i].image_uri;
-      currentFossil.image = xhr.response[i].image_uri;
-      currentFossil.price = xhr.response[i].price;
+      currentFossil.name = xhr.response[i].name;
+      currentFossil.iconUrl = xhr.response[i].image_url;
+      currentFossil.imageUrl = xhr.response[i].image_url;
+      currentFossil['price-reg'] = xhr.response[i].sell_nook;
       currentFossil.acquired = false;
       acnhFossils.push(currentFossil);
     }
-    renderTable(acnhFossils); // render the fish table for the main collection page
-    data.collectionData.fossils = acnhFossils;
+    var sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
+    renderTable(sortedFossils); // render the fish table for the main collection page
+    data.collectionData.fossils = sortedFossils;
   });
   xhr.send();
 }
 
 function getArtCollectionItems() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://acnhapi.com/v1a/art');
+  xhr.open('GET', 'https://api.nookipedia.com/nh/art');
   xhr.responseType = 'json';
+  xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     var acnhArt = [];
     for (let i = 0; i < xhr.response.length; i++) {
       var currentArt = {};
-      currentArt.name = xhr.response[i].name['name-EUen'];
-      currentArt.iconUrl = xhr.response[i].image_uri;
-      currentArt.image = xhr.response[i].image_uri;
-      currentArt['buy-price'] = xhr.response[i]['buy-price'];
-      currentArt['sell-price'] = xhr.response[i]['sell-price'];
+      currentArt.name = xhr.response[i].name;
+      currentArt.iconUrl = xhr.response[i].image_url;
+      currentArt.imageUrl = xhr.response[i].image_url;
+      currentArt.hasFake = xhr.response[i].has_fake;
+      if (currentArt.hasFake) {
+        currentArt.fakeVersion = xhr.response[i].fake_image_url;
+      }
+      currentArt['price-reg'] = xhr.response[i].sell_nook;
+      currentArt.availability = xhr.response[i].availability;
+      currentArt.authenticity = xhr.response[i].authenticity;
       currentArt.acquired = false;
       acnhArt.push(currentArt);
     }
-    renderTable(acnhArt); // render the fish table for the main collection page
-    data.collectionData.art = acnhArt;
+    var sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
+    renderTable(sortedArt); // render the fish table for the main collection page
+    data.collectionData.art = sortedArt;
   });
   xhr.send();
 }
