@@ -407,11 +407,13 @@ i:active {
 }
 
 .fish-shadow-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.25rem;
 }
 
 .shadow-reference {
@@ -422,6 +424,19 @@ i:active {
 
 .fish-size-img {
   width: 70px;
+  border-radius: 8px;
+}
+
+.fish-size-label {
+  position: absolute;
+  color: black;
+  width: 27px;
+  height: 27px;
+  left: 5px;
+  top: -5px;
+  background-color: white;
+  border: 2px solid #0092e3;
+  border-radius: 50%;
 }
 
 .dark-overlay {
@@ -444,7 +459,7 @@ i:active {
   border: none;
   border-radius: 8px;
   font-size: 1rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
 }
 
 .caught-mark {
