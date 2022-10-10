@@ -669,8 +669,8 @@ function getSeaCollectionItems() {
       currentSea.iconUrl = xhr.response[i].image_url;
       currentSea.imageUrl = xhr.response[i].render_url;
       currentSea['price-reg'] = xhr.response[i].sell_nook;
-      currentSea['shadow-size'] = xhr.response.shadow_size;
-      currentSea['shadow-movement'] = xhr.response.shadow_movement;
+      currentSea['shadow-size'] = xhr.response[i].shadow_size;
+      currentSea['shadow-movement'] = xhr.response[i].shadow_movement;
       currentSea['north-availability'] = xhr.response[i].north.availability_array;
       currentSea['south-availability'] = xhr.response[i].south.availability_array;
       currentSea.acquired = false;
@@ -1005,7 +1005,9 @@ var $modal = document.querySelector('.modal');
 $slider.addEventListener('mouseup', function (event) {
   if (event.target.tagName === 'IMG') {
     if (!isDragging) {
-      // console.log('clicked');
+      if (data.currentCollection === 'fish') {
+        renderFishModal(event.target.closest('div').getAttribute(['data-collection-id']));
+      }
       $modal.classList.remove('hidden');
     }
   }
@@ -1068,4 +1070,25 @@ $closeModal.addEventListener('click', closeModal);
 
 function closeModal() {
   $modal.classList.add('hidden');
+}
+
+// Fish Collection Modal //
+var $fishName = document.querySelector('div.fish-modal h2.modal-title');
+var $fishImg = document.querySelector('div.fish-modal img.modal-hero-img');
+// var $fishAcquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
+var $fishLocation = document.querySelector('div.fish-modal p.location');
+var $fishTime = document.querySelector('div.fish-modal p.time');
+// var $fishShadow = document.querySelector('div.fish-modal img.shadow');
+// var $fishMonths = document.querySelectorAll('div.fish-modal div.month-card');
+
+function renderFishModal(fishToRender) {
+  for (let i = 0; i < data.collectionData.fish.length; i++) {
+    if (data.collectionData.fish[i].name === fishToRender) {
+      var currentFish = data.collectionData.fish[i];
+      $fishName.textContent = currentFish.name;
+      $fishTime.textContent = currentFish['north-availability'][0].time;
+      $fishLocation.textContent = currentFish.location;
+      $fishImg.src = currentFish.imageUrl;
+    }
+  }
 }
