@@ -616,7 +616,9 @@ function getFishCollectionItems() {
       currentFish.location = xhr.response[i].location;
       currentFish.shadow = xhr.response[i].shadow_size;
       currentFish['north-availability'] = xhr.response[i].north.availability_array;
+      currentFish['north-months'] = xhr.response[i].north.months_array;
       currentFish['south-availability'] = xhr.response[i].south.availability_array;
+      currentFish['south-months'] = xhr.response[i].south.months_array;
       currentFish.acquired = false;
       acnhFish.push(currentFish);
     }
@@ -644,7 +646,9 @@ function getBugCollectionItems() {
       currentBug['price-flick'] = xhr.response[i].sell_flick;
       currentBug.location = xhr.response[i].location;
       currentBug['north-availability'] = xhr.response[i].north.availability_array;
+      currentBug['north-months'] = xhr.response[i].north.months_array;
       currentBug['south-availability'] = xhr.response[i].south.availability_array;
+      currentBug['south-months'] = xhr.response[i].south.months_array;
       currentBug.acquired = false;
       acnhBugs.push(currentBug);
     }
@@ -672,7 +676,9 @@ function getSeaCollectionItems() {
       currentSea['shadow-size'] = xhr.response[i].shadow_size;
       currentSea['shadow-movement'] = xhr.response[i].shadow_movement;
       currentSea['north-availability'] = xhr.response[i].north.availability_array;
+      currentSea['north-months'] = xhr.response[i].north.months_array;
       currentSea['south-availability'] = xhr.response[i].south.availability_array;
+      currentSea['south-months'] = xhr.response[i].south.months_array;
       currentSea.acquired = false;
       acnhSea.push(currentSea);
     }
@@ -859,8 +865,6 @@ var isDragging = false;
 var StartX;
 var scrollLeft;
 
-// Desktop //
-
 $slider.addEventListener('mousedown', function (event) {
   isDown = true;
   $slider.classList.add('active');
@@ -1002,7 +1006,7 @@ function renderCollection(collectionType) {
 var $closeModal = document.querySelector('.close-modal-btn');
 var $modal = document.querySelector('.modal');
 
-$slider.addEventListener('mouseup', function (event) {
+$slider.addEventListener('mouseup', function (event) { // handles the click events on the collection table
   if (event.target.tagName === 'IMG') {
     if (!isDragging) {
       if (data.currentCollection === 'fish') {
@@ -1075,20 +1079,65 @@ function closeModal() {
 // Fish Collection Modal //
 var $fishName = document.querySelector('div.fish-modal h2.modal-title');
 var $fishImg = document.querySelector('div.fish-modal img.modal-hero-img');
-// var $fishAcquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
 var $fishLocation = document.querySelector('div.fish-modal p.location');
 var $fishTime = document.querySelector('div.fish-modal p.time');
-// var $fishShadow = document.querySelector('div.fish-modal img.shadow');
-// var $fishMonths = document.querySelectorAll('div.fish-modal div.month-card');
+var $fishShadowImg = document.querySelector('div.fish-modal img.shadow');
+var $fishShadowLabel = document.querySelector('div.fish-modal p.fish-size-label');
+var $fishMonths = document.querySelectorAll('div.fish-modal div.month-card');
+var $fishAcquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
 
-function renderFishModal(fishToRender) {
+$fishAcquiredBtn.addEventListener('click', function (event) {
+  // console.log('clicked');
+  // grab the fish from the collection data and check it's acquired property
+  // add the fish data-id to this button? How to prevent reiterating through all fish...?
+
+  // if acquired is false...
+  // set acquired to true
+  // change button background to green
+  // change x icon to checkmark icon
+  // change fish background color from dark to colorful
+  // change title text from ??? to fish name
+
+  // if acquired is true...
+  // do the reverse of above!
+});
+
+function renderFishModal(fishToRender) { // takes a fish name of the fish to be rendered for the modal and renders it
   for (let i = 0; i < data.collectionData.fish.length; i++) {
     if (data.collectionData.fish[i].name === fishToRender) {
       var currentFish = data.collectionData.fish[i];
       $fishName.textContent = currentFish.name;
-      $fishTime.textContent = currentFish['north-availability'][0].time;
-      $fishLocation.textContent = currentFish.location;
       $fishImg.src = currentFish.imageUrl;
+      $fishLocation.textContent = currentFish.location;
+      $fishTime.textContent = currentFish['north-availability'][0].time;
+      const curFishShadowData = getFishShadowImg(currentFish.shadow);
+      $fishShadowImg.src = curFishShadowData.src;
+      $fishShadowLabel.textContent = curFishShadowData.label;
+      for (let i = 0; i < $fishMonths.length; i++) { // iterate through month nodes and highlight only active months
+        if (currentFish['north-months'].includes(parseInt($fishMonths[i].getAttribute(['data-month-id'])))) {
+          $fishMonths[i].classList.add('month-active');
+        } else {
+          $fishMonths[i].classList.remove('month-active');
+        }
+      }
+    }
+  }
+}
+
+function getFishShadowImg(shadowSize) { // returns the appropriate link and label number for a fish shadow size input
+  const apiShadowSizes = {
+    Tiny: { src: 'images/Fish/fish-size-1.png', label: 1 },
+    Small: { src: 'images/Fish/fish-size-2.png', label: 2 },
+    Medium: { src: 'images/Fish/fish-size-3.png', label: 3 },
+    Large: { src: 'images/Fish/fish-size-4.png', label: 4 },
+    'Very large': { src: 'images/Fish/fish-size-5.png', label: 5 },
+    Huge: { src: 'images/Fish/fish-size-6.png', label: 6 },
+    'Very large (finned)': { src: 'images/Fish/fish-size-shark.jpg', label: 'fin' },
+    Long: { src: 'images/Fish/fish-size-eel.jpg', label: 'eel' }
+  };
+  for (const key in apiShadowSizes) {
+    if (shadowSize === key) {
+      return apiShadowSizes[key];
     }
   }
 }
