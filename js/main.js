@@ -1133,6 +1133,7 @@ function handleAcquiredFish(fishToRender) {
   $fishAcquiredIcon.className = 'fa-regular fa-circle-check caught-mark';
   $fishImg.classList.remove('not-acquired-overlay');
   $fishName.textContent = fishToRender;
+  changeIconFilter('remove', fishToRender);
 }
 
 function handleNotAcquiredFish(fishToRender) {
@@ -1140,6 +1141,20 @@ function handleNotAcquiredFish(fishToRender) {
   $fishAcquiredIcon.className = 'fa-regular fa-circle-xmark caught-mark';
   $fishImg.classList.add('not-acquired-overlay');
   $fishName.textContent = '???';
+  changeIconFilter('add', fishToRender);
+}
+
+function changeIconFilter(action, iconName) {
+  var $allCards = document.querySelectorAll('.collection-card');
+  for (let i = 0; i < $allCards.length; i++) {
+    if ($allCards[i].getAttribute(['data-collection-id']) === iconName) {
+      if (action === 'remove') {
+        $allCards[i].children[1].classList.remove('not-acquired-overlay');
+      } else {
+        $allCards[i].children[1].classList.add('not-acquired-overlay');
+      }
+    }
+  }
 }
 
 function getFishShadowImg(shadowSize) { // returns the appropriate link and label number for a fish shadow size input
