@@ -262,7 +262,6 @@ i:active {
 .collection-icon {
   width: 100%;
   padding: 1rem;
-  filter: brightness(0) opacity(0.15);
   -webkit-user-drag: none;
 }
 
@@ -309,6 +308,14 @@ i:active {
 
 .label-not-acquired-bg {
   background-color: rgb(241, 202, 202);
+}
+
+.caught-btn-red {
+  background-color: rgb(245, 112, 112);
+}
+
+.caught-btn-green {
+  background-color: rgb(176, 241, 201);
 }
 
 @keyframes fadein {
@@ -361,6 +368,10 @@ i:active {
 .modal-hero-img {
   max-width: 300px;
   max-height: 200px;
+}
+
+.not-acquired-overlay {
+  filter: brightness(0) opacity(0.15);
 }
 
 .bells-img {
@@ -455,7 +466,6 @@ i:active {
 }
 
 .acquired-btn {
-  background-color: rgb(245, 112, 112);
   color: white;
   border: none;
   border-radius: 8px;

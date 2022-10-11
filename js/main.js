@@ -913,7 +913,7 @@ $collectionContainer.addEventListener('click', function (event) {
 function renderIcon(object) { // render an icon square with data from acnhObject
   /*  <div data-collection-id="" class="collection-card">
   *      <span class="label hidden">???</span>
-  *      <img class="collection-icon" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
+  *      <img class="collection-icon not-acquired-overlay" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
   *   </div>
   */
   var $cardDiv = document.createElement('div');
@@ -925,7 +925,12 @@ function renderIcon(object) { // render an icon square with data from acnhObject
   $labelSpan.textContent = '???';
 
   var $cardIcon = document.createElement('img');
-  $cardIcon.className = 'collection-icon';
+  if (object.acquired === false) {
+    $cardIcon.className = 'collection-icon not-acquired-overlay';
+  } else {
+    $cardIcon.className = 'collection-icon';
+  }
+
   $cardIcon.src = object.iconUrl;
   $cardIcon.alt = object.name + 'img';
 
@@ -1085,43 +1090,56 @@ var $fishShadowImg = document.querySelector('div.fish-modal img.shadow');
 var $fishShadowLabel = document.querySelector('div.fish-modal p.fish-size-label');
 var $fishMonths = document.querySelectorAll('div.fish-modal div.month-card');
 var $fishAcquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
+var $fishAcquiredIcon = document.querySelector('div.fish-modal i.caught-mark');
 
-$fishAcquiredBtn.addEventListener('click', function (event) {
-  // console.log('clicked');
-  // grab the fish from the collection data and check it's acquired property
-  // add the fish data-id to this button? How to prevent reiterating through all fish...?
-
-  // if acquired is false...
-  // set acquired to true
-  // change button background to green
-  // change x icon to checkmark icon
-  // change fish background color from dark to colorful
-  // change title text from ??? to fish name
-
-  // if acquired is true...
-  // do the reverse of above!
+$fishAcquiredBtn.addEventListener('click', function () {
+  if (data.currentCollectionItem.acquired === false) {
+    data.currentCollectionItem.acquired = true;
+    handleAcquiredFish(data.currentCollectionItem.name);
+  } else { // fish has been acquired --> user wants to revert to not acquired
+    data.currentCollectionItem.acquired = false;
+    handleNotAcquiredFish(data.currentCollectionItem.name);
+  }
 });
 
 function renderFishModal(fishToRender) { // takes a fish name of the fish to be rendered for the modal and renders it
   for (let i = 0; i < data.collectionData.fish.length; i++) {
     if (data.collectionData.fish[i].name === fishToRender) {
-      var currentFish = data.collectionData.fish[i];
-      $fishName.textContent = currentFish.name;
-      $fishImg.src = currentFish.imageUrl;
-      $fishLocation.textContent = currentFish.location;
-      $fishTime.textContent = currentFish['north-availability'][0].time;
-      const curFishShadowData = getFishShadowImg(currentFish.shadow);
+      data.currentCollectionItem = data.collectionData.fish[i];
+      $fishImg.src = data.collectionData.fish[i].imageUrl;
+      $fishLocation.textContent = data.collectionData.fish[i].location;
+      $fishTime.textContent = data.collectionData.fish[i]['north-availability'][0].time;
+      const curFishShadowData = getFishShadowImg(data.collectionData.fish[i].shadow);
       $fishShadowImg.src = curFishShadowData.src;
       $fishShadowLabel.textContent = curFishShadowData.label;
       for (let i = 0; i < $fishMonths.length; i++) { // iterate through month nodes and highlight only active months
-        if (currentFish['north-months'].includes(parseInt($fishMonths[i].getAttribute(['data-month-id'])))) {
+        if (data.collectionData.fish[i]['north-months'].includes(parseInt($fishMonths[i].getAttribute(['data-month-id'])))) {
           $fishMonths[i].classList.add('month-active');
         } else {
           $fishMonths[i].classList.remove('month-active');
         }
       }
+      if (data.collectionData.fish[i].acquired === true) {
+        handleAcquiredFish(fishToRender);
+      } else {
+        handleNotAcquiredFish(fishToRender);
+      }
     }
   }
+}
+
+function handleAcquiredFish(fishToRender) {
+  $fishAcquiredBtn.className = 'acquired-btn caught-btn-green';
+  $fishAcquiredIcon.className = 'fa-regular fa-circle-check caught-mark';
+  $fishImg.classList.remove('not-acquired-overlay');
+  $fishName.textContent = fishToRender;
+}
+
+function handleNotAcquiredFish(fishToRender) {
+  $fishAcquiredBtn.className = 'acquired-btn caught-btn-red';
+  $fishAcquiredIcon.className = 'fa-regular fa-circle-xmark caught-mark';
+  $fishImg.classList.add('not-acquired-overlay');
+  $fishName.textContent = '???';
 }
 
 function getFishShadowImg(shadowSize) { // returns the appropriate link and label number for a fish shadow size input
