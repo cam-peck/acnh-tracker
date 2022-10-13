@@ -1005,6 +1005,7 @@ function renderCollection(collectionType) {
     $collectionProgressCount.textContent = '0/43';
     data.currentCollection = 'art';
   }
+  updateCurrentCollectionProgress();
 }
 
 // Collection Interactivity //
@@ -1135,6 +1136,7 @@ function handleAcquiredFish(fishToRender) {
   $fishImg.classList.remove('not-acquired-overlay');
   $fishName.textContent = fishToRender;
   changeIconFilter('remove', fishToRender);
+  updateCurrentCollectionProgress();
 }
 
 function handleNotAcquiredFish(fishToRender) {
@@ -1143,6 +1145,7 @@ function handleNotAcquiredFish(fishToRender) {
   $fishImg.classList.add('not-acquired-overlay');
   $fishName.textContent = '???';
   changeIconFilter('add', fishToRender);
+  updateCurrentCollectionProgress();
 }
 
 function changeIconFilter(action, iconName) { // either adds or removes the dark icon filter
@@ -1200,14 +1203,23 @@ function inventoryCollection(collectionType) { // returns a string with the curr
 function updateHomeCollectionProgress() { // update collection status of all home page collections
   const collections = ['fish', 'bugs', 'sea', 'fossils', 'art'];
   for (let i = 0; i < collections.length; i++) {
-    const currentCollection = document.querySelector(`[data-collection-type-id="${collections[i]}"]`);
-    const $currentLabel = currentCollection.children[2].children[0];
+    const $currentCollection = document.querySelector(`[data-collection-type-id="${collections[i]}"]`);
+    const $currentLabel = $currentCollection.children[2].children[0];
     $currentLabel.textContent = inventoryCollection(collections[i]);
-    const $currentProgressBar = currentCollection.children[1].children[0];
+    const $currentProgressBar = $currentCollection.children[1].children[0];
     const splitStatus = inventoryCollection(collections[i]).split('/');
     const percentDone = Number(splitStatus[0]) / Number(splitStatus[1]);
     $currentProgressBar.style.width = `${percentDone * 100}%`;
   }
+}
+
+function updateCurrentCollectionProgress() {
+  const $currentCollectionLabel = document.querySelector('.collection-count.current-collection');
+  $currentCollectionLabel.textContent = inventoryCollection(data.currentCollection);
+  const $currentCollectionBar = document.querySelector('.progress-bar.current-collection');
+  const splitStatus = inventoryCollection(data.currentCollection).split('/');
+  const percentDone = Number(splitStatus[0]) / Number(splitStatus[1]);
+  $currentCollectionBar.style.width = `${percentDone * 100}%`;
 }
 
 // BUGS TO SQUASH

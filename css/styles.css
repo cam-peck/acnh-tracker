@@ -194,7 +194,7 @@ a {
 }
 
 .collection-status {
-  flex-basis: 5%;
+  width: 6%;
 }
 
 /* Edit Town */
@@ -212,7 +212,7 @@ i:active {
 
 .progress {
   margin: 1rem;
-  flex-basis: 95%;
+  width: 90%;
   border-radius: 12px;
   height: 30px;
   background-color: #d9d9d9;
