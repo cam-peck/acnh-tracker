@@ -439,6 +439,7 @@ function renderHomePage(townObj) {
   for (let i = 0; i < eventsToRender.length; i++) {
     $eventsContainer.append(renderEvent(eventsToRender[i]));
   }
+  updateHomeCollectionProgress();
 }
 
 function getRandomQuote() {
@@ -564,7 +565,7 @@ function getVillagerNames() { // call the API and grab all villager names and ic
 
 function getCurrentEvents() { // call the API and grab current events
   var xhr = new XMLHttpRequest();
-  var params = 'month=September&year=2022';
+  var params = 'month=October&year=2022';
   xhr.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params);
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
@@ -577,7 +578,7 @@ function getCurrentEvents() { // call the API and grab current events
       }
     }
     var xhr2 = new XMLHttpRequest();
-    var params2 = 'month=October&year=2022';
+    var params2 = 'month=November&year=2022';
     xhr2.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params2);
     xhr2.responseType = 'json';
     xhr2.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
@@ -967,7 +968,7 @@ function renderCollection(collectionType) {
     $collectionImage.src = 'images/Collections/fish-col.png';
     $collectionProgressCount.textContent = '0/80';
     data.currentCollection = 'fish';
-  } else if (collectionType === 'bug') {
+  } else if (collectionType === 'bugs') {
     if (data.collectionData.bugs === undefined) {
       getBugCollectionItems();
     } else {
@@ -975,7 +976,7 @@ function renderCollection(collectionType) {
     }
     $collectionImage.src = 'images/Collections/butterfly-col.png';
     $collectionProgressCount.textContent = '0/80';
-    data.currentCollection = 'bug';
+    data.currentCollection = 'bugs';
   } else if (collectionType === 'sea') {
     if (data.collectionData.sea === undefined) {
       getSeaCollectionItems();
@@ -993,7 +994,7 @@ function renderCollection(collectionType) {
     }
     $collectionImage.src = 'images/Collections/fossil-col.png';
     $collectionProgressCount.textContent = '0/73';
-    data.currentCollection = 'fossil';
+    data.currentCollection = 'fossils';
   } else {
     if (data.collectionData.art === undefined) {
       getArtCollectionItems();
@@ -1034,9 +1035,9 @@ function handleLabelHover(event) { // add label to currently hovered collection 
     for (let i = 0; i < $collectionLabels.length; i++) { // iterate through all labels
       if ($hoveredLabel === $collectionLabels[i]) { // if label is the one we want...
         var hoveredDataId = $hoveredDiv.getAttribute(['data-collection-id']); // grab the dataID
-        for (let i = 0; i < data.collectionData.fish.length; i++) { // iterate through all collection data
-          if (data.collectionData.fish[i].name === hoveredDataId) { // find the collection item that matches the dataID
-            if (data.collectionData.fish[i].acquired === true) {
+        for (let i = 0; i < data.collectionData[data.currentCollection].length; i++) { // iterate through all collection data
+          if (data.collectionData[data.currentCollection][i].name === hoveredDataId) { // find the collection item that matches the dataID
+            if (data.collectionData[data.currentCollection][i].acquired === true) {
               $hoveredLabel.textContent = toTitleCase(data.collectionData.fish[i].name); // if the fish is acquired, add it's name
               $hoveredLabel.classList.remove('label-not-acquired-bg');
               $hoveredLabel.classList.add('label-acquired-bg');
@@ -1144,7 +1145,7 @@ function handleNotAcquiredFish(fishToRender) {
   changeIconFilter('add', fishToRender);
 }
 
-function changeIconFilter(action, iconName) {
+function changeIconFilter(action, iconName) { // either adds or removes the dark icon filter
   var $allCards = document.querySelectorAll('.collection-card');
   for (let i = 0; i < $allCards.length; i++) {
     if ($allCards[i].getAttribute(['data-collection-id']) === iconName) {
@@ -1174,3 +1175,43 @@ function getFishShadowImg(shadowSize) { // returns the appropriate link and labe
     }
   }
 }
+
+function inventoryCollection(collectionType) { // returns a string with the current collection count and collection-max
+  var collectionMaxes = {
+    fish: 80,
+    bugs: 80,
+    sea: 40,
+    fossils: 73,
+    art: 43
+  };
+  if (collectionMaxes[collectionType]) {
+    const total = data.collectionData[collectionType].reduce((total, collection) => {
+      if (collection.acquired) {
+        return total + 1;
+      }
+      return total;
+    }, 0);
+    const currentCollectionCount = total;
+    const currentCollectionMax = collectionMaxes[collectionType];
+    return currentCollectionCount + '/' + currentCollectionMax;
+  }
+}
+
+function updateHomeCollectionProgress() { // update collection status of all home page collections
+  const collections = ['fish', 'bugs', 'sea', 'fossils', 'art'];
+  for (let i = 0; i < collections.length; i++) {
+    const currentCollection = document.querySelector(`[data-collection-type-id="${collections[i]}"]`);
+    const $currentLabel = currentCollection.children[2].children[0];
+    $currentLabel.textContent = inventoryCollection(collections[i]);
+    const $currentProgressBar = currentCollection.children[1].children[0];
+    const splitStatus = inventoryCollection(collections[i]).split('/');
+    const percentDone = Number(splitStatus[0]) / Number(splitStatus[1]);
+    $currentProgressBar.style.width = `${percentDone * 100}%`;
+  }
+}
+
+// BUGS TO SQUASH
+// collections need to be attached to town object somehow --> either current town or towns
+// when editing, after clicking home or towns the editing property of data needs cleared --> it currently lingers
+// go back through and check for object iterations --> look to replace with bool
+// add a switch statement for renderCollection

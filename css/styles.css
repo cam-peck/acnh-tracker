@@ -212,25 +212,21 @@ i:active {
 
 .progress {
   margin: 1rem;
-  padding: 2px;
   flex-basis: 95%;
   border-radius: 12px;
   height: 30px;
   background-color: #d9d9d9;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0.25rem;
 }
 
-.progress .progress-bar {
-  height: 100%;
-  width: 0%;
-  border-radius: 10px;
+.progress-bar {
+  content: "";
+  max-width: 100%;
   background-color: #0092e3;
-
-  /* animation: fill-bar 3s infinite; */
-}
-
-@keyframes fill-bar {
-  from { width: 0%; }
-  to { width: 100%; }
+  border-radius: 10px;
+  height: 100%;
 }
 
 /* Collections */
