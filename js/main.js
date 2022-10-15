@@ -1135,10 +1135,143 @@ function renderTimeLocationInfo(creatureObj) {
   return $locTimeLi;
 }
 
+function renderMonths(columnWidth, creatureObj) {
+  /*   <div class="column-75 row-no-wrap gap-1-rem justify-around month-container">
+  *       <div class="fb-20">
+  *         <div data-month-id="1" class="month-card month-active">Jan</div>
+  *         <div data-month-id="5" class="month-card">May</div>
+  *         <div data-month-id="9" class="month-card">Sep</div>
+  *       </div>
+  *       <div class="fb-20">
+  *         <div data-month-id="2" class="month-card month-active">Feb</div>
+  *         <div data-month-id="6" class="month-card">Jun</div>
+  *         <div data-month-id="10" class="month-card">Oct</div>
+  *       </div>
+  *       <div class="fb-20">
+  *         <div data-month-id="3" class="month-card month-active">Mar</div>
+  *         <div data-month-id="7" class="month-card">Jul</div>
+  *         <div data-month-id="11" class="month-card month-active">Nov</div>
+  *       </div>
+  *       <div class="fb-20">
+  *         <div data-month-id="4" class="month-card month-active">Apr</div>
+  *         <div data-month-id="8" class="month-card">Aug</div>
+  *         <div data-month-id="12" class="month-card month-active">Dec</div>
+  *       </div>
+  *    </div>
+  */
+  var monthsNameArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var monthDivs = [];
+  var $monthContainerDiv = document.createElement('div');
+  $monthContainerDiv.className = 'row-no-wrap gap-1-rem justify-around month-container';
+  $monthContainerDiv.classList.add(`column-${columnWidth}`);
+
+  for (let i = 0; i < monthsNameArray.length; i++) {
+    var $monthDiv = document.createElement('div');
+    $monthDiv.setAttribute('data-month-id', i + 1);
+    $monthDiv.className = 'month-card';
+    $monthDiv.textContent = monthsNameArray[i];
+    monthDivs.push($monthDiv);
+    if (creatureObj['north-months'].includes(i + 1)) {
+      $monthDiv.classList.add('month-active');
+    }
+  }
+
+  var $monthColumnDiv1 = document.createElement('div');
+  $monthColumnDiv1.className = 'fb-20';
+  $monthColumnDiv1.append(monthDivs[0], monthDivs[4], monthDivs[8]);
+
+  var $monthColumnDiv2 = document.createElement('div');
+  $monthColumnDiv2.className = 'fb-20';
+  $monthColumnDiv2.append(monthDivs[1], monthDivs[5], monthDivs[9]);
+
+  var $monthColumnDiv3 = document.createElement('div');
+  $monthColumnDiv3.className = 'fb-20';
+  $monthColumnDiv3.append(monthDivs[2], monthDivs[6], monthDivs[10]);
+
+  var $monthColumnDiv4 = document.createElement('div');
+  $monthColumnDiv4.className = 'fb-20';
+  $monthColumnDiv4.append(monthDivs[3], monthDivs[7], monthDivs[11]);
+
+  $monthContainerDiv.append($monthColumnDiv1, $monthColumnDiv2, $monthColumnDiv3, $monthColumnDiv4);
+
+  return $monthContainerDiv;
+}
+
 // Fish Uniques //
-var $fishShadowImg = document.querySelector('div.fish-modal img.shadow');
-var $fishShadowLabel = document.querySelector('div.fish-modal p.fish-size-label');
-var $fishMonths = document.querySelectorAll('div.fish-modal div.month-card');
+
+function renderFishInfo(fishObject) {
+  /* <li class="uniques-box">
+  *   <div class="row-no-wrap mb-half-rem">
+  *     <div class="column-25 flex-column gap-half-rem">
+  *       <p class="blue-sm-tag">Shadow</p>
+  *     </div>
+  *     <div class="column-75 flex-column gap-half-rem">
+  *       <p class="blue-med-tag">Seasonality</p>
+  *     </div>
+  *   </div>
+  *   <div class="row-no-wrap gap-half-rem">
+  *     <div class="column-25 text-align-center fish-shadow-card">
+  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
+  *       <p class="fish-size-label row justify-and-align-center">6</p>
+  *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
+  *     </div>
+  *     renderMonthsHere()
+  *   </div>
+  * </li>
+  */
+  var $uniquesLi = document.createElement('li');
+  $uniquesLi.classList = 'uniques-box';
+
+  var $labelDiv = document.createElement('div');
+  $labelDiv.className = 'row-no-wrap mb-half-rem';
+
+  var $shadowColumnDiv = document.createElement('div');
+  $shadowColumnDiv.className = 'column-25 flex-column gap-half-rem';
+
+  var $shadowColumnP = document.createElement('p');
+  $shadowColumnP.className = 'blue-sm-tag';
+  $shadowColumnP.textContent = 'Shadow';
+
+  var $seasonColumnDiv = document.createElement('div');
+  $seasonColumnDiv.className = 'column-75 flex-column gap-half-rem';
+
+  var $seasonColumnP = document.createElement('p');
+  $seasonColumnP.className = 'blue-med-tag';
+  $seasonColumnP.textContent = 'Seasonality';
+
+  var $infoDiv = document.createElement('div');
+  $infoDiv.className = 'row-no-wrap gap-half-rem';
+
+  var $shadowInfoDiv = document.createElement('div');
+  $shadowInfoDiv.className = 'column-25 text-align-center fish-shadow-card';
+
+  var $shadowImg = document.createElement('img');
+  $shadowImg.className = 'fish-size-img shadow';
+  const curFishShadowData = getFishShadowImg(fishObject.shadow);
+  $shadowImg.src = curFishShadowData.src;
+  $shadowImg.alt = 'fish-shadow-img';
+
+  var $shadowP = document.createElement('p');
+  $shadowP.className = 'fish-size-label row justify-and-align-center';
+  $shadowP.textContent = curFishShadowData.label;
+
+  var $shadowLink = document.createElement('a');
+  $shadowLink.className = 'shadow-reference';
+  $shadowLink.setAttribute('target', '_blank');
+  $shadowLink.setAttribute('href', 'https://tunnaa-unnaa.tumblr.com/image/620023127192354817'); // add fishobject info here
+  $shadowLink.textContent = 'Need a reference?';
+
+  var $monthsDiv = renderMonths(75, fishObject);
+
+  $shadowInfoDiv.append($shadowImg, $shadowP, $shadowLink);
+  $infoDiv.append($shadowInfoDiv, $monthsDiv);
+  $seasonColumnDiv.append($seasonColumnP);
+  $shadowColumnDiv.append($shadowColumnP);
+  $labelDiv.append($shadowColumnDiv, $seasonColumnDiv);
+  $uniquesLi.append($labelDiv, $infoDiv);
+
+  return $uniquesLi;
+}
 
 $acquiredBtn.addEventListener('click', function () {
   if (data.currentCollectionItem.acquired === false) {
@@ -1157,16 +1290,7 @@ function renderFishModal(fishToRender) { // takes a fish name of the fish to be 
       data.currentCollectionItem = data.collectionData.fish[i];
       $heroImg.src = data.collectionData.fish[i].imageUrl;
       $infoContainer.prepend(renderTimeLocationInfo(data.collectionData.fish[i]));
-      const curFishShadowData = getFishShadowImg(data.collectionData.fish[i].shadow);
-      $fishShadowImg.src = curFishShadowData.src;
-      $fishShadowLabel.textContent = curFishShadowData.label;
-      for (let i = 0; i < $fishMonths.length; i++) { // iterate through month nodes and highlight only active months
-        if (data.collectionData.fish[i]['north-months'].includes(parseInt($fishMonths[i].getAttribute(['data-month-id'])))) {
-          $fishMonths[i].classList.add('month-active');
-        } else {
-          $fishMonths[i].classList.remove('month-active');
-        }
-      }
+      $infoContainer.append(renderFishInfo(data.collectionData.fish[i]));
       if (data.collectionData.fish[i].acquired === true) {
         handleAcquiredItem(fishToRender);
       } else {
