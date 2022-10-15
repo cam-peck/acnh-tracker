@@ -1016,9 +1016,7 @@ var $modal = document.querySelector('.modal');
 $slider.addEventListener('mouseup', function (event) { // handles the click events on the collection table
   if (event.target.tagName === 'IMG') {
     if (!isDragging) {
-      if (data.currentCollection === 'fish') {
-        renderFishModal(event.target.closest('div').getAttribute(['data-collection-id']));
-      }
+      renderCollectionModal(event.target.closest('div').getAttribute(['data-collection-id']));
       $modal.classList.remove('hidden');
     }
   }
@@ -1273,6 +1271,34 @@ function renderFishInfo(fishObject) {
   return $uniquesLi;
 }
 
+// Bugs Uniques //
+
+function renderBugInfo(bugObject) {
+  /* <li class="uniques-box">
+  *    <div class="row-no-wrap">
+  *       <p class="blue-med-tag">Seasonality</p>
+  *    </div>
+  *    <monthshere()>
+  *  </li>
+  */
+  var $uniquesLi = document.createElement('li');
+  $uniquesLi.classList = 'uniques-box';
+
+  var $labelDiv = document.createElement('div');
+  $labelDiv.className = 'row-no-wrap justify-center';
+
+  var $seasonP = document.createElement('p');
+  $seasonP.className = 'blue-med-tag-no-m mb-half-rem';
+  $seasonP.textContent = 'Seasonality';
+
+  var $monthsDiv = renderMonths(100, bugObject);
+
+  $labelDiv.append($seasonP);
+  $uniquesLi.append($labelDiv, $monthsDiv);
+
+  return $uniquesLi;
+}
+
 $acquiredBtn.addEventListener('click', function () {
   if (data.currentCollectionItem.acquired === false) {
     data.currentCollectionItem.acquired = true;
@@ -1283,18 +1309,37 @@ $acquiredBtn.addEventListener('click', function () {
   }
 });
 
-function renderFishModal(fishToRender) { // takes a fish name of the fish to be rendered for the modal and renders it
+function renderCollectionModal(itemToRender) { // takes an item name to render for the modal
   $infoContainer.textContent = ''; // clears modal of all extra add-on information
-  for (let i = 0; i < data.collectionData.fish.length; i++) {
-    if (data.collectionData.fish[i].name === fishToRender) {
-      data.currentCollectionItem = data.collectionData.fish[i];
-      $heroImg.src = data.collectionData.fish[i].imageUrl;
-      $infoContainer.prepend(renderTimeLocationInfo(data.collectionData.fish[i]));
-      $infoContainer.append(renderFishInfo(data.collectionData.fish[i]));
-      if (data.collectionData.fish[i].acquired === true) {
-        handleAcquiredItem(fishToRender);
+  for (let i = 0; i < data.collectionData[data.currentCollection].length; i++) {
+    if (data.collectionData[data.currentCollection][i].name === itemToRender) {
+      data.currentCollectionItem = data.collectionData[data.currentCollection][i];
+      $heroImg.src = data.collectionData[data.currentCollection][i].imageUrl;
+      if (data.currentCollection === 'fish' || data.currentCollection === 'bugs' || data.currentCollection === 'sea') {
+        $infoContainer.append(renderTimeLocationInfo(data.collectionData[data.currentCollection][i]));
+      }
+      switch (data.currentCollection) {
+        case 'fish':
+          $infoContainer.append(renderFishInfo(data.collectionData[data.currentCollection][i]));
+          break;
+        case 'bugs':
+          $infoContainer.append(renderBugInfo(data.collectionData[data.currentCollection][i]));
+          break;
+        case 'sea':
+          // $infoContainer.append(renderSeaInfo(data.collectionData[data.currentCollection][i]));
+          break;
+        case 'fossils':
+          // $infoContainer.append(renderFossilsInfo(data.collectionData[data.currentCollection][i]));
+          break;
+        case 'art':
+          // $infoContainer.append(renderArtInfo(data.collectionData[data.currentCollection][i]));
+          break;
+      }
+
+      if (data.collectionData[data.currentCollection][i].acquired === true) {
+        handleAcquiredItem(itemToRender);
       } else {
-        handleNotAcquiredItem(fishToRender);
+        handleNotAcquiredItem(itemToRender);
       }
     }
   }

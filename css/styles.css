@@ -389,7 +389,8 @@ i:active {
 }
 
 .blue-sm-tag,
-.blue-med-tag {
+.blue-med-tag,
+.blue-med-tag-no-m {
   background-color: #0092e3;
   color: white;
   padding: 0.3rem 0.5rem;
@@ -404,6 +405,10 @@ i:active {
 .blue-med-tag {
   width: 50%;
   margin-left: 0.5rem;
+}
+
+.blue-med-tag-no-m {
+  width: 100%;
 }
 
 .month-card {
