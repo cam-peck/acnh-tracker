@@ -1039,7 +1039,7 @@ function handleLabelHover(event) { // add label to currently hovered collection 
         for (let i = 0; i < data.collectionData[data.currentCollection].length; i++) { // iterate through all collection data
           if (data.collectionData[data.currentCollection][i].name === hoveredDataId) { // find the collection item that matches the dataID
             if (data.collectionData[data.currentCollection][i].acquired === true) {
-              $hoveredLabel.textContent = toTitleCase(data.collectionData.fish[i].name); // if the fish is acquired, add it's name
+              $hoveredLabel.textContent = toTitleCase(data.collectionData[data.currentCollection][i].name); // if the fish is acquired, add it's name
               $hoveredLabel.classList.remove('label-not-acquired-bg');
               $hoveredLabel.classList.add('label-acquired-bg');
             } else {
@@ -1083,34 +1083,80 @@ function closeModal() {
   $modal.classList.add('hidden');
 }
 
-// Fish Collection Modal //
-var $fishName = document.querySelector('div.fish-modal h2.modal-title');
-var $fishImg = document.querySelector('div.fish-modal img.modal-hero-img');
-var $fishLocation = document.querySelector('div.fish-modal p.location');
-var $fishTime = document.querySelector('div.fish-modal p.time');
+// All Collection Modals //
+var $name = document.querySelector('div.fish-modal h2.modal-title');
+var $heroImg = document.querySelector('div.fish-modal img.modal-hero-img');
+var $acquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
+var $acquiredIcon = document.querySelector('div.fish-modal i.caught-mark');
+var $infoContainer = document.querySelector('.info-container');
+
+// Fish, Bug, & Sea Collection Uniques // (fbs --> fish / bug /sea)
+
+function renderTimeLocationInfo(creatureObj) {
+  /*  <li class="loc-time-box row-no-wrap mb-half-rem">
+  *     <div class="column-25 flex-column gap-half-rem">
+  *       <p class="blue-sm-tag">Location</p>
+  *       <p class="blue-sm-tag">Time</p>
+  *     </div>
+  *     <div class="column-75 flex-column gap-half-rem">
+  *       <p class="white-info-tag location">Pond</p>
+  *       <p class="white-info-tag time">9 AM - 4 PM</p>
+  *     </div>
+  *  </li>
+  */
+  var $locTimeLi = document.createElement('li');
+  $locTimeLi.className = 'loc-time-box row-no-wrap mb-half-rem';
+
+  var $labelDiv = document.createElement('div');
+  $labelDiv.className = 'column-25 flex-column gap-half-rem';
+
+  var $locationP = document.createElement('p');
+  $locationP.className = 'blue-sm-tag';
+  $locationP.textContent = 'Location';
+  var $timeP = document.createElement('p');
+  $timeP.classList = 'blue-sm-tag';
+  $timeP.textContent = 'Time';
+
+  var $infoDiv = document.createElement('div');
+  $infoDiv.className = 'column-75 flex-column gap-half-rem';
+
+  var $locationInfoP = document.createElement('p');
+  $locationInfoP.className = 'white-info-tag';
+  $locationInfoP.textContent = creatureObj.location;
+
+  var $timeInfoP = document.createElement('p');
+  $timeInfoP.className = 'white-info-tag';
+  $timeInfoP.textContent = creatureObj['north-availability'][0].time;
+
+  $labelDiv.append($locationP, $timeP);
+  $infoDiv.append($locationInfoP, $timeInfoP);
+  $locTimeLi.append($labelDiv, $infoDiv);
+
+  return $locTimeLi;
+}
+
+// Fish Uniques //
 var $fishShadowImg = document.querySelector('div.fish-modal img.shadow');
 var $fishShadowLabel = document.querySelector('div.fish-modal p.fish-size-label');
 var $fishMonths = document.querySelectorAll('div.fish-modal div.month-card');
-var $fishAcquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
-var $fishAcquiredIcon = document.querySelector('div.fish-modal i.caught-mark');
 
-$fishAcquiredBtn.addEventListener('click', function () {
+$acquiredBtn.addEventListener('click', function () {
   if (data.currentCollectionItem.acquired === false) {
     data.currentCollectionItem.acquired = true;
-    handleAcquiredFish(data.currentCollectionItem.name);
+    handleAcquiredItem(data.currentCollectionItem.name);
   } else { // fish has been acquired --> user wants to revert to not acquired
     data.currentCollectionItem.acquired = false;
-    handleNotAcquiredFish(data.currentCollectionItem.name);
+    handleNotAcquiredItem(data.currentCollectionItem.name);
   }
 });
 
 function renderFishModal(fishToRender) { // takes a fish name of the fish to be rendered for the modal and renders it
+  $infoContainer.textContent = ''; // clears modal of all extra add-on information
   for (let i = 0; i < data.collectionData.fish.length; i++) {
     if (data.collectionData.fish[i].name === fishToRender) {
       data.currentCollectionItem = data.collectionData.fish[i];
-      $fishImg.src = data.collectionData.fish[i].imageUrl;
-      $fishLocation.textContent = data.collectionData.fish[i].location;
-      $fishTime.textContent = data.collectionData.fish[i]['north-availability'][0].time;
+      $heroImg.src = data.collectionData.fish[i].imageUrl;
+      $infoContainer.prepend(renderTimeLocationInfo(data.collectionData.fish[i]));
       const curFishShadowData = getFishShadowImg(data.collectionData.fish[i].shadow);
       $fishShadowImg.src = curFishShadowData.src;
       $fishShadowLabel.textContent = curFishShadowData.label;
@@ -1122,29 +1168,29 @@ function renderFishModal(fishToRender) { // takes a fish name of the fish to be 
         }
       }
       if (data.collectionData.fish[i].acquired === true) {
-        handleAcquiredFish(fishToRender);
+        handleAcquiredItem(fishToRender);
       } else {
-        handleNotAcquiredFish(fishToRender);
+        handleNotAcquiredItem(fishToRender);
       }
     }
   }
 }
 
-function handleAcquiredFish(fishToRender) {
-  $fishAcquiredBtn.className = 'acquired-btn caught-btn-green';
-  $fishAcquiredIcon.className = 'fa-regular fa-circle-check caught-mark';
-  $fishImg.classList.remove('not-acquired-overlay');
-  $fishName.textContent = fishToRender;
-  changeIconFilter('remove', fishToRender);
+function handleAcquiredItem(itemName) {
+  $acquiredBtn.className = 'acquired-btn caught-btn-green';
+  $acquiredIcon.className = 'fa-regular fa-circle-check caught-mark';
+  $heroImg.classList.remove('not-acquired-overlay');
+  $name.textContent = itemName;
+  changeIconFilter('remove', itemName);
   updateCurrentCollectionProgress();
 }
 
-function handleNotAcquiredFish(fishToRender) {
-  $fishAcquiredBtn.className = 'acquired-btn caught-btn-red';
-  $fishAcquiredIcon.className = 'fa-regular fa-circle-xmark caught-mark';
-  $fishImg.classList.add('not-acquired-overlay');
-  $fishName.textContent = '???';
-  changeIconFilter('add', fishToRender);
+function handleNotAcquiredItem(itemName) {
+  $acquiredBtn.className = 'acquired-btn caught-btn-red';
+  $acquiredIcon.className = 'fa-regular fa-circle-xmark caught-mark';
+  $heroImg.classList.add('not-acquired-overlay');
+  $name.textContent = '???';
+  changeIconFilter('add', itemName);
   updateCurrentCollectionProgress();
 }
 
@@ -1227,3 +1273,4 @@ function updateCurrentCollectionProgress() {
 // when editing, after clicking home or towns the editing property of data needs cleared --> it currently lingers
 // go back through and check for object iterations --> look to replace with bool
 // add a switch statement for renderCollection
+// add a switch statement for data.currentCollection render of modal as well

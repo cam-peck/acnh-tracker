@@ -374,7 +374,7 @@ i:active {
   width: 10%;
 }
 
-.info-box {
+.info-container {
   margin: 0 0.5rem 0.5rem;
   padding: 0.5rem;
   border-radius: 5px;
@@ -394,6 +394,7 @@ i:active {
   color: white;
   padding: 0.3rem 0.5rem;
   border-radius: 10px;
+  text-align: center;
 }
 
 .blue-sm-tag {
