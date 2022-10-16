@@ -671,6 +671,7 @@ function getSeaCollectionItems() {
       var currentSea = {};
       currentSea.name = xhr.response[i].name;
       currentSea.number = xhr.response[i].number;
+      currentSea.location = 'Unda\' the sea';
       currentSea.iconUrl = xhr.response[i].image_url;
       currentSea.imageUrl = xhr.response[i].render_url;
       currentSea['price-reg'] = xhr.response[i].sell_nook;
@@ -1134,7 +1135,7 @@ function renderTimeLocationInfo(creatureObj) {
 }
 
 function renderMonths(columnWidth, creatureObj) {
-  /*   <div class="column-75 row-no-wrap gap-1-rem justify-around month-container">
+  /*   <div class="columnWidth row-no-wrap gap-1-rem justify-around month-container">
   *       <div class="fb-20">
   *         <div data-month-id="1" class="month-card month-active">Jan</div>
   *         <div data-month-id="5" class="month-card">May</div>
@@ -1299,6 +1300,109 @@ function renderBugInfo(bugObject) {
   return $uniquesLi;
 }
 
+// Sea Uniques //
+
+function renderSeaInfo(seaObject) {
+  /* <li class="uniques-box">
+  *   <div class="row-no-wrap mb-half-rem">
+  *     <div class="column-25">
+  *       <p class="blue-sm-tag">Speed</p>
+  *     <div class="column-75 flex-column gap-half-rem">
+  *       <p class="white-info-tag">Fast</p>
+  *     </div>
+  *   </div>
+  *   <div class="row-no-wrap mb-half-rem">
+  *     <div class="column-25 flex-column gap-half-rem">
+  *       <p class="blue-sm-tag">Shadow</p>
+  *     </div>
+  *     <div class="column-75 flex-column gap-half-rem">
+  *       <p class="blue-med-tag">Seasonality</p>
+  *     </div>
+  *   </div>
+  *   <div class="row-no-wrap gap-half-rem">
+  *     <div class="column-25 text-align-center fish-shadow-card">
+  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
+  *       <p class="fish-size-label row justify-and-align-center">6</p>
+  *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
+  *     </div>
+  *     renderMonthsHere()
+  *   </div>
+  * </li>
+  */
+  var $uniquesLi = document.createElement('li');
+  $uniquesLi.classList = 'uniques-box';
+
+  var $speedDiv = document.createElement('div');
+  $speedDiv.className = 'row-no-wrap mb-half-rem';
+
+  var $speedLabelColumn = document.createElement('div');
+  $speedLabelColumn.className = 'column-25';
+
+  var $speedInfoColumn = document.createElement('div');
+  $speedInfoColumn.className = 'column-75';
+
+  var $speedLabelP = document.createElement('p');
+  $speedLabelP.textContent = 'Speed';
+  $speedLabelP.className = 'blue-sm-tag';
+
+  var $speedInfoP = document.createElement('p');
+  $speedInfoP.textContent = seaObject['shadow-movement'];
+  $speedInfoP.className = 'white-info-tag';
+
+  var $labelDiv = document.createElement('div');
+  $labelDiv.className = 'row-no-wrap mb-half-rem';
+
+  var $shadowColumnDiv = document.createElement('div');
+  $shadowColumnDiv.className = 'column-25 flex-column gap-half-rem';
+
+  var $shadowColumnP = document.createElement('p');
+  $shadowColumnP.className = 'blue-sm-tag';
+  $shadowColumnP.textContent = 'Shadow';
+
+  var $seasonColumnDiv = document.createElement('div');
+  $seasonColumnDiv.className = 'column-75 flex-column gap-half-rem';
+
+  var $seasonColumnP = document.createElement('p');
+  $seasonColumnP.className = 'blue-med-tag';
+  $seasonColumnP.textContent = 'Seasonality';
+
+  var $infoDiv = document.createElement('div');
+  $infoDiv.className = 'row-no-wrap gap-half-rem';
+
+  var $shadowInfoDiv = document.createElement('div');
+  $shadowInfoDiv.className = 'column-25 text-align-center fish-shadow-card';
+
+  var $shadowImg = document.createElement('img');
+  $shadowImg.className = 'fish-size-img shadow';
+  const curSeaShadowData = getSeaShadowImg(seaObject['shadow-size']);
+  $shadowImg.src = curSeaShadowData.src;
+  $shadowImg.alt = 'sea-shadow-img';
+
+  var $shadowP = document.createElement('p');
+  $shadowP.className = 'fish-size-label row justify-and-align-center';
+  $shadowP.textContent = curSeaShadowData.label;
+
+  var $shadowLink = document.createElement('a');
+  $shadowLink.className = 'shadow-reference';
+  $shadowLink.setAttribute('target', '_blank');
+  $shadowLink.setAttribute('href', 'https://i.redd.it/eevwll228q851.jpg');
+  $shadowLink.textContent = 'Need a reference?';
+
+  var $monthsDiv = renderMonths(75, seaObject);
+
+  $speedLabelColumn.append($speedLabelP);
+  $speedInfoColumn.append($speedInfoP);
+  $speedDiv.append($speedLabelColumn, $speedInfoColumn);
+  $shadowInfoDiv.append($shadowImg, $shadowP, $shadowLink);
+  $infoDiv.append($shadowInfoDiv, $monthsDiv);
+  $seasonColumnDiv.append($seasonColumnP);
+  $shadowColumnDiv.append($shadowColumnP);
+  $labelDiv.append($shadowColumnDiv, $seasonColumnDiv);
+  $uniquesLi.append($speedDiv, $labelDiv, $infoDiv);
+
+  return $uniquesLi;
+}
+
 $acquiredBtn.addEventListener('click', function () {
   if (data.currentCollectionItem.acquired === false) {
     data.currentCollectionItem.acquired = true;
@@ -1326,7 +1430,7 @@ function renderCollectionModal(itemToRender) { // takes an item name to render f
           $infoContainer.append(renderBugInfo(data.collectionData[data.currentCollection][i]));
           break;
         case 'sea':
-          // $infoContainer.append(renderSeaInfo(data.collectionData[data.currentCollection][i]));
+          $infoContainer.append(renderSeaInfo(data.collectionData[data.currentCollection][i]));
           break;
         case 'fossils':
           // $infoContainer.append(renderFossilsInfo(data.collectionData[data.currentCollection][i]));
@@ -1377,7 +1481,7 @@ function changeIconFilter(action, iconName) { // either adds or removes the dark
 }
 
 function getFishShadowImg(shadowSize) { // returns the appropriate link and label number for a fish shadow size input
-  const apiShadowSizes = {
+  const apiFishShadowSizes = {
     Tiny: { src: 'images/Fish/fish-size-1.png', label: 1 },
     Small: { src: 'images/Fish/fish-size-2.png', label: 2 },
     Medium: { src: 'images/Fish/fish-size-3.png', label: 3 },
@@ -1387,9 +1491,22 @@ function getFishShadowImg(shadowSize) { // returns the appropriate link and labe
     'Very large (finned)': { src: 'images/Fish/fish-size-shark.jpg', label: 'fin' },
     Long: { src: 'images/Fish/fish-size-eel.jpg', label: 'eel' }
   };
-  for (const key in apiShadowSizes) {
+  for (const key in apiFishShadowSizes) {
     if (shadowSize === key) {
-      return apiShadowSizes[key];
+      return apiFishShadowSizes[key];
+    }
+  }
+}
+
+function getSeaShadowImg(shadowSize, shadowSpeed) {
+  const apiSeaShadowSizes = {
+    Small: { src: 'images/Sea/sea-small.jpg', label: 1 },
+    Medium: { src: 'images/Sea/sea-medium.jpg', label: 2 },
+    Large: { src: 'images/Sea/sea-large.jpg', label: 3 }
+  };
+  for (const key in apiSeaShadowSizes) {
+    if (shadowSize === key) {
+      return apiSeaShadowSizes[key];
     }
   }
 }
@@ -1402,7 +1519,7 @@ function inventoryCollection(collectionType) { // returns a string with the curr
     fossils: 73,
     art: 43
   };
-  if (collectionMaxes[collectionType]) {
+  if (collectionMaxes[collectionType] && data.collectionData[collectionType]) {
     const total = data.collectionData[collectionType].reduce((total, collection) => {
       if (collection.acquired) {
         return total + 1;
@@ -1412,6 +1529,8 @@ function inventoryCollection(collectionType) { // returns a string with the curr
     const currentCollectionCount = total;
     const currentCollectionMax = collectionMaxes[collectionType];
     return currentCollectionCount + '/' + currentCollectionMax;
+  } else { // catch case that collection data is not created yet
+    return '0/80';
   }
 }
 
