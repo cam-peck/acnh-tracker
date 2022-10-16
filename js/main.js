@@ -704,6 +704,8 @@ function getFossilCollectionItems() {
       currentFossil.iconUrl = xhr.response[i].image_url;
       currentFossil.imageUrl = xhr.response[i].image_url;
       currentFossil['price-reg'] = xhr.response[i].sell_nook;
+      currentFossil['fossil-group'] = xhr.response[i].fossil_group;
+      currentFossil['hha-score'] = xhr.response[i].hha_base;
       currentFossil.acquired = false;
       acnhFossils.push(currentFossil);
     }
@@ -987,7 +989,7 @@ function renderCollection(collectionType) {
     $collectionImage.src = 'images/Collections/sea-col.png';
     $collectionProgressCount.textContent = '0/40';
     data.currentCollection = 'sea';
-  } else if (collectionType === 'fossil') {
+  } else if (collectionType === 'fossils') {
     if (data.collectionData.fossils === undefined) {
       getFossilCollectionItems();
     } else {
@@ -1403,6 +1405,52 @@ function renderSeaInfo(seaObject) {
   return $uniquesLi;
 }
 
+// Fossil Uniques //
+
+function renderFossilInfo(fossilObj) {
+  /* <li class="row-no-wrap mb-half-rem">
+  *   <div class="column-25 flex-column gap-half-rem">
+  *     <p class="blue-sm-tag">Group</p>
+  *     <p class="blue-sm-tag">HHA</p>
+  *   </div>
+  *   <div class="column-75 flex-column gap-half-rem">
+  *     <p class="white-info-tag location">Spinosaurus</p>
+  *     p class="white-info-tag time">85</p>
+  *   </div>
+  *   </li>
+  */
+  var $uniquesLi = document.createElement('li');
+  $uniquesLi.className = 'row-no-wrap mb-half-rem';
+
+  var $labelDiv = document.createElement('div');
+  $labelDiv.className = 'column-25 flex-column gap-half-rem';
+
+  var $groupP = document.createElement('p');
+  $groupP.className = 'blue-sm-tag';
+  $groupP.textContent = 'Group';
+
+  var $hhaP = document.createElement('p');
+  $hhaP.classList = 'blue-sm-tag';
+  $hhaP.textContent = 'HHA';
+
+  var $infoDiv = document.createElement('div');
+  $infoDiv.className = 'column-75 flex-column gap-half-rem';
+
+  var $groupInfoP = document.createElement('p');
+  $groupInfoP.className = 'white-info-tag';
+  $groupInfoP.textContent = fossilObj['fossil-group'];
+
+  var $hhaInfoP = document.createElement('p');
+  $hhaInfoP.className = 'white-info-tag';
+  $hhaInfoP.textContent = fossilObj['hha-score'];
+
+  $labelDiv.append($groupP, $hhaP);
+  $infoDiv.append($groupInfoP, $hhaInfoP);
+  $uniquesLi.append($labelDiv, $infoDiv);
+
+  return $uniquesLi;
+}
+
 $acquiredBtn.addEventListener('click', function () {
   if (data.currentCollectionItem.acquired === false) {
     data.currentCollectionItem.acquired = true;
@@ -1433,7 +1481,7 @@ function renderCollectionModal(itemToRender) { // takes an item name to render f
           $infoContainer.append(renderSeaInfo(data.collectionData[data.currentCollection][i]));
           break;
         case 'fossils':
-          // $infoContainer.append(renderFossilsInfo(data.collectionData[data.currentCollection][i]));
+          $infoContainer.append(renderFossilInfo(data.collectionData[data.currentCollection][i]));
           break;
         case 'art':
           // $infoContainer.append(renderArtInfo(data.collectionData[data.currentCollection][i]));
