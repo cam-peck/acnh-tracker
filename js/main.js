@@ -507,10 +507,10 @@ var $addTownBtn = document.querySelector('.add-town-btn');
 var $homeBtn = document.querySelector('.home-nav');
 
 $navTowns.addEventListener('click', function (event) { // swap to entries view
-  viewSwap('town-entries');
   if (data.view !== 'town-entries') {
     signOut();
   }
+  viewSwap('town-entries');
 });
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
@@ -985,51 +985,61 @@ function renderTable(itemArray) {
 }
 
 function renderCollection(collectionType) {
-  if (collectionType === 'fish') {
-    if (data.collectionData.fish === undefined) { // if a user collection does not exist create a new one
-      getFishCollectionItems();
-    } else { // if a user collection does exist, use that one
-      renderTable(data.collectionData.fish);
-    }
-    $collectionImage.src = 'images/Collections/fish-col.png';
-    $collectionProgressCount.textContent = '0/80';
-    data.currentCollection = 'fish';
-  } else if (collectionType === 'bugs') {
-    if (data.collectionData.bugs === undefined) {
-      getBugCollectionItems();
-    } else {
-      renderTable(data.collectionData.bugs);
-    }
-    $collectionImage.src = 'images/Collections/butterfly-col.png';
-    $collectionProgressCount.textContent = '0/80';
-    data.currentCollection = 'bugs';
-  } else if (collectionType === 'sea') {
-    if (data.collectionData.sea === undefined) {
-      getSeaCollectionItems();
-    } else {
-      renderTable(data.collectionData.sea);
-    }
-    $collectionImage.src = 'images/Collections/sea-col.png';
-    $collectionProgressCount.textContent = '0/40';
-    data.currentCollection = 'sea';
-  } else if (collectionType === 'fossils') {
-    if (data.collectionData.fossils === undefined) {
-      getFossilCollectionItems();
-    } else {
-      renderTable(data.collectionData.fossils);
-    }
-    $collectionImage.src = 'images/Collections/fossil-col.png';
-    $collectionProgressCount.textContent = '0/73';
-    data.currentCollection = 'fossils';
-  } else {
-    if (data.collectionData.art === undefined) {
-      getArtCollectionItems();
-    } else {
-      renderTable(data.collectionData.art);
-    }
-    $collectionImage.src = 'images/Collections/art-col.png';
-    $collectionProgressCount.textContent = '0/43';
-    data.currentCollection = 'art';
+  switch (collectionType) {
+    case 'fish':
+      if (data.collectionData.fish === undefined) { // if a user collection does not exist create a new one
+        getFishCollectionItems();
+      } else { // if a user collection does exist, use that one
+        renderTable(data.collectionData.fish);
+      }
+      $collectionImage.src = 'images/Collections/fish-col.png';
+      $collectionProgressCount.textContent = '0/80';
+      data.currentCollection = 'fish';
+      break;
+
+    case 'bugs':
+      if (data.collectionData.bugs === undefined) {
+        getBugCollectionItems();
+      } else {
+        renderTable(data.collectionData.bugs);
+      }
+      $collectionImage.src = 'images/Collections/butterfly-col.png';
+      $collectionProgressCount.textContent = '0/80';
+      data.currentCollection = 'bugs';
+      break;
+
+    case 'sea':
+      if (data.collectionData.sea === undefined) {
+        getSeaCollectionItems();
+      } else {
+        renderTable(data.collectionData.sea);
+      }
+      $collectionImage.src = 'images/Collections/sea-col.png';
+      $collectionProgressCount.textContent = '0/40';
+      data.currentCollection = 'sea';
+      break;
+
+    case 'fossils':
+      if (data.collectionData.fossils === undefined) {
+        getFossilCollectionItems();
+      } else {
+        renderTable(data.collectionData.fossils);
+      }
+      $collectionImage.src = 'images/Collections/fossil-col.png';
+      $collectionProgressCount.textContent = '0/73';
+      data.currentCollection = 'fossils';
+      break;
+
+    case 'art':
+      if (data.collectionData.art === undefined) {
+        getArtCollectionItems();
+      } else {
+        renderTable(data.collectionData.art);
+      }
+      $collectionImage.src = 'images/Collections/art-col.png';
+      $collectionProgressCount.textContent = '0/43';
+      data.currentCollection = 'art';
+      break;
   }
   updateCurrentCollectionProgress();
 }
