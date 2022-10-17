@@ -388,6 +388,14 @@ i:active {
   padding: 0.3rem 0.5rem;
 }
 
+.white-info-tag-no-m {
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.5rem;
+  line-height: 1.5;
+  width: 100%;
+}
+
 .blue-sm-tag,
 .blue-med-tag,
 .blue-med-tag-no-m {
@@ -434,6 +442,20 @@ i:active {
   color: grey;
   font-size: 0.6rem;
   text-decoration: underline;
+}
+
+.fake-reference {
+  color: grey;
+  font-size: 1rem;
+}
+
+.fake-reference:hover {
+  cursor: pointer;
+}
+
+.fake-reference:active {
+  transform: translateY(0.05rem);
+  user-select: none;
 }
 
 .fish-size-img {
@@ -496,6 +518,10 @@ i:active {
 .justify-and-align-center {
   justify-content: center;
   align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .align-center {

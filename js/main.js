@@ -726,6 +726,9 @@ function getArtCollectionItems() {
     for (let i = 0; i < xhr.response.length; i++) {
       var currentArt = {};
       currentArt.name = xhr.response[i].name;
+      currentArt['art-name'] = xhr.response[i].art_name;
+      currentArt.author = xhr.response[i].author;
+      currentArt.year = xhr.response[i].year;
       currentArt.iconUrl = xhr.response[i].image_url;
       currentArt.imageUrl = xhr.response[i].image_url;
       currentArt.hasFake = xhr.response[i].has_fake;
@@ -1451,6 +1454,124 @@ function renderFossilInfo(fossilObj) {
   return $uniquesLi;
 }
 
+// Art Uniques //
+
+function renderArtInfo(artObject) {
+  /* <li class="uniques-box">
+  /*   <div class="row-no-wrap mb-half-rem">
+  *     <div class="column-25 flex-column gap-half-rem">
+  *       <p class="blue-sm-tag">Name</p>
+  *       <p class="blue-sm-tag">Author</p>
+  *       <p class="blue-sm-tag">Year</p>
+  *     </div>
+  *     <div class="column-75 flex-column gap-half-rem">
+  *       <p class="white-info-tag">artObject.art_name</p>
+  *       <p class="white-info-tag">artObject.author</p>
+  *       <p class="white-info-tag">artObject.year</p>
+  *     </div>
+  *   </div>
+  *   <div class="row-no-wrap">
+  *     <p class="blue-med-tag">Seasonality</p>
+  *   </div>
+  *   <div class="row-no-wrap">
+  *     <p class="white-info-tag">Autheniticity Information</p>
+  *   </div>
+  *   <div class="row-no-wrap justify-center">
+  *     <p class='fake-reference'>---- Show Fake? ----</p>
+  *   </div>
+  *  </li>
+  */
+
+  var $uniquesLi = document.createElement('li');
+  $uniquesLi.classList = 'uniques-box';
+
+  var $artExtraInfoDiv = document.createElement('div');
+  $artExtraInfoDiv.className = 'row-no-wrap mb-half-rem';
+
+  var $artLabelColumn = document.createElement('div');
+  $artLabelColumn.className = 'column-25 flex-column gap-half-rem';
+
+  var $realNameLabelP = document.createElement('p');
+  $realNameLabelP.className = 'blue-sm-tag';
+  $realNameLabelP.textContent = 'Name';
+
+  var $realAuthorLabelP = document.createElement('p');
+  $realAuthorLabelP.className = 'blue-sm-tag';
+  $realAuthorLabelP.textContent = 'Author';
+
+  var $realTimeLabelP = document.createElement('p');
+  $realTimeLabelP.className = 'blue-sm-tag';
+  $realTimeLabelP.textContent = 'Time';
+
+  var $artInfoColumn = document.createElement('div');
+  $artInfoColumn.className = 'column-75 flex-column gap-half-rem';
+
+  var $realNameInfoP = document.createElement('p');
+  $realNameInfoP.className = 'white-info-tag';
+  $realNameInfoP.textContent = artObject['art-name'];
+
+  var $realAuthorInfoP = document.createElement('p');
+  $realAuthorInfoP.className = 'white-info-tag';
+  $realAuthorInfoP.textContent = artObject.author;
+
+  var $realTimeInfoP = document.createElement('p');
+  $realTimeInfoP.className = 'white-info-tag';
+  $realTimeInfoP.textContent = artObject.year;
+
+  var $labelAuthentDiv = document.createElement('div');
+  $labelAuthentDiv.className = 'row-no-wrap justify-center';
+
+  var $infoAuthentDiv = document.createElement('div');
+  $infoAuthentDiv.className = 'row-no-wrap mb-half-rem';
+
+  var $authenticLabelP = document.createElement('p');
+  $authenticLabelP.className = 'blue-med-tag-no-m mb-half-rem';
+  $authenticLabelP.textContent = 'Authenticity';
+
+  var $authenticInfoP = document.createElement('p');
+  $authenticInfoP.className = 'white-info-tag-no-m';
+  $authenticInfoP.textContent = artObject.authenticity;
+
+  var $modalHeroImgDiv = document.querySelector('.modal-hero-div');
+  if (artObject.hasFake === true) {
+    var $fakeImg = document.createElement('img');
+    $fakeImg.className = 'modal-hero-img hidden';
+    $fakeImg.src = artObject.fakeVersion;
+    $modalHeroImgDiv.append($fakeImg);
+
+    if ($modalHeroImgDiv.children.length === 3) { // remove lingering fakes from previous modal
+      $modalHeroImgDiv.children[1].remove();
+    }
+
+    var $hasFakeBtnDiv = document.createElement('div');
+    $hasFakeBtnDiv.className = 'row-no-wrap justify-center';
+
+    var $hasFakeBtn = document.createElement('p');
+    $hasFakeBtn.className = 'fake-reference';
+    $hasFakeBtn.textContent = '---------- Show Fake? ----------';
+    $hasFakeBtn.addEventListener('click', function (event) {
+      $fakeImg.classList.toggle('hidden');
+    });
+  } else {
+    if ($modalHeroImgDiv.children.length === 2) { // remove lingering fakes from previous modal
+      $modalHeroImgDiv.children[1].remove();
+    }
+  }
+
+  $artLabelColumn.append($realNameLabelP, $realAuthorLabelP, $realTimeLabelP);
+  $artInfoColumn.append($realNameInfoP, $realAuthorInfoP, $realTimeInfoP);
+  $artExtraInfoDiv.append($artLabelColumn, $artInfoColumn);
+  $labelAuthentDiv.append($authenticLabelP);
+  $infoAuthentDiv.append($authenticInfoP);
+  $uniquesLi.append($artExtraInfoDiv, $labelAuthentDiv, $infoAuthentDiv);
+  if ($hasFakeBtnDiv) {
+    $hasFakeBtnDiv.append($hasFakeBtn);
+    $uniquesLi.append($hasFakeBtnDiv);
+  }
+
+  return $uniquesLi;
+}
+
 $acquiredBtn.addEventListener('click', function () {
   if (data.currentCollectionItem.acquired === false) {
     data.currentCollectionItem.acquired = true;
@@ -1484,7 +1605,7 @@ function renderCollectionModal(itemToRender) { // takes an item name to render f
           $infoContainer.append(renderFossilInfo(data.collectionData[data.currentCollection][i]));
           break;
         case 'art':
-          // $infoContainer.append(renderArtInfo(data.collectionData[data.currentCollection][i]));
+          $infoContainer.append(renderArtInfo(data.collectionData[data.currentCollection][i]));
           break;
       }
 
