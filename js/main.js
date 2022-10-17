@@ -508,7 +508,9 @@ var $homeBtn = document.querySelector('.home-nav');
 
 $navTowns.addEventListener('click', function (event) { // swap to entries view
   viewSwap('town-entries');
-  signOut();
+  if (data.view !== 'town-entries') {
+    signOut();
+  }
 });
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
@@ -522,10 +524,11 @@ $addTownBtn.addEventListener('click', function (event) { // swap to entry form v
 });
 
 $homeBtn.addEventListener('click', function (event) {
-  if (data.currentTown.townName !== undefined) {
+  if (data.currentTown !== null) {
     renderHomePage(data.currentTown);
     viewSwap('town-home-page');
   }
+  data.editing = null;
 });
 
 function signOut() { // signs the user out of their current town, clearing all data fields and saving their session data
@@ -1686,9 +1689,10 @@ function getFishShadowImg(shadowSize) { // returns the appropriate link and labe
 
 function getSeaShadowImg(shadowSize, shadowSpeed) {
   const apiSeaShadowSizes = {
-    Small: { src: 'images/Sea/sea-small.jpg', label: 1 },
-    Medium: { src: 'images/Sea/sea-medium.jpg', label: 2 },
-    Large: { src: 'images/Sea/sea-large.jpg', label: 3 }
+    Tiny: { src: 'images/Sea/sea-small.jpg', label: 1 },
+    Small: { src: 'images/Sea/sea-small.jpg', label: 2 },
+    Medium: { src: 'images/Sea/sea-medium.jpg', label: 3 },
+    Large: { src: 'images/Sea/sea-large.jpg', label: 4 }
   };
   for (const key in apiSeaShadowSizes) {
     if (shadowSize === key) {
@@ -1743,7 +1747,6 @@ function updateCurrentCollectionProgress() {
 }
 
 // BUGS TO SQUASH
-// collections need to be attached to town object somehow --> either current town or towns
-// when editing, after clicking home or towns the editing property of data needs cleared --> it currently lingers
 // go back through and check for object iterations --> look to replace with bool
 // add a switch statement for renderCollection
+// add a hamburger menu for mobile screens!
