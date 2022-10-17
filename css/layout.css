@@ -1,6 +1,4 @@
-*,
-*::before,
-*::after {
+body {
   font-family: Roboto, "Trebuchet MS", Avenir, sans-serif;
 }
 

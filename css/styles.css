@@ -200,7 +200,6 @@ a {
 /* Edit Town */
 
 i:hover {
-  color: rgb(0, 146, 227);
   cursor: pointer;
 }
 
@@ -311,7 +310,7 @@ i:active {
 }
 
 .caught-btn-green {
-  background-color: rgb(176, 241, 201);
+  background-color: rgb(43, 199, 103);
 }
 
 @keyframes fadein {

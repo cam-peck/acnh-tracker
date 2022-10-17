@@ -439,6 +439,9 @@ function renderHomePage(townObj) {
   for (let i = 0; i < eventsToRender.length; i++) {
     $eventsContainer.append(renderEvent(eventsToRender[i]));
   }
+  if (townObj.collectionData) { // if there is previous collection data, assign it to collections
+    data.collectionData = townObj.collectionData;
+  }
   updateHomeCollectionProgress();
 }
 
@@ -505,6 +508,7 @@ var $homeBtn = document.querySelector('.home-nav');
 
 $navTowns.addEventListener('click', function (event) { // swap to entries view
   viewSwap('town-entries');
+  signOut();
 });
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
@@ -523,6 +527,19 @@ $homeBtn.addEventListener('click', function (event) {
     viewSwap('town-home-page');
   }
 });
+
+function signOut() { // signs the user out of their current town, clearing all data fields and saving their session data
+  const currentTownId = data.currentTown.entryID;
+  data.towns.forEach(town => {
+    if (town.entryID === currentTownId) {
+      town.collectionData = data.collectionData;
+    }
+  });
+  data.collectionData = {};
+  data.currentCollection = null;
+  data.currentCollectionItem = null;
+  data.currentTown = null;
+}
 
 function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
   var $dataViews = document.querySelectorAll('[data-view]');
@@ -1730,4 +1747,3 @@ function updateCurrentCollectionProgress() {
 // when editing, after clicking home or towns the editing property of data needs cleared --> it currently lingers
 // go back through and check for object iterations --> look to replace with bool
 // add a switch statement for renderCollection
-// add a switch statement for data.currentCollection render of modal as well
