@@ -453,7 +453,7 @@ function getRandomQuote() {
 
 function filterEvents(eventArray) { // filter the events to only show relevant events to user
   const eventsToShow = [];
-  const validDays = getOneWeekForward();
+  const validDays = get10DaysForward();
   for (let i = 0; i < eventArray.length; i++) {
     if (eventArray[i].type === 'Recipe') {
       eventsToShow.push(eventArray[i]);
@@ -830,7 +830,7 @@ function getDate() { // returns todays date
   }
 }
 
-function getOneWeekForward() { // returns an array of valid dates to check
+function get10DaysForward() { // returns an array of valid dates to check
   const validDays = [];
   const monthObj = {
     1: 31,
@@ -853,7 +853,7 @@ function getOneWeekForward() { // returns an array of valid dates to check
   const todayDay = todaysDate.getDate();
   const todayMonth = todaysDate.getMonth() + 1;
   const todayYear = todaysDate.getFullYear();
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 10; i++) {
     let ForwardDay = todayDay + i;
     let ForwardMonth = todayMonth;
     let ForwardYear = todayYear;
