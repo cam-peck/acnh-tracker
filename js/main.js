@@ -1,6 +1,6 @@
 // Global Variables //
 
-var villagerQuotes = [
+const villagerQuotes = [
   {
     name: 'Sly',
     quote: 'I want my face on a bag of chips.'
@@ -15,27 +15,27 @@ var villagerQuotes = [
   }
 ];
 
-var allVillagers = [];
-var thisWeeksEvents = [];
-var $defaultText = createDefaultText();
-var $birthdayDefText = createBirthdayDefaultText();
+const allVillagers = [];
+const thisWeeksEvents = [];
+const $defaultText = createDefaultText();
+const $birthdayDefText = createBirthdayDefaultText();
 
 // Event Listeners //
 
-var $fruitContainer = document.querySelector('.fruit-container');
-var $fruits = document.querySelectorAll('.fruit-img');
-var $searchVillagerBtn = document.querySelector('.search-villager-btn');
-var $addVillagerInput = document.querySelector('.new-villager-input');
-var $addVillagerBtn = document.querySelector('.add-villager-btn');
-var $removeVillagerBtn = document.querySelector('.remove-villager-btn');
-var $villagerDatalist = document.querySelector('.villager-datalist');
-var $villagerEntryList = document.querySelector('.villager-entry-list');
-var $townForm = document.querySelector('.town-form');
-var $formTitle = document.querySelector('.town-form-title');
-var $imageInput = document.querySelector('.image-input');
-var $townImage = document.querySelector('.town-img');
-var $townContainer = document.querySelector('.town-container');
-var $slideContainer = document.querySelector('.slider-container');
+const $fruitContainer = document.querySelector('.fruit-container');
+const $fruits = document.querySelectorAll('.fruit-img');
+const $searchVillagerBtn = document.querySelector('.search-villager-btn');
+const $addVillagerInput = document.querySelector('.new-villager-input');
+const $addVillagerBtn = document.querySelector('.add-villager-btn');
+const $removeVillagerBtn = document.querySelector('.remove-villager-btn');
+const $villagerDatalist = document.querySelector('.villager-datalist');
+const $villagerEntryList = document.querySelector('.villager-entry-list');
+const $townForm = document.querySelector('.town-form');
+const $formTitle = document.querySelector('.town-form-title');
+const $imageInput = document.querySelector('.image-input');
+const $townImage = document.querySelector('.town-img');
+const $townContainer = document.querySelector('.town-container');
+const $slideContainer = document.querySelector('.slider-container');
 
 // New Town Input Form //
 
@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
   }
 
   for (let i = 0; i < data.towns.length; i++) {
-    var previousTown = renderTown(data.towns[i]);
+    const previousTown = renderTown(data.towns[i]);
     $townContainer.append(previousTown);
   }
   viewSwap(data.view);
@@ -57,9 +57,9 @@ $imageInput.addEventListener('change', function (event) {
 });
 
 function getImgData() {
-  var files = $imageInput.files[0];
+  const files = $imageInput.files[0];
   if (files) {
-    var fileReader = new FileReader();
+    const fileReader = new FileReader();
     fileReader.readAsDataURL(files);
     fileReader.addEventListener('load', function () {
       $townImage.src = this.result;
@@ -71,9 +71,9 @@ $fruitContainer.addEventListener('click', handleFruitClick);
 
 function handleFruitClick(event) { // highlight the clicked fruit with a soft yellow background
   if (event.target.tagName === 'INPUT') {
-    var parentDiv = (event.target.closest('div'));
-    var labelChild = parentDiv.firstElementChild;
-    var fruitImg = labelChild.firstElementChild;
+    const parentDiv = (event.target.closest('div'));
+    const labelChild = parentDiv.firstElementChild;
+    const fruitImg = labelChild.firstElementChild;
     for (let i = 0; i < $fruits.length; i++) {
       if ($fruits[i] === fruitImg) {
         $fruits[i].classList.add('light-yellow-bg');
@@ -103,7 +103,7 @@ function searchVillagers(event) { // search through the villagers and show them 
   $addVillagerBtn.classList.toggle('hidden');
   $removeVillagerBtn.classList.toggle('hidden');
   for (let i = 0; i < allVillagers.length; i++) {
-    var $villagerDataTag = document.createElement('option');
+    const $villagerDataTag = document.createElement('option');
     $villagerDataTag.value = allVillagers[i].name;
     $villagerDatalist.append($villagerDataTag);
   }
@@ -132,7 +132,7 @@ $removeVillagerBtn.addEventListener('click', removeVillager);
 function removeVillager() {
   for (let i = 0; i < data.currentVillagers.length; i++) {
     if (data.currentVillagers[i].name === $addVillagerInput.value) { // ensure the villager we're deleting is in currentVillagers
-      var $entryChildren = $villagerEntryList.children;
+      const $entryChildren = $villagerEntryList.children;
       for (let j = 1; i < $entryChildren.length; j++) { // start iterating at 1 because 0 index is add button
         if ($entryChildren[j].getAttribute('data-villager-id') === $addVillagerInput.value) {
           $entryChildren[j].remove();
@@ -152,13 +152,13 @@ function createVillagerIcon(villagerName, imageUrl) { // create a villager icon 
   *  </div>
   * </li>
   */
-  var $newLi = document.createElement('li');
+  const $newLi = document.createElement('li');
   $newLi.setAttribute('data-villager-id', villagerName);
 
-  var $newDiv = document.createElement('div');
+  const $newDiv = document.createElement('div');
   $newDiv.className = 'villager-card justify-and-align-center';
 
-  var $villagerIcon = document.createElement('img');
+  const $villagerIcon = document.createElement('img');
   $villagerIcon.className = 'villager-icon';
   $villagerIcon.src = imageUrl;
 
@@ -179,21 +179,21 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
   *   </div>
   * </li>
   */
-  var $newBDLi = document.createElement('li');
+  const $newBDLi = document.createElement('li');
   $newBDLi.setAttribute('data-villager-id', villagerName);
   $newBDLi.className = 'row-no-wrap pl-1-rem align-center';
 
-  var $newIconDiv = document.createElement('div');
+  const $newIconDiv = document.createElement('div');
   $newIconDiv.className = 'villager-card justify-and-align-center';
 
-  var $villagerIcon = document.createElement('img');
+  const $villagerIcon = document.createElement('img');
   $villagerIcon.className = 'villager-icon';
   $villagerIcon.src = imageUrl;
 
-  var $bdTextDiv = document.createElement('div');
+  const $bdTextDiv = document.createElement('div');
   $bdTextDiv.className = 'birthday-text row align-center';
 
-  var $bdTextH3 = document.createElement('h3');
+  const $bdTextH3 = document.createElement('h3');
   $bdTextH3.textContent = villagerName + '\'s' + ' birthday!';
   $bdTextH3.className = 'pl-1-rem fw-500';
 
@@ -206,7 +206,7 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
 
 function clearVillagers() { // clears villagers from the DOM
   while ($villagerEntryList.children.length > 1) {
-    var $lastVillager = $villagerEntryList.lastChild;
+    const $lastVillager = $villagerEntryList.lastChild;
     $lastVillager.remove();
   }
 }
@@ -228,7 +228,7 @@ $townForm.addEventListener('submit', function (event) { // handle submitting a t
 
 function handleNewSubmit(event) { // handle the form data from a new town submit
   event.preventDefault();
-  var formData = {};
+  const formData = {};
   formData.playerName = $townForm.elements['char-name'].value;
   formData.townName = $townForm.elements['town-name'].value;
   formData.townFruit = $townForm.elements.fruit.value;
@@ -251,7 +251,7 @@ function handleEditSubmit(event) {
   data.editing.imageLink = $townImage.src;
   data.currentVillagers = [];
   $townImage.src = 'images/placeholder-image-square.jpg';
-  var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryID}"]`);
+  const $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryID}"]`);
   $nodeToReplace.replaceWith(renderTown(data.editing));
   for (let i = 0; i < data.towns.length; i++) {
     if (data.towns[i].entryID === data.editing.entryID) {
@@ -279,21 +279,21 @@ function renderTown(townObj) {
   *    </div>
   *  </li>
   */
-  var $parentLi = document.createElement('li');
+  const $parentLi = document.createElement('li');
   $parentLi.setAttribute('data-entry-id', townObj.entryID);
   $parentLi.className = 'row mb-1-rem';
 
-  var $titleDiv = document.createElement('div');
+  const $titleDiv = document.createElement('div');
   $titleDiv.className = 'row column-full';
 
-  var $titleH2 = document.createElement('h2');
+  const $titleH2 = document.createElement('h2');
   $titleH2.className = 'fw-500';
   $titleH2.textContent = townObj.townName;
 
-  var $imageColumnDiv = document.createElement('div');
+  const $imageColumnDiv = document.createElement('div');
   $imageColumnDiv.className = 'column-half';
 
-  var $imageHeroDiv = document.createElement('div');
+  const $imageHeroDiv = document.createElement('div');
   $imageHeroDiv.className = 'town-hero-img justify-and-align-center';
   if (townObj.imageLink !== 'http://localhost:5500/images/placeholder-image-square.jpg') {
     $imageHeroDiv.style.backgroundImage = 'url(' + townObj.imageLink + ')';
@@ -301,18 +301,18 @@ function renderTown(townObj) {
     $imageHeroDiv.classList.add('default-hero-img');
   }
 
-  var $overlayDiv = document.createElement('div');
+  const $overlayDiv = document.createElement('div');
   $overlayDiv.className = 'overlay';
 
-  var $jumpInButton = document.createElement('button');
+  const $jumpInButton = document.createElement('button');
   $jumpInButton.type = 'button';
   $jumpInButton.className = 'overlay-town-btn';
   $jumpInButton.textContent = 'Jump back in!';
 
-  var $villagerColumnDiv = document.createElement('div');
+  const $villagerColumnDiv = document.createElement('div');
   $villagerColumnDiv.className = 'column-half';
 
-  var $villagerUl = document.createElement('ul');
+  const $villagerUl = document.createElement('ul');
   $villagerUl.className = 'home-villager-icon-holder row gap-1-rem';
 
   for (let i = 0; i < townObj.townVillagers.length; i++) {
@@ -329,7 +329,7 @@ function renderTown(townObj) {
 }
 
 function createDefaultText() {
-  var output = document.createElement('p');
+  const output = document.createElement('p');
   output.className = 'text-align-center default-text';
   output.textContent = 'No towns have been recorded... yet!';
   return output;
@@ -340,10 +340,10 @@ function createBirthdayDefaultText() {
   *   <h3 class="pl-1-rem event-text fw-500">No Birthdays Today...</h3>
   * </li>
   */
-  var $parentLi = document.createElement('li');
+  const $parentLi = document.createElement('li');
   $parentLi.className = 'birthday-default-text row align-center';
 
-  var $childh3 = document.createElement('h3');
+  const $childh3 = document.createElement('h3');
   $childh3.className = 'pl-1-rem event-text fw-500';
   $childh3.textContent = 'No Birthdays Today...';
 
@@ -353,7 +353,7 @@ function createBirthdayDefaultText() {
 
 // Edit Town //
 
-var $editTownBtn = document.querySelector('.edit-icon');
+const $editTownBtn = document.querySelector('.edit-icon');
 
 $editTownBtn.addEventListener('click', function (event) { // preload all town information into the town form for editing
   data.editing = data.currentTown;
@@ -381,19 +381,19 @@ $editTownBtn.addEventListener('click', function (event) { // preload all town in
 
 // Town Home Page //
 
-var $allFruit = document.querySelectorAll('.town-fruit-header');
-var $allDates = document.querySelectorAll('.today-date');
-var $homeTownName = document.querySelector('.home-page-town-name');
-var $homeVillagerUl = document.querySelector('.home-page-villagers');
-var $homeImageCont = document.querySelector('.home-page-image');
-var $birthdayUl = document.querySelector('.birthday-container');
-var $villagerQuote = document.querySelector('.villager-quote');
-var $villagerQuoteTag = document.querySelector('.villager-quote-tag');
-var $eventsContainer = document.querySelector('.events-container');
+const $allFruit = document.querySelectorAll('.town-fruit-header');
+const $allDates = document.querySelectorAll('.today-date');
+const $homeTownName = document.querySelector('.home-page-town-name');
+const $homeVillagerUl = document.querySelector('.home-page-villagers');
+const $homeImageCont = document.querySelector('.home-page-image');
+const $birthdayUl = document.querySelector('.birthday-container');
+const $villagerQuote = document.querySelector('.villager-quote');
+const $villagerQuoteTag = document.querySelector('.villager-quote-tag');
+const $eventsContainer = document.querySelector('.events-container');
 
 $townContainer.addEventListener('click', function (event) { // on 'jump back in' btn press, pass correct townObj to rendertown function
   if (event.target.tagName === 'BUTTON') {
-    var dataID = parseInt(event.target.closest('li').getAttribute(['data-entry-id']));
+    const dataID = parseInt(event.target.closest('li').getAttribute(['data-entry-id']));
     for (let i = 0; i < data.towns.length; i++) {
       if (data.towns[i].entryID === dataID) {
         renderHomePage(data.towns[i]);
@@ -404,7 +404,7 @@ $townContainer.addEventListener('click', function (event) { // on 'jump back in'
 });
 
 function renderHomePage(townObj) {
-  var birthdayVillagers = [];
+  const birthdayVillagers = [];
 
   // render the town data //
   data.currentTown = townObj;
@@ -435,7 +435,7 @@ function renderHomePage(townObj) {
   }
   getRandomQuote();
   $eventsContainer.textContent = '';
-  var eventsToRender = filterEvents(thisWeeksEvents);
+  const eventsToRender = filterEvents(thisWeeksEvents);
   for (let i = 0; i < eventsToRender.length; i++) {
     $eventsContainer.append(renderEvent(eventsToRender[i]));
   }
@@ -446,14 +446,14 @@ function renderHomePage(townObj) {
 }
 
 function getRandomQuote() {
-  var randomQuote = villagerQuotes[Math.floor(Math.random() * villagerQuotes.length)];
+  const randomQuote = villagerQuotes[Math.floor(Math.random() * villagerQuotes.length)];
   $villagerQuote.textContent = randomQuote.quote;
   $villagerQuoteTag.textContent = '--' + randomQuote.name;
 }
 
 function filterEvents(eventArray) { // filter the events to only show relevant events to user
-  var eventsToShow = [];
-  var validDays = getOneWeekForward();
+  const eventsToShow = [];
+  const validDays = getOneWeekForward();
   for (let i = 0; i < eventArray.length; i++) {
     if (eventArray[i].type === 'Recipe') {
       eventsToShow.push(eventArray[i]);
@@ -472,10 +472,10 @@ function renderEvent(eventObj) {
   *    <h3 class="fw-500 mtb-0 event-date fb-15">09/01</h3>
   *  </li>
   */
-  var $newLi = document.createElement('li');
+  const $newLi = document.createElement('li');
   $newLi.className = 'row-no-wrap justify-and-align-center';
 
-  var $newImg = document.createElement('img');
+  const $newImg = document.createElement('img');
   if (eventObj.type === 'Event') {
     $newImg.src = 'images/Events/trophy-icon.png';
   } else if (eventObj.type === 'Nook Shopping') {
@@ -485,14 +485,14 @@ function renderEvent(eventObj) {
   }
   $newImg.className = 'event-icon fb-5';
 
-  var $eventNameH3 = document.createElement('h3');
+  const $eventNameH3 = document.createElement('h3');
   $eventNameH3.className = 'fw-500 mtb-0 mr-1-rem fb-85';
   $eventNameH3.textContent = eventObj.event;
 
-  var $eventDateH3 = document.createElement('h3');
+  const $eventDateH3 = document.createElement('h3');
   $eventDateH3.className = 'fw-500 mtb-0 event-date fb-15';
-  var splitDate = eventObj.date.split('-');
-  var monthDayOnly = splitDate[1] + '/' + splitDate[2];
+  const splitDate = eventObj.date.split('-');
+  const monthDayOnly = splitDate[1] + '/' + splitDate[2];
   $eventDateH3.textContent = monthDayOnly;
 
   $newLi.append($newImg, $eventNameH3, $eventDateH3);
@@ -502,9 +502,9 @@ function renderEvent(eventObj) {
 
 // View-Swap //
 
-var $navTowns = document.querySelector('.towns-nav');
-var $addTownBtn = document.querySelector('.add-town-btn');
-var $homeBtn = document.querySelector('.home-nav');
+const $navTowns = document.querySelector('.towns-nav');
+const $addTownBtn = document.querySelector('.add-town-btn');
+const $homeBtn = document.querySelector('.home-nav');
 
 $navTowns.addEventListener('click', function (event) { // swap to entries view
   if (data.view !== 'town-entries') {
@@ -545,7 +545,7 @@ function signOut() { // signs the user out of their current town, clearing all d
 }
 
 function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
-  var $dataViews = document.querySelectorAll('[data-view]');
+  const $dataViews = document.querySelectorAll('[data-view]');
   for (let i = 0; i < $dataViews.length; i++) {
     if ($dataViews[i].getAttribute('data-view') === dataView) {
       $dataViews[i].className = '';
@@ -564,15 +564,15 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
 // ACNH Data Functions //
 
 function getVillagerNames() { // call the API and grab all villager names and icons
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     for (let i = 0; i < xhr.response.length; i++) {
-      var villager = {};
-      var name = xhr.response[i].name['name-USen'];
-      var icon = xhr.response[i].image_uri;
-      var birthday = xhr.response[i].birthday;
+      const villager = {};
+      const name = xhr.response[i].name['name-USen'];
+      const icon = xhr.response[i].image_uri;
+      const birthday = xhr.response[i].birthday;
       villager.name = name;
       villager.icon = icon;
       villager.birthday = birthday;
@@ -584,8 +584,8 @@ function getVillagerNames() { // call the API and grab all villager names and ic
 }
 
 function getCurrentEvents() { // call the API and grab current events
-  var xhr = new XMLHttpRequest();
-  var params = 'month=October&year=2022';
+  const xhr = new XMLHttpRequest();
+  const params = 'month=October&year=2022';
   xhr.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params);
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
@@ -597,8 +597,8 @@ function getCurrentEvents() { // call the API and grab current events
         }
       }
     }
-    var xhr2 = new XMLHttpRequest();
-    var params2 = 'month=November&year=2022';
+    const xhr2 = new XMLHttpRequest();
+    const params2 = 'month=November&year=2022';
     xhr2.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params2);
     xhr2.responseType = 'json';
     xhr2.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
@@ -620,14 +620,14 @@ function getCurrentEvents() { // call the API and grab current events
 }
 
 function getFishCollectionItems() {
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nookipedia.com/nh/fish');
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
-    var acnhFish = [];
+    const acnhFish = [];
     for (let i = 0; i < xhr.response.length; i++) {
-      var currentFish = {};
+      const currentFish = {};
       currentFish.name = xhr.response[i].name;
       currentFish.number = xhr.response[i].number;
       currentFish.iconUrl = xhr.response[i].image_url;
@@ -643,7 +643,7 @@ function getFishCollectionItems() {
       currentFish.acquired = false;
       acnhFish.push(currentFish);
     }
-    var sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fish by number property
+    const sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fish by number property
     renderTable(sortedFish); // render the fish table for the main collection page
     data.collectionData.fish = sortedFish;
   });
@@ -651,14 +651,14 @@ function getFishCollectionItems() {
 }
 
 function getBugCollectionItems() {
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nookipedia.com/nh/bugs');
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
-    var acnhBugs = [];
+    const acnhBugs = [];
     for (let i = 0; i < xhr.response.length; i++) {
-      var currentBug = {};
+      const currentBug = {};
       currentBug.name = xhr.response[i].name;
       currentBug.number = xhr.response[i].number;
       currentBug.iconUrl = xhr.response[i].image_url;
@@ -673,7 +673,7 @@ function getBugCollectionItems() {
       currentBug.acquired = false;
       acnhBugs.push(currentBug);
     }
-    var sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the bugs by number property
+    const sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the bugs by number property
     renderTable(sortedBugs); // render the fish table for the main collection page
     data.collectionData.bugs = sortedBugs;
   });
@@ -681,14 +681,14 @@ function getBugCollectionItems() {
 }
 
 function getSeaCollectionItems() {
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nookipedia.com/nh/sea');
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
-    var acnhSea = [];
+    const acnhSea = [];
     for (let i = 0; i < xhr.response.length; i++) {
-      var currentSea = {};
+      const currentSea = {};
       currentSea.name = xhr.response[i].name;
       currentSea.number = xhr.response[i].number;
       currentSea.location = 'Unda\' the sea';
@@ -704,7 +704,7 @@ function getSeaCollectionItems() {
       currentSea.acquired = false;
       acnhSea.push(currentSea);
     }
-    var sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the sea creatures by number property
+    const sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the sea creatures by number property
     renderTable(sortedSea); // render the fish table for the main collection page
     data.collectionData.sea = sortedSea;
   });
@@ -712,14 +712,14 @@ function getSeaCollectionItems() {
 }
 
 function getFossilCollectionItems() {
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nookipedia.com/nh/fossils/individuals');
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
-    var acnhFossils = [];
+    const acnhFossils = [];
     for (let i = 0; i < xhr.response.length; i++) {
-      var currentFossil = {};
+      const currentFossil = {};
       currentFossil.name = xhr.response[i].name;
       currentFossil.iconUrl = xhr.response[i].image_url;
       currentFossil.imageUrl = xhr.response[i].image_url;
@@ -729,7 +729,7 @@ function getFossilCollectionItems() {
       currentFossil.acquired = false;
       acnhFossils.push(currentFossil);
     }
-    var sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
+    const sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
     renderTable(sortedFossils); // render the fish table for the main collection page
     data.collectionData.fossils = sortedFossils;
   });
@@ -737,14 +737,14 @@ function getFossilCollectionItems() {
 }
 
 function getArtCollectionItems() {
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nookipedia.com/nh/art');
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
-    var acnhArt = [];
+    const acnhArt = [];
     for (let i = 0; i < xhr.response.length; i++) {
-      var currentArt = {};
+      const currentArt = {};
       currentArt.name = xhr.response[i].name;
       currentArt['art-name'] = xhr.response[i].art_name;
       currentArt.author = xhr.response[i].author;
@@ -761,7 +761,7 @@ function getArtCollectionItems() {
       currentArt.acquired = false;
       acnhArt.push(currentArt);
     }
-    var sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
+    const sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
     renderTable(sortedArt); // render the fish table for the main collection page
     data.collectionData.art = sortedArt;
   });
@@ -771,8 +771,8 @@ function getArtCollectionItems() {
 // Date Functions //
 
 function isBirthday(villager) { // if today is the villagers birthday, return true
-  var currentDate = new Date();
-  var todayDate = currentDate.getDate() + '/' + (currentDate.getMonth() + 1);
+  const currentDate = new Date();
+  const todayDate = currentDate.getDate() + '/' + (currentDate.getMonth() + 1);
   if (todayDate === villager.birthday) {
     return true;
   }
@@ -780,12 +780,12 @@ function isBirthday(villager) { // if today is the villagers birthday, return tr
 }
 
 function getDate() { // returns todays date
-  var currentDate = new Date();
-  var currentDay = currentDate.getDate();
+  let currentDate = new Date();
+  const currentDay = currentDate.getDate();
   currentDate = currentDate.toDateString();
-  var splitDate = currentDate.split(' ');
+  const splitDate = currentDate.split(' ');
   splitDate.pop();
-  var daysObj = {
+  const daysObj = {
     Sun: 'Sunday,',
     Mon: 'Monday,',
     Tue: 'Tuesday,',
@@ -794,7 +794,7 @@ function getDate() { // returns todays date
     Fri: 'Friday',
     Sat: 'Saturday,'
   };
-  var monthsObj = {
+  const monthsObj = {
     Jan: 'January',
     Feb: 'Febuary',
     Mar: 'March',
@@ -831,8 +831,8 @@ function getDate() { // returns todays date
 }
 
 function getOneWeekForward() { // returns an array of valid dates to check
-  var validDays = [];
-  var monthObj = {
+  const validDays = [];
+  const monthObj = {
     1: 31,
     2: 28,
     3: 31,
@@ -849,14 +849,14 @@ function getOneWeekForward() { // returns an array of valid dates to check
   if (isLeapYear) {
     monthObj[2] = 29;
   }
-  var todaysDate = new Date();
-  var todayDay = todaysDate.getDate();
-  var todayMonth = todaysDate.getMonth() + 1;
-  var todayYear = todaysDate.getFullYear();
+  const todaysDate = new Date();
+  const todayDay = todaysDate.getDate();
+  const todayMonth = todaysDate.getMonth() + 1;
+  const todayYear = todaysDate.getFullYear();
   for (let i = 0; i < 8; i++) {
-    var ForwardDay = todayDay + i;
-    var ForwardMonth = todayMonth;
-    var ForwardYear = todayYear;
+    let ForwardDay = todayDay + i;
+    let ForwardMonth = todayMonth;
+    let ForwardYear = todayYear;
     for (const key in monthObj) {
       if (parseInt(key) === todayMonth) {
         if (ForwardDay > parseInt(monthObj[key])) { // check if day > day in month object for current month
@@ -886,11 +886,11 @@ function isLeapYear(year) {
 
 // Slider JS //
 
-var $slider = document.querySelector('.slider-container');
-var isDown = false;
-var isDragging = false;
-var StartX;
-var scrollLeft;
+const $slider = document.querySelector('.slider-container');
+let isDown = false;
+let isDragging = false;
+let StartX;
+let scrollLeft;
 
 $slider.addEventListener('mousedown', function (event) {
   isDown = true;
@@ -924,14 +924,14 @@ $slider.addEventListener('mousemove', function (event) {
 
 // Collections //
 
-var $collectionContainer = document.querySelector('.collections-container');
-var $collectionImage = document.querySelector('.collection-img-header');
-var $collectionProgressCount = document.querySelector('.collection-count');
+const $collectionContainer = document.querySelector('.collections-container');
+const $collectionImage = document.querySelector('.collection-img-header');
+const $collectionProgressCount = document.querySelector('.collection-count');
 
 $collectionContainer.addEventListener('click', function (event) {
   if (event.target.tagName === 'IMG' || event.target.tagName === 'DIV') {
     $slideContainer.textContent = ''; // clear collection container from previous collections if present
-    var collectionType = event.target.closest('li').getAttribute(['data-collection-type-id']);
+    const collectionType = event.target.closest('li').getAttribute(['data-collection-type-id']);
     renderCollection(collectionType);
     viewSwap('collections');
   }
@@ -943,15 +943,15 @@ function renderIcon(object) { // render an icon square with data from acnhObject
   *      <img class="collection-icon not-acquired-overlay" src="https://acnhapi.com/v1/icons/fish/1" alt="turtle-img">
   *   </div>
   */
-  var $cardDiv = document.createElement('div');
+  const $cardDiv = document.createElement('div');
   $cardDiv.setAttribute('data-collection-id', object.name);
   $cardDiv.className = 'collection-card';
 
-  var $labelSpan = document.createElement('span');
+  const $labelSpan = document.createElement('span');
   $labelSpan.className = 'label label-not-acquired-bg hidden';
   $labelSpan.textContent = '???';
 
-  var $cardIcon = document.createElement('img');
+  const $cardIcon = document.createElement('img');
   if (object.acquired === false) {
     $cardIcon.className = 'collection-icon not-acquired-overlay';
   } else {
@@ -967,8 +967,8 @@ function renderIcon(object) { // render an icon square with data from acnhObject
 }
 
 function renderTable(itemArray) {
-  var columnLength = 5;
-  var $newLi;
+  const columnLength = 5;
+  let $newLi;
   for (let i = 0; i < itemArray.length; i++) {
     if (i % columnLength === 0) { // columns should have 5 items
       if (i !== 0) {
@@ -1046,8 +1046,8 @@ function renderCollection(collectionType) {
 
 // Collection Interactivity //
 
-var $closeModal = document.querySelector('.close-modal-btn');
-var $modal = document.querySelector('.modal');
+const $closeModal = document.querySelector('.close-modal-btn');
+const $modal = document.querySelector('.modal');
 
 $slider.addEventListener('mouseup', function (event) { // handles the click events on the collection table
   if (event.target.tagName === 'IMG') {
@@ -1064,12 +1064,12 @@ $slider.addEventListener('mouseover', function (event) { // add
 
 function handleLabelHover(event) { // add label to currently hovered collection card and remove from rest
   if (event.target.tagName === 'IMG') {
-    var $collectionLabels = document.querySelectorAll('.label');
-    var $hoveredDiv = event.target.closest('div');
-    var $hoveredLabel = $hoveredDiv.firstElementChild;
+    const $collectionLabels = document.querySelectorAll('.label');
+    const $hoveredDiv = event.target.closest('div');
+    const $hoveredLabel = $hoveredDiv.firstElementChild;
     for (let i = 0; i < $collectionLabels.length; i++) { // iterate through all labels
       if ($hoveredLabel === $collectionLabels[i]) { // if label is the one we want...
-        var hoveredDataId = $hoveredDiv.getAttribute(['data-collection-id']); // grab the dataID
+        const hoveredDataId = $hoveredDiv.getAttribute(['data-collection-id']); // grab the dataID
         for (let i = 0; i < data.collectionData[data.currentCollection].length; i++) { // iterate through all collection data
           if (data.collectionData[data.currentCollection][i].name === hoveredDataId) { // find the collection item that matches the dataID
             if (data.collectionData[data.currentCollection][i].acquired === true) {
@@ -1096,14 +1096,14 @@ $slider.addEventListener('mouseleave', function (event) {
 });
 
 function removeAllLabels(event) { // remove all labels from collection cards
-  var $collectionLabels = document.querySelectorAll('.label');
+  const $collectionLabels = document.querySelectorAll('.label');
   for (let i = 0; i < $collectionLabels.length; i++) {
     $collectionLabels[i].classList.add('hidden');
   }
 }
 
 function toTitleCase(string) {
-  var output = '';
+  let output = '';
   output += string[0].toUpperCase();
   for (let i = 1; i < string.length; i++) {
     output += string[i];
@@ -1118,11 +1118,11 @@ function closeModal() {
 }
 
 // All Collection Modals //
-var $name = document.querySelector('div.fish-modal h2.modal-title');
-var $heroImg = document.querySelector('div.fish-modal img.modal-hero-img');
-var $acquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
-var $acquiredIcon = document.querySelector('div.fish-modal i.caught-mark');
-var $infoContainer = document.querySelector('.info-container');
+const $name = document.querySelector('div.fish-modal h2.modal-title');
+const $heroImg = document.querySelector('div.fish-modal img.modal-hero-img');
+const $acquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
+const $acquiredIcon = document.querySelector('div.fish-modal i.caught-mark');
+const $infoContainer = document.querySelector('.info-container');
 
 // Fish, Bug, & Sea Collection Uniques // (fbs --> fish / bug /sea)
 
@@ -1138,27 +1138,27 @@ function renderTimeLocationInfo(creatureObj) {
   *     </div>
   *  </li>
   */
-  var $locTimeLi = document.createElement('li');
+  const $locTimeLi = document.createElement('li');
   $locTimeLi.className = 'loc-time-box row-no-wrap mb-half-rem';
 
-  var $labelDiv = document.createElement('div');
+  const $labelDiv = document.createElement('div');
   $labelDiv.className = 'column-25 flex-column gap-half-rem';
 
-  var $locationP = document.createElement('p');
+  const $locationP = document.createElement('p');
   $locationP.className = 'blue-sm-tag';
   $locationP.textContent = 'Location';
-  var $timeP = document.createElement('p');
+  const $timeP = document.createElement('p');
   $timeP.classList = 'blue-sm-tag';
   $timeP.textContent = 'Time';
 
-  var $infoDiv = document.createElement('div');
+  const $infoDiv = document.createElement('div');
   $infoDiv.className = 'column-75 flex-column gap-half-rem';
 
-  var $locationInfoP = document.createElement('p');
+  const $locationInfoP = document.createElement('p');
   $locationInfoP.className = 'white-info-tag';
   $locationInfoP.textContent = creatureObj.location;
 
-  var $timeInfoP = document.createElement('p');
+  const $timeInfoP = document.createElement('p');
   $timeInfoP.className = 'white-info-tag';
   $timeInfoP.textContent = creatureObj['north-availability'][0].time;
 
@@ -1193,14 +1193,14 @@ function renderMonths(columnWidth, creatureObj) {
   *       </div>
   *    </div>
   */
-  var monthsNameArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  var monthDivs = [];
-  var $monthContainerDiv = document.createElement('div');
+  const monthsNameArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthDivs = [];
+  const $monthContainerDiv = document.createElement('div');
   $monthContainerDiv.className = 'row-no-wrap gap-1-rem justify-around month-container';
   $monthContainerDiv.classList.add(`column-${columnWidth}`);
 
   for (let i = 0; i < monthsNameArray.length; i++) {
-    var $monthDiv = document.createElement('div');
+    const $monthDiv = document.createElement('div');
     $monthDiv.setAttribute('data-month-id', i + 1);
     $monthDiv.className = 'month-card';
     $monthDiv.textContent = monthsNameArray[i];
@@ -1210,19 +1210,19 @@ function renderMonths(columnWidth, creatureObj) {
     }
   }
 
-  var $monthColumnDiv1 = document.createElement('div');
+  const $monthColumnDiv1 = document.createElement('div');
   $monthColumnDiv1.className = 'fb-20';
   $monthColumnDiv1.append(monthDivs[0], monthDivs[4], monthDivs[8]);
 
-  var $monthColumnDiv2 = document.createElement('div');
+  const $monthColumnDiv2 = document.createElement('div');
   $monthColumnDiv2.className = 'fb-20';
   $monthColumnDiv2.append(monthDivs[1], monthDivs[5], monthDivs[9]);
 
-  var $monthColumnDiv3 = document.createElement('div');
+  const $monthColumnDiv3 = document.createElement('div');
   $monthColumnDiv3.className = 'fb-20';
   $monthColumnDiv3.append(monthDivs[2], monthDivs[6], monthDivs[10]);
 
-  var $monthColumnDiv4 = document.createElement('div');
+  const $monthColumnDiv4 = document.createElement('div');
   $monthColumnDiv4.className = 'fb-20';
   $monthColumnDiv4.append(monthDivs[3], monthDivs[7], monthDivs[11]);
 
@@ -1253,49 +1253,49 @@ function renderFishInfo(fishObject) {
   *   </div>
   * </li>
   */
-  var $uniquesLi = document.createElement('li');
+  const $uniquesLi = document.createElement('li');
   $uniquesLi.classList = 'uniques-box';
 
-  var $labelDiv = document.createElement('div');
+  const $labelDiv = document.createElement('div');
   $labelDiv.className = 'row-no-wrap mb-half-rem';
 
-  var $shadowColumnDiv = document.createElement('div');
+  const $shadowColumnDiv = document.createElement('div');
   $shadowColumnDiv.className = 'column-25 flex-column gap-half-rem';
 
-  var $shadowColumnP = document.createElement('p');
+  const $shadowColumnP = document.createElement('p');
   $shadowColumnP.className = 'blue-sm-tag';
   $shadowColumnP.textContent = 'Shadow';
 
-  var $seasonColumnDiv = document.createElement('div');
+  const $seasonColumnDiv = document.createElement('div');
   $seasonColumnDiv.className = 'column-75 flex-column gap-half-rem';
 
-  var $seasonColumnP = document.createElement('p');
+  const $seasonColumnP = document.createElement('p');
   $seasonColumnP.className = 'blue-med-tag';
   $seasonColumnP.textContent = 'Seasonality';
 
-  var $infoDiv = document.createElement('div');
+  const $infoDiv = document.createElement('div');
   $infoDiv.className = 'row-no-wrap gap-half-rem';
 
-  var $shadowInfoDiv = document.createElement('div');
+  const $shadowInfoDiv = document.createElement('div');
   $shadowInfoDiv.className = 'column-25 text-align-center fish-shadow-card';
 
-  var $shadowImg = document.createElement('img');
+  const $shadowImg = document.createElement('img');
   $shadowImg.className = 'fish-size-img shadow';
   const curFishShadowData = getFishShadowImg(fishObject.shadow);
   $shadowImg.src = curFishShadowData.src;
   $shadowImg.alt = 'fish-shadow-img';
 
-  var $shadowP = document.createElement('p');
+  const $shadowP = document.createElement('p');
   $shadowP.className = 'fish-size-label row justify-and-align-center';
   $shadowP.textContent = curFishShadowData.label;
 
-  var $shadowLink = document.createElement('a');
+  const $shadowLink = document.createElement('a');
   $shadowLink.className = 'shadow-reference';
   $shadowLink.setAttribute('target', '_blank');
   $shadowLink.setAttribute('href', 'https://tunnaa-unnaa.tumblr.com/image/620023127192354817'); // add fishobject info here
   $shadowLink.textContent = 'Need a reference?';
 
-  var $monthsDiv = renderMonths(75, fishObject);
+  const $monthsDiv = renderMonths(75, fishObject);
 
   $shadowInfoDiv.append($shadowImg, $shadowP, $shadowLink);
   $infoDiv.append($shadowInfoDiv, $monthsDiv);
@@ -1317,17 +1317,17 @@ function renderBugInfo(bugObject) {
   *    <monthshere()>
   *  </li>
   */
-  var $uniquesLi = document.createElement('li');
+  const $uniquesLi = document.createElement('li');
   $uniquesLi.classList = 'uniques-box';
 
-  var $labelDiv = document.createElement('div');
+  const $labelDiv = document.createElement('div');
   $labelDiv.className = 'row-no-wrap justify-center';
 
-  var $seasonP = document.createElement('p');
+  const $seasonP = document.createElement('p');
   $seasonP.className = 'blue-med-tag-no-m mb-half-rem';
   $seasonP.textContent = 'Seasonality';
 
-  var $monthsDiv = renderMonths(100, bugObject);
+  const $monthsDiv = renderMonths(100, bugObject);
 
   $labelDiv.append($seasonP);
   $uniquesLi.append($labelDiv, $monthsDiv);
@@ -1364,66 +1364,66 @@ function renderSeaInfo(seaObject) {
   *   </div>
   * </li>
   */
-  var $uniquesLi = document.createElement('li');
+  const $uniquesLi = document.createElement('li');
   $uniquesLi.classList = 'uniques-box';
 
-  var $speedDiv = document.createElement('div');
+  const $speedDiv = document.createElement('div');
   $speedDiv.className = 'row-no-wrap mb-half-rem';
 
-  var $speedLabelColumn = document.createElement('div');
+  const $speedLabelColumn = document.createElement('div');
   $speedLabelColumn.className = 'column-25';
 
-  var $speedInfoColumn = document.createElement('div');
+  const $speedInfoColumn = document.createElement('div');
   $speedInfoColumn.className = 'column-75';
 
-  var $speedLabelP = document.createElement('p');
+  const $speedLabelP = document.createElement('p');
   $speedLabelP.textContent = 'Speed';
   $speedLabelP.className = 'blue-sm-tag';
 
-  var $speedInfoP = document.createElement('p');
+  const $speedInfoP = document.createElement('p');
   $speedInfoP.textContent = seaObject['shadow-movement'];
   $speedInfoP.className = 'white-info-tag';
 
-  var $labelDiv = document.createElement('div');
+  const $labelDiv = document.createElement('div');
   $labelDiv.className = 'row-no-wrap mb-half-rem';
 
-  var $shadowColumnDiv = document.createElement('div');
+  const $shadowColumnDiv = document.createElement('div');
   $shadowColumnDiv.className = 'column-25 flex-column gap-half-rem';
 
-  var $shadowColumnP = document.createElement('p');
+  const $shadowColumnP = document.createElement('p');
   $shadowColumnP.className = 'blue-sm-tag';
   $shadowColumnP.textContent = 'Shadow';
 
-  var $seasonColumnDiv = document.createElement('div');
+  const $seasonColumnDiv = document.createElement('div');
   $seasonColumnDiv.className = 'column-75 flex-column gap-half-rem';
 
-  var $seasonColumnP = document.createElement('p');
+  const $seasonColumnP = document.createElement('p');
   $seasonColumnP.className = 'blue-med-tag';
   $seasonColumnP.textContent = 'Seasonality';
 
-  var $infoDiv = document.createElement('div');
+  const $infoDiv = document.createElement('div');
   $infoDiv.className = 'row-no-wrap gap-half-rem';
 
-  var $shadowInfoDiv = document.createElement('div');
+  const $shadowInfoDiv = document.createElement('div');
   $shadowInfoDiv.className = 'column-25 text-align-center fish-shadow-card';
 
-  var $shadowImg = document.createElement('img');
+  const $shadowImg = document.createElement('img');
   $shadowImg.className = 'fish-size-img shadow';
   const curSeaShadowData = getSeaShadowImg(seaObject['shadow-size']);
   $shadowImg.src = curSeaShadowData.src;
   $shadowImg.alt = 'sea-shadow-img';
 
-  var $shadowP = document.createElement('p');
+  const $shadowP = document.createElement('p');
   $shadowP.className = 'fish-size-label row justify-and-align-center';
   $shadowP.textContent = curSeaShadowData.label;
 
-  var $shadowLink = document.createElement('a');
+  const $shadowLink = document.createElement('a');
   $shadowLink.className = 'shadow-reference';
   $shadowLink.setAttribute('target', '_blank');
   $shadowLink.setAttribute('href', 'https://i.redd.it/eevwll228q851.jpg');
   $shadowLink.textContent = 'Need a reference?';
 
-  var $monthsDiv = renderMonths(75, seaObject);
+  const $monthsDiv = renderMonths(75, seaObject);
 
   $speedLabelColumn.append($speedLabelP);
   $speedInfoColumn.append($speedInfoP);
@@ -1452,28 +1452,28 @@ function renderFossilInfo(fossilObj) {
   *   </div>
   *   </li>
   */
-  var $uniquesLi = document.createElement('li');
+  const $uniquesLi = document.createElement('li');
   $uniquesLi.className = 'row-no-wrap mb-half-rem';
 
-  var $labelDiv = document.createElement('div');
+  const $labelDiv = document.createElement('div');
   $labelDiv.className = 'column-25 flex-column gap-half-rem';
 
-  var $groupP = document.createElement('p');
+  const $groupP = document.createElement('p');
   $groupP.className = 'blue-sm-tag';
   $groupP.textContent = 'Group';
 
-  var $hhaP = document.createElement('p');
+  const $hhaP = document.createElement('p');
   $hhaP.classList = 'blue-sm-tag';
   $hhaP.textContent = 'HHA';
 
-  var $infoDiv = document.createElement('div');
+  const $infoDiv = document.createElement('div');
   $infoDiv.className = 'column-75 flex-column gap-half-rem';
 
-  var $groupInfoP = document.createElement('p');
+  const $groupInfoP = document.createElement('p');
   $groupInfoP.className = 'white-info-tag';
   $groupInfoP.textContent = fossilObj['fossil-group'];
 
-  var $hhaInfoP = document.createElement('p');
+  const $hhaInfoP = document.createElement('p');
   $hhaInfoP.className = 'white-info-tag';
   $hhaInfoP.textContent = fossilObj['hha-score'];
 
@@ -1512,59 +1512,67 @@ function renderArtInfo(artObject) {
   *  </li>
   */
 
-  var $uniquesLi = document.createElement('li');
+  const $uniquesLi = document.createElement('li');
   $uniquesLi.classList = 'uniques-box';
 
-  var $artExtraInfoDiv = document.createElement('div');
+  const $artExtraInfoDiv = document.createElement('div');
   $artExtraInfoDiv.className = 'row-no-wrap mb-half-rem';
 
-  var $artLabelColumn = document.createElement('div');
+  const $artLabelColumn = document.createElement('div');
   $artLabelColumn.className = 'column-25 flex-column gap-half-rem';
 
-  var $realNameLabelP = document.createElement('p');
+  const $realNameLabelP = document.createElement('p');
   $realNameLabelP.className = 'blue-sm-tag';
   $realNameLabelP.textContent = 'Name';
 
-  var $realAuthorLabelP = document.createElement('p');
+  const $realAuthorLabelP = document.createElement('p');
   $realAuthorLabelP.className = 'blue-sm-tag';
   $realAuthorLabelP.textContent = 'Author';
 
-  var $realTimeLabelP = document.createElement('p');
+  const $realTimeLabelP = document.createElement('p');
   $realTimeLabelP.className = 'blue-sm-tag';
   $realTimeLabelP.textContent = 'Time';
 
-  var $artInfoColumn = document.createElement('div');
+  const $artInfoColumn = document.createElement('div');
   $artInfoColumn.className = 'column-75 flex-column gap-half-rem';
 
-  var $realNameInfoP = document.createElement('p');
+  const $realNameInfoP = document.createElement('p');
   $realNameInfoP.className = 'white-info-tag';
   $realNameInfoP.textContent = artObject['art-name'];
 
-  var $realAuthorInfoP = document.createElement('p');
+  const $realAuthorInfoP = document.createElement('p');
   $realAuthorInfoP.className = 'white-info-tag';
   $realAuthorInfoP.textContent = artObject.author;
 
-  var $realTimeInfoP = document.createElement('p');
+  const $realTimeInfoP = document.createElement('p');
   $realTimeInfoP.className = 'white-info-tag';
   $realTimeInfoP.textContent = artObject.year;
 
-  var $labelAuthentDiv = document.createElement('div');
+  const $labelAuthentDiv = document.createElement('div');
   $labelAuthentDiv.className = 'row-no-wrap justify-center';
 
-  var $infoAuthentDiv = document.createElement('div');
+  const $infoAuthentDiv = document.createElement('div');
   $infoAuthentDiv.className = 'row-no-wrap mb-half-rem';
 
-  var $authenticLabelP = document.createElement('p');
+  const $authenticLabelP = document.createElement('p');
   $authenticLabelP.className = 'blue-med-tag-no-m mb-half-rem';
   $authenticLabelP.textContent = 'Authenticity';
 
-  var $authenticInfoP = document.createElement('p');
+  const $authenticInfoP = document.createElement('p');
   $authenticInfoP.className = 'white-info-tag-no-m';
   $authenticInfoP.textContent = artObject.authenticity;
 
-  var $modalHeroImgDiv = document.querySelector('.modal-hero-div');
-  if (artObject.hasFake === true) {
-    var $fakeImg = document.createElement('img');
+  const $modalHeroImgDiv = document.querySelector('.modal-hero-div');
+
+  $artLabelColumn.append($realNameLabelP, $realAuthorLabelP, $realTimeLabelP);
+  $artInfoColumn.append($realNameInfoP, $realAuthorInfoP, $realTimeInfoP);
+  $artExtraInfoDiv.append($artLabelColumn, $artInfoColumn);
+  $labelAuthentDiv.append($authenticLabelP);
+  $infoAuthentDiv.append($authenticInfoP);
+  $uniquesLi.append($artExtraInfoDiv, $labelAuthentDiv, $infoAuthentDiv);
+
+  if (artObject.hasFake === true) { // if art has a fake, we need to attach fake functionality
+    const $fakeImg = document.createElement('img');
     $fakeImg.className = 'modal-hero-img hidden';
     $fakeImg.src = artObject.fakeVersion;
     $modalHeroImgDiv.append($fakeImg);
@@ -1573,32 +1581,22 @@ function renderArtInfo(artObject) {
       $modalHeroImgDiv.children[1].remove();
     }
 
-    var $hasFakeBtnDiv = document.createElement('div');
+    const $hasFakeBtnDiv = document.createElement('div');
     $hasFakeBtnDiv.className = 'row-no-wrap justify-center';
 
-    var $hasFakeBtn = document.createElement('p');
+    const $hasFakeBtn = document.createElement('p');
     $hasFakeBtn.className = 'fake-reference';
     $hasFakeBtn.textContent = '---------- Show Fake? ----------';
     $hasFakeBtn.addEventListener('click', function (event) {
       $fakeImg.classList.toggle('hidden');
     });
+    $hasFakeBtnDiv.append($hasFakeBtn);
+    $uniquesLi.append($hasFakeBtnDiv);
   } else {
     if ($modalHeroImgDiv.children.length === 2) { // remove lingering fakes from previous modal
       $modalHeroImgDiv.children[1].remove();
     }
   }
-
-  $artLabelColumn.append($realNameLabelP, $realAuthorLabelP, $realTimeLabelP);
-  $artInfoColumn.append($realNameInfoP, $realAuthorInfoP, $realTimeInfoP);
-  $artExtraInfoDiv.append($artLabelColumn, $artInfoColumn);
-  $labelAuthentDiv.append($authenticLabelP);
-  $infoAuthentDiv.append($authenticInfoP);
-  $uniquesLi.append($artExtraInfoDiv, $labelAuthentDiv, $infoAuthentDiv);
-  if ($hasFakeBtnDiv) {
-    $hasFakeBtnDiv.append($hasFakeBtn);
-    $uniquesLi.append($hasFakeBtnDiv);
-  }
-
   return $uniquesLi;
 }
 
@@ -1667,7 +1665,7 @@ function handleNotAcquiredItem(itemName) {
 }
 
 function changeIconFilter(action, iconName) { // either adds or removes the dark icon filter
-  var $allCards = document.querySelectorAll('.collection-card');
+  const $allCards = document.querySelectorAll('.collection-card');
   for (let i = 0; i < $allCards.length; i++) {
     if ($allCards[i].getAttribute(['data-collection-id']) === iconName) {
       if (action === 'remove') {
@@ -1712,7 +1710,7 @@ function getSeaShadowImg(shadowSize, shadowSpeed) {
 }
 
 function inventoryCollection(collectionType) { // returns a string with the current collection count and collection-max
-  var collectionMaxes = {
+  const collectionMaxes = {
     fish: 80,
     bugs: 80,
     sea: 40,
@@ -1757,6 +1755,4 @@ function updateCurrentCollectionProgress() {
 }
 
 // BUGS TO SQUASH
-// go back through and check for object iterations --> look to replace with bool
-// add a switch statement for renderCollection
 // add a hamburger menu for mobile screens!
