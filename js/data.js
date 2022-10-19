@@ -5,6 +5,7 @@ var data = {
   towns: [],
   currentTown: {},
   currentCollection: '',
+  currentCollectionItem: {},
   editing: null,
   nextEntryId: 1,
   currentVillagers: [],

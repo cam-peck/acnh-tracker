@@ -1,4 +1,4 @@
-* {
+body {
   font-family: Roboto, "Trebuchet MS", Avenir, sans-serif;
 }
 
@@ -43,6 +43,14 @@
   width: 100%;
 }
 
+.column-25 {
+  width: 25%;
+}
+
+.column-75 {
+  width: 75%;
+}
+
 .fruit-card {
   flex-basis: 17%;
 }
@@ -69,9 +77,26 @@
     width: 50%;
   }
 
+  nav {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-links li {
+    padding: 1rem 1.5rem;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
   .daily-news-bottom {
     justify-content: center;
     align-items: center;
+  }
+
+  .birthday-quote-div {
+    margin-bottom: 2rem;
   }
 
   .event-container {
@@ -85,6 +110,45 @@
 }
 
 @media screen and (max-width: 768px) {
+  .header-bg-wrapper {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    opacity: 0.8;
+  }
+
+  body {
+    padding-top: 60px;
+  }
+
+  .navbar-links ul {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .navbar-links li {
+    text-align: end;
+    padding: 0.75rem;
+  }
+
+  .navbar-links {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    user-select: none;
+  }
+
+  .navbar-links.active {
+    display: flex;
+    transform: scale(1, 1);
+  }
+
+  .nav-links li:last-child {
+    margin-bottom: 0.25rem;
+  }
+
   .home-villager-icon-holder {
     display: none;
   }
@@ -94,8 +158,8 @@
     font-size: 1.25rem;
   }
 
-  nav {
-    display: none;
+  h3 {
+    font-size: 1rem;
   }
 
   .news-card {
@@ -103,12 +167,12 @@
     margin: 1rem 0;
   }
 
-  .news-data {
-    margin-left: 0.5rem;
+  .birthday-quote-div {
+    margin-bottom: 1rem;
   }
 
-  h3 {
-    font-size: 1rem;
+  .news-data {
+    margin-left: 0.5rem;
   }
 
   .slide {

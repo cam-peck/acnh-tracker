@@ -194,13 +194,12 @@ a {
 }
 
 .collection-status {
-  flex-basis: 5%;
+  width: 6%;
 }
 
 /* Edit Town */
 
 i:hover {
-  color: rgb(0, 146, 227);
   cursor: pointer;
 }
 
@@ -212,25 +211,21 @@ i:active {
 
 .progress {
   margin: 1rem;
-  padding: 2px;
-  flex-basis: 95%;
+  width: 90%;
   border-radius: 12px;
   height: 30px;
   background-color: #d9d9d9;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0.25rem;
 }
 
-.progress .progress-bar {
-  height: 100%;
-  width: 0%;
-  border-radius: 10px;
+.progress-bar {
+  content: "";
+  max-width: 100%;
   background-color: #0092e3;
-
-  /* animation: fill-bar 3s infinite; */
-}
-
-@keyframes fill-bar {
-  from { width: 0%; }
-  to { width: 100%; }
+  border-radius: 10px;
+  height: 100%;
 }
 
 /* Collections */
@@ -262,11 +257,11 @@ i:active {
 .collection-icon {
   width: 100%;
   padding: 1rem;
-  filter: brightness(0) opacity(0.15);
   -webkit-user-drag: none;
 }
 
 .collection-card {
+  position: relative;
   border: 2px solid grey;
   margin-right: -2px;
   margin-bottom: -2px;
@@ -284,6 +279,259 @@ i:active {
   cursor: pointer;
 }
 
+.collection-icon:hover {
+  transform: scale(1.05);
+  transition-duration: 0.5s;
+}
+
+.label {
+  position: absolute;
+  border: 1px solid grey;
+  color: black;
+  border-radius: 5px;
+  padding: 0.5rem;
+  left: 4rem;
+  top: -1rem;
+  z-index: 2;
+  opacity: 0.9;
+  animation: fadein ease 0.6s;
+}
+
+.label-acquired-bg {
+  background-color: rgb(176, 241, 201);
+}
+
+.label-not-acquired-bg {
+  background-color: rgb(241, 202, 202);
+}
+
+.caught-btn-red {
+  background-color: rgb(245, 112, 112);
+}
+
+.caught-btn-green {
+  background-color: rgb(43, 199, 103);
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.9;
+  }
+}
+
+/* Collections Modal */
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.modal-title {
+  color: white;
+}
+
+.modal-header {
+  background-color: #0092e3;
+  margin-bottom: 1rem;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  position: relative;
+}
+
+.close-modal-bg {
+  position: absolute;
+  background-color: white;
+  width: 35px;
+  height: 35px;
+  right: -15px;
+  top: -15px;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.modal-hero-img {
+  max-width: 300px;
+  max-height: 200px;
+}
+
+.not-acquired-overlay {
+  filter: brightness(0) opacity(0.15);
+}
+
+.bells-img {
+  width: 10%;
+}
+
+.info-container {
+  margin: 0 0.5rem 0.5rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: #eae7a7;
+}
+
+.white-info-tag {
+  background-color: white;
+  margin-left: 0.5rem;
+  border-radius: 10px;
+  padding: 0.3rem 0.5rem;
+}
+
+.white-info-tag-no-m {
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.5rem;
+  line-height: 1.5;
+  width: 100%;
+}
+
+.blue-sm-tag,
+.blue-med-tag,
+.blue-med-tag-no-m {
+  background-color: #0092e3;
+  color: white;
+  padding: 0.3rem 0.5rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.blue-sm-tag {
+  min-width: 70px;
+}
+
+.blue-med-tag {
+  width: 50%;
+  margin-left: 0.5rem;
+}
+
+.blue-med-tag-no-m {
+  width: 100%;
+}
+
+.month-card {
+  background-color: #bebb62;
+  flex-basis: 25%;
+  padding: 0.25rem;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.fish-shadow-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.shadow-reference {
+  color: grey;
+  font-size: 0.6rem;
+  text-decoration: underline;
+}
+
+.fake-reference {
+  color: grey;
+  font-size: 1rem;
+}
+
+.fake-reference:hover {
+  cursor: pointer;
+}
+
+.fake-reference:active {
+  transform: translateY(0.05rem);
+  user-select: none;
+}
+
+.fish-size-img {
+  width: 70px;
+  border-radius: 8px;
+}
+
+.fish-size-label {
+  position: absolute;
+  color: black;
+  width: 27px;
+  height: 27px;
+  left: 5px;
+  top: -5px;
+  background-color: white;
+  border: 2px solid #0092e3;
+  border-radius: 50%;
+}
+
+.dark-overlay {
+  background-color: rgb(0 0 0 / 80%);
+}
+
+.modal-content {
+  margin: 1rem;
+  border-radius: 5px;
+  width: 450px;
+}
+
+.month-active {
+  outline: 3px solid #146025;
+}
+
+.acquired-btn {
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.caught-mark {
+  margin-left: 0.25rem;
+}
+
+/* Hamburger Menu */
+
+.hamburger {
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.navbar-links li:hover {
+  background-color: rgb(174, 239, 255, 0.1);
+  cursor: pointer;
+}
+
 /* Functional CSS Classes */
 
 .justify-end {
@@ -294,9 +542,17 @@ i:active {
   justify-content: space-between;
 }
 
+.justify-around {
+  justify-content: space-around;
+}
+
 .justify-and-align-center {
   justify-content: center;
   align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .align-center {
@@ -329,6 +585,10 @@ i:active {
 
 .gap-2-rem {
   gap: 2rem;
+}
+
+.gap-3-rem {
+  gap: 3rem;
 }
 
 .light-gray-bg {
@@ -391,6 +651,14 @@ i:active {
   margin-bottom: 0.75rem;
 }
 
+.mb-half-rem {
+  margin-bottom: 0.5rem;
+}
+
+.mb-quarter-rem {
+  margin-bottom: 0.25rem;
+}
+
 .mr-1-rem {
   margin-right: 1rem;
 }
@@ -411,10 +679,6 @@ i:active {
   margin-top: 0;
 }
 
-.mb-quarter-rem {
-  margin-bottom: 0.25rem;
-}
-
 .mtb-half-rem {
   margin: 0.5rem 0;
 }
@@ -428,12 +692,24 @@ i:active {
   flex-basis: 5%;
 }
 
+.fb-20 {
+  flex-basis: 20%;
+}
+
 .fb-80 {
+  flex-basis: 80%;
+}
+
+.fb-85 {
   flex-basis: 85%;
 }
 
 .fb-15 {
   flex-basis: 10%;
+}
+
+.min-20 {
+  min-width: 20%;
 }
 
 .br-top-left {

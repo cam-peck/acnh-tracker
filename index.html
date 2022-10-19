@@ -18,17 +18,24 @@
 <body>
   <header class="header-bg-wrapper dark-blue-bg">
     <div class="container">
-      <div class="row column-full align-center">
-        <h2 class="text-white fw-500 mr-2-rem">ACNH</h2>
-        <nav>
-          <ul class="row text-white gap-2-rem">
-            <li><a class="towns-nav" href="#">Towns</a></li>
-            <li><a class="home-nav" href="#">Home</a></li>
-            <li>Collections</li>
-            <li>About</li>
+      <nav class="row column-full space-between align-center">
+        <div>
+          <h2 class="text-white fw-500 mr-2-rem">ACNH</h2>
+        </div>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <div class="navbar-links">
+          <ul class="row text-white nav-links">
+            <li class="nav-link towns-nav"><a href="#">All Towns</a></li>
+            <li class="nav-link home-nav"><a href="#">Home</a></li>
+            <li class="nav-link collections-nav"><a href="#">Collections</a></li>
+            <li class="nav-link about-nav"><a href="#">About</a></li>
           </ul>
-        </nav>
-      </div>
+        </div>
+      </nav>
     </div>
   </header>
 
@@ -146,7 +153,7 @@
         <div class="row column-full justify-and-align-center free-space">
           <h3 class="news-divider"><i class="fa-solid fa-calendar-days pr-half-rem"></i>Daily News</h3>
         </div>
-        <div class="row space-between mb-1-three-quarter-rem">
+        <div class="row space-between birthday-quote-div">
           <div class="news-card pb-1-rem gray-border-rule">
             <div class="row-no-wrap pr-1-rem align-center height-100">
               <div class="flex-10">
@@ -201,7 +208,7 @@
             <h3>0/80</h3>
           </div>
         </li>
-        <li data-collection-type-id="bug" class="row-no-wrap align-center">
+        <li data-collection-type-id="bugs" class="row-no-wrap align-center">
           <img class="home-page collection-img" src="images/Collections/butterfly-col.png">
           <div class="home-page progress">
             <div class="progress-bar"></div>
@@ -219,7 +226,7 @@
             <h3>0/40</h3>
           </div>
         </li>
-        <li data-collection-type-id="fossil" class="row-no-wrap align-center">
+        <li data-collection-type-id="fossils" class="row-no-wrap align-center">
           <img class="home-page collection-img" src="images/Collections/fossil-col.png">
           <div class="home-page progress">
             <div class="progress-bar"></div>
@@ -240,6 +247,7 @@
       </ul>
     </div>
 
+    <!-- User Can View & Interact with Collections -->
     <div class="hidden" data-view="collections">
       <div class="row column-full justify-and-align-center mt-three-quarter-rem mb-1-rem">
         <img class="town-fruit-header" src="images/Fruits/cherry.png" alt="town-fruit-img">
@@ -247,16 +255,36 @@
       </div>
       <div class="row-no-wrap align-center">
         <img class="collection-img-header collection-img" src="images/Collections/fish-col.png">
-        <div class="progress">
-          <div class="progress-bar"></div>
+        <div class="progress current-collection">
+          <div class="progress-bar current-collection"></div>
         </div>
         <div class="collection-status">
-          <h3 class="collection-count">0/80</h3>
+          <h3 class="collection-count current-collection">0/80</h3>
         </div>
       </div>
       <div class="current-collection-container">
         <ul class="slider-container"></ul>
       </div>
+      <!-- The Modal -->
+      <section class="modal dark-overlay hidden">
+
+        <!-- Modal content -->
+        <div class="modal-content light-yellow-bg text-center fish-modal">
+          <div class="row justify-and-align-center modal-header">
+            <h2 class="bold modal-title">???</h2>
+            <div class="close-modal-bg row justify-and-align-center">
+              <i class="fa-regular fa-circle-xmark fa-xl close-modal-btn"></i>
+            </div>
+          </div>
+          <div class="row justify-and-align-center mb-1-rem modal-hero-div gap-2rem">
+            <img class="modal-hero-img not-acquired-overlay" src="https://dodo.ac/np/images/c/c0/Cherry_Salmon_NH.png">
+          </div>
+          <div class="row justify-and-align-center mb-half-rem">
+            <button class="acquired-btn caught-btn-red">Acquired? <i class="fa-regular fa-circle-xmark caught-mark"></i></button>
+          </div>
+          <ul class="info-container"></ul>
+        </div>
+      </section>
     </div>
 
 
