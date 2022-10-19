@@ -502,15 +502,24 @@ function renderEvent(eventObj) {
 
 // View-Swap //
 
-const $navTowns = document.querySelector('.towns-nav');
 const $addTownBtn = document.querySelector('.add-town-btn');
-const $homeBtn = document.querySelector('.home-nav');
+const $navTowns = document.querySelector('.towns-nav');
+const $navHome = document.querySelector('.home-nav');
+const $navCollections = document.querySelector('.collections-nav');
+const $hamburgerBtn = document.querySelector('.hamburger');
+const $navbarLinksDiv = document.querySelector('.navbar-links');
+const $navbarLinks = document.querySelectorAll('.nav-link');
 
-$navTowns.addEventListener('click', function (event) { // swap to entries view
-  if (data.view !== 'town-entries') {
-    signOut();
-  }
-  viewSwap('town-entries');
+$hamburgerBtn.addEventListener('click', () => {
+  $navbarLinksDiv.classList.toggle('active');
+  $hamburgerBtn.classList.toggle('active');
+});
+
+$navbarLinks.forEach(link => {
+  link.addEventListener('click', function (event) {
+    $navbarLinksDiv.classList.toggle('active');
+    $hamburgerBtn.classList.toggle('active');
+  });
 });
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
@@ -523,12 +532,26 @@ $addTownBtn.addEventListener('click', function (event) { // swap to entry form v
   viewSwap('town-entry-form');
 });
 
-$homeBtn.addEventListener('click', function (event) {
-  if (data.currentTown !== null) {
+$navTowns.addEventListener('click', function (event) { // swap to entries view
+  if (data.view !== 'town-entries') {
+    signOut();
+  }
+  viewSwap('town-entries');
+});
+
+$navHome.addEventListener('click', function (event) {
+  if (data.view !== 'town-home-page' && data.currentTown !== null) {
     renderHomePage(data.currentTown);
     viewSwap('town-home-page');
   }
   data.editing = null;
+});
+
+$navCollections.addEventListener('click', function (event) {
+  if (data.view !== 'collections' && data.currentCollection !== null) {
+    renderCollection(data.currentCollection);
+    viewSwap('collections');
+  }
 });
 
 function signOut() { // signs the user out of their current town, clearing all data fields and saving their session data
@@ -1753,6 +1776,3 @@ function updateCurrentCollectionProgress() {
   const percentDone = Number(splitStatus[0]) / Number(splitStatus[1]);
   $currentCollectionBar.style.width = `${percentDone * 100}%`;
 }
-
-// BUGS TO SQUASH
-// add a hamburger menu for mobile screens!

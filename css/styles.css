@@ -500,6 +500,38 @@ i:active {
   margin-left: 0.25rem;
 }
 
+/* Hamburger Menu */
+
+.hamburger {
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  transition: all 0.3s ease-in-out;
+  background-color: white;
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.navbar-links li:hover {
+  background-color: rgb(174, 239, 255, 0.1);
+  cursor: pointer;
+}
+
 /* Functional CSS Classes */
 
 .justify-end {
@@ -553,6 +585,10 @@ i:active {
 
 .gap-2-rem {
   gap: 2rem;
+}
+
+.gap-3-rem {
+  gap: 3rem;
 }
 
 .light-gray-bg {
@@ -619,6 +655,10 @@ i:active {
   margin-bottom: 0.5rem;
 }
 
+.mb-quarter-rem {
+  margin-bottom: 0.25rem;
+}
+
 .mr-1-rem {
   margin-right: 1rem;
 }
@@ -637,10 +677,6 @@ i:active {
 
 .mt-0 {
   margin-top: 0;
-}
-
-.mb-quarter-rem {
-  margin-bottom: 0.25rem;
 }
 
 .mtb-half-rem {
