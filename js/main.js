@@ -356,6 +356,9 @@ function createBirthdayDefaultText() {
 // Edit Town //
 
 const $editTownBtn = document.querySelector('.edit-icon');
+const $deleteTownModal = document.querySelector('.del-modal');
+const $cancelDeleteBtn = document.querySelector('.cancel-delete-btn');
+const $confirmDeleteBtn = document.querySelector('.confirm-delete-btn');
 
 $editTownBtn.addEventListener('click', function (event) { // preload all town information into the town form for editing
   data.editing = data.currentTown;
@@ -382,6 +385,20 @@ $editTownBtn.addEventListener('click', function (event) { // preload all town in
   viewSwap('town-entry-form');
 });
 
+$townDeleteBtn.addEventListener('click', function (event) {
+  $deleteTownModal.classList.remove('hidden');
+});
+
+$cancelDeleteBtn.addEventListener('click', function (event) {
+  $deleteTownModal.classList.add('hidden');
+});
+
+$confirmDeleteBtn.addEventListener('click', function (event) {
+  $deleteTownModal.classList.add('hidden');
+  deleteTown();
+  viewSwap('town-entries');
+});
+
 function addTownDeleteBtn() {
   $townDeleteBtn.style.scale = 1;
 }
@@ -392,6 +409,10 @@ function removeTownDeleteBtn() {
 
 function addEditTownText() {
   $formTitle.textContent = 'Edit Town';
+}
+
+function deleteTown() {
+  // code here
 }
 
 // Town Home Page //
@@ -1093,13 +1114,13 @@ function renderCollection(collectionType) {
 // Collection Interactivity //
 
 const $closeModal = document.querySelector('.close-modal-btn');
-const $modal = document.querySelector('.modal');
+const $collectionModal = document.querySelector('.collection-modal');
 
 $slider.addEventListener('mouseup', function (event) { // handles the click events on the collection table
   if (event.target.tagName === 'IMG') {
     if (!isDragging) {
       renderCollectionModal(event.target.closest('div').getAttribute(['data-collection-id']));
-      $modal.classList.remove('hidden');
+      $collectionModal.classList.remove('hidden');
     }
   }
 });
@@ -1160,7 +1181,7 @@ function toTitleCase(string) {
 $closeModal.addEventListener('click', closeModal);
 
 function closeModal() {
-  $modal.classList.add('hidden');
+  $collectionModal.classList.add('hidden');
 }
 
 // All Collection Modals //
