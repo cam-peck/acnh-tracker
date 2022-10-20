@@ -34,6 +34,7 @@ const $townForm = document.querySelector('.town-form');
 const $formTitle = document.querySelector('.town-form-title');
 const $imageInput = document.querySelector('.image-input');
 const $townImage = document.querySelector('.town-img');
+const $townDeleteBtn = document.querySelector('.town-delete-btn');
 const $townContainer = document.querySelector('.town-container');
 const $slideContainer = document.querySelector('.slider-container');
 
@@ -259,6 +260,7 @@ function handleEditSubmit(event) {
     }
   }
   data.editing = null;
+  removeTownDeleteBtn();
 }
 
 // Town View Form //
@@ -357,7 +359,8 @@ const $editTownBtn = document.querySelector('.edit-icon');
 
 $editTownBtn.addEventListener('click', function (event) { // preload all town information into the town form for editing
   data.editing = data.currentTown;
-  $formTitle.textContent = 'Edit Town';
+  addTownDeleteBtn();
+  addEditTownText();
   $townForm.elements['char-name'].value = data.editing.playerName;
   $townForm.elements['town-name'].value = data.editing.townName;
   $townImage.src = data.editing.imageLink;
@@ -378,6 +381,18 @@ $editTownBtn.addEventListener('click', function (event) { // preload all town in
   }
   viewSwap('town-entry-form');
 });
+
+function addTownDeleteBtn() {
+  $townDeleteBtn.style.scale = 1;
+}
+
+function removeTownDeleteBtn() {
+  $townDeleteBtn.style.scale = 0;
+}
+
+function addEditTownText() {
+  $formTitle.textContent = 'Edit Town';
+}
 
 // Town Home Page //
 
@@ -524,6 +539,7 @@ $navbarLinks.forEach(link => {
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
   $townForm.reset();
+  removeTownDeleteBtn();
   $townImage.src = 'images/placeholder-image-square.jpg';
   $formTitle.textContent = 'New Town';
   data.currentVillagers = [];
@@ -555,6 +571,10 @@ $navCollections.addEventListener('click', function (event) {
 });
 
 function signOut() { // signs the user out of their current town, clearing all data fields and saving their session data
+  if (data.view === 'town-entry-form') {
+    viewSwap('town-entries');
+    return;
+  }
   const currentTownId = data.currentTown.entryID;
   data.towns.forEach(town => {
     if (town.entryID === currentTownId) {
@@ -581,6 +601,9 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
     $allDates[1].textContent = getDate();
     $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.png';
     renderCollection(data.currentCollection);
+  }
+  if (dataView === 'town-entry-form' && data.editing) { // if page is refreshed and was editing
+    addEditTownText();
   }
 }
 
