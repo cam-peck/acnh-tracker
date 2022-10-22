@@ -412,7 +412,16 @@ function addEditTownText() {
 }
 
 function deleteTown() {
-  // code here
+  const idToDelete = data.editing.entryID;
+  const $nodeToDelete = document.querySelector(`li[data-entry-id="${idToDelete}"]`);
+  $nodeToDelete.remove();
+  for (let i = 0; i < data.towns.length; i++) {
+    if (data.towns[i].entryID === idToDelete) {
+      data.towns.splice(i, 1);
+    }
+  }
+  signOut();
+  viewSwap('town-entries');
 }
 
 // Town Home Page //
@@ -592,7 +601,7 @@ $navCollections.addEventListener('click', function (event) {
 });
 
 function signOut() { // signs the user out of their current town, clearing all data fields and saving their session data
-  if (data.view === 'town-entry-form') {
+  if (data.view === 'town-entry-form' && !data.editing) {
     viewSwap('town-entries');
     return;
   }
@@ -606,6 +615,7 @@ function signOut() { // signs the user out of their current town, clearing all d
   data.currentCollection = null;
   data.currentCollectionItem = null;
   data.currentTown = null;
+  data.editing = null;
 }
 
 function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
