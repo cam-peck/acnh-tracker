@@ -379,12 +379,10 @@ $cancelDeleteBtn.addEventListener('click', function (event) {
 
 $confirmDeleteBtn.addEventListener('click', function (event) {
   if (data.editing) {
-    $deleteTownModal.classList.add('hidden');
     deleteTown();
-    viewSwap('town-entries');
-  } else {
-    viewSwap('town-entries');
   }
+  $deleteTownModal.classList.add('hidden');
+  viewSwap('town-entries');
 });
 
 function prefillEditForm() {
