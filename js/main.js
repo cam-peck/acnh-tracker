@@ -45,6 +45,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
   if (data.towns.length === 0) {
     $townContainer.append($defaultText);
   }
+  if (data.view === 'town-entry-form' && data.editing) {
+    prefillEditForm();
+  }
 
   for (let i = 0; i < data.towns.length; i++) {
     const previousTown = renderTown(data.towns[i]);
@@ -260,7 +263,6 @@ function handleEditSubmit(event) {
     }
   }
   data.editing = null;
-  removeTownDeleteBtn();
 }
 
 // Town View Form //
@@ -362,8 +364,30 @@ const $confirmDeleteBtn = document.querySelector('.confirm-delete-btn');
 
 $editTownBtn.addEventListener('click', function (event) { // preload all town information into the town form for editing
   data.editing = data.currentTown;
-  addTownDeleteBtn();
   addEditTownText();
+  prefillEditForm();
+  viewSwap('town-entry-form');
+});
+
+$townDeleteBtn.addEventListener('click', function (event) {
+  $deleteTownModal.classList.remove('hidden');
+});
+
+$cancelDeleteBtn.addEventListener('click', function (event) {
+  $deleteTownModal.classList.add('hidden');
+});
+
+$confirmDeleteBtn.addEventListener('click', function (event) {
+  if (data.editing) {
+    $deleteTownModal.classList.add('hidden');
+    deleteTown();
+    viewSwap('town-entries');
+  } else {
+    viewSwap('town-entries');
+  }
+});
+
+function prefillEditForm() {
   $townForm.elements['char-name'].value = data.editing.playerName;
   $townForm.elements['town-name'].value = data.editing.townName;
   $townImage.src = data.editing.imageLink;
@@ -382,29 +406,6 @@ $editTownBtn.addEventListener('click', function (event) { // preload all town in
     $villagerEntryList.append(createVillagerIcon(data.editing.townVillagers[i].name, data.editing.townVillagers[i].icon));
     data.currentVillagers.push(data.editing.townVillagers[i]);
   }
-  viewSwap('town-entry-form');
-});
-
-$townDeleteBtn.addEventListener('click', function (event) {
-  $deleteTownModal.classList.remove('hidden');
-});
-
-$cancelDeleteBtn.addEventListener('click', function (event) {
-  $deleteTownModal.classList.add('hidden');
-});
-
-$confirmDeleteBtn.addEventListener('click', function (event) {
-  $deleteTownModal.classList.add('hidden');
-  deleteTown();
-  viewSwap('town-entries');
-});
-
-function addTownDeleteBtn() {
-  $townDeleteBtn.style.scale = 1;
-}
-
-function removeTownDeleteBtn() {
-  $townDeleteBtn.style.scale = 0;
 }
 
 function addEditTownText() {
@@ -569,7 +570,6 @@ $navbarLinks.forEach(link => {
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
   $townForm.reset();
-  removeTownDeleteBtn();
   $townImage.src = 'images/placeholder-image-square.jpg';
   $formTitle.textContent = 'New Town';
   data.currentVillagers = [];
