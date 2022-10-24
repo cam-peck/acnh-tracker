@@ -34,6 +34,7 @@ const $townForm = document.querySelector('.town-form');
 const $formTitle = document.querySelector('.town-form-title');
 const $imageInput = document.querySelector('.image-input');
 const $townImage = document.querySelector('.town-img');
+const $townDeleteBtn = document.querySelector('.town-delete-btn');
 const $townContainer = document.querySelector('.town-container');
 const $slideContainer = document.querySelector('.slider-container');
 
@@ -43,6 +44,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
   getCurrentEvents();
   if (data.towns.length === 0) {
     $townContainer.append($defaultText);
+  }
+  if (data.view === 'town-entry-form' && data.editing) {
+    prefillEditForm();
   }
 
   for (let i = 0; i < data.towns.length; i++) {
@@ -354,10 +358,34 @@ function createBirthdayDefaultText() {
 // Edit Town //
 
 const $editTownBtn = document.querySelector('.edit-icon');
+const $deleteTownModal = document.querySelector('.del-modal');
+const $cancelDeleteBtn = document.querySelector('.cancel-delete-btn');
+const $confirmDeleteBtn = document.querySelector('.confirm-delete-btn');
 
 $editTownBtn.addEventListener('click', function (event) { // preload all town information into the town form for editing
   data.editing = data.currentTown;
-  $formTitle.textContent = 'Edit Town';
+  addEditTownText();
+  prefillEditForm();
+  viewSwap('town-entry-form');
+});
+
+$townDeleteBtn.addEventListener('click', function (event) {
+  $deleteTownModal.classList.remove('hidden');
+});
+
+$cancelDeleteBtn.addEventListener('click', function (event) {
+  $deleteTownModal.classList.add('hidden');
+});
+
+$confirmDeleteBtn.addEventListener('click', function (event) {
+  if (data.editing) {
+    deleteTown();
+  }
+  $deleteTownModal.classList.add('hidden');
+  viewSwap('town-entries');
+});
+
+function prefillEditForm() {
   $townForm.elements['char-name'].value = data.editing.playerName;
   $townForm.elements['town-name'].value = data.editing.townName;
   $townImage.src = data.editing.imageLink;
@@ -376,8 +404,24 @@ $editTownBtn.addEventListener('click', function (event) { // preload all town in
     $villagerEntryList.append(createVillagerIcon(data.editing.townVillagers[i].name, data.editing.townVillagers[i].icon));
     data.currentVillagers.push(data.editing.townVillagers[i]);
   }
-  viewSwap('town-entry-form');
-});
+}
+
+function addEditTownText() {
+  $formTitle.textContent = 'Edit Town';
+}
+
+function deleteTown() {
+  const idToDelete = data.editing.entryID;
+  const $nodeToDelete = document.querySelector(`li[data-entry-id="${idToDelete}"]`);
+  $nodeToDelete.remove();
+  for (let i = 0; i < data.towns.length; i++) {
+    if (data.towns[i].entryID === idToDelete) {
+      data.towns.splice(i, 1);
+    }
+  }
+  signOut();
+  viewSwap('town-entries');
+}
 
 // Town Home Page //
 
@@ -555,6 +599,10 @@ $navCollections.addEventListener('click', function (event) {
 });
 
 function signOut() { // signs the user out of their current town, clearing all data fields and saving their session data
+  if (data.view === 'town-entry-form' && !data.editing) {
+    viewSwap('town-entries');
+    return;
+  }
   const currentTownId = data.currentTown.entryID;
   data.towns.forEach(town => {
     if (town.entryID === currentTownId) {
@@ -565,6 +613,7 @@ function signOut() { // signs the user out of their current town, clearing all d
   data.currentCollection = null;
   data.currentCollectionItem = null;
   data.currentTown = null;
+  data.editing = null;
 }
 
 function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
@@ -581,6 +630,9 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
     $allDates[1].textContent = getDate();
     $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.png';
     renderCollection(data.currentCollection);
+  }
+  if (dataView === 'town-entry-form' && data.editing) { // if page is refreshed and was editing
+    addEditTownText();
   }
 }
 
@@ -1070,13 +1122,13 @@ function renderCollection(collectionType) {
 // Collection Interactivity //
 
 const $closeModal = document.querySelector('.close-modal-btn');
-const $modal = document.querySelector('.modal');
+const $collectionModal = document.querySelector('.collection-modal');
 
 $slider.addEventListener('mouseup', function (event) { // handles the click events on the collection table
   if (event.target.tagName === 'IMG') {
     if (!isDragging) {
       renderCollectionModal(event.target.closest('div').getAttribute(['data-collection-id']));
-      $modal.classList.remove('hidden');
+      $collectionModal.classList.remove('hidden');
     }
   }
 });
@@ -1137,7 +1189,7 @@ function toTitleCase(string) {
 $closeModal.addEventListener('click', closeModal);
 
 function closeModal() {
-  $modal.classList.add('hidden');
+  $collectionModal.classList.add('hidden');
 }
 
 // All Collection Modals //

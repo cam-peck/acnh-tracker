@@ -74,10 +74,6 @@ a {
   padding: 0.75rem 1rem;
 }
 
-.town-form-btn {
-  margin-bottom: 1rem;
-}
-
 .villager-card {
   border-radius: 50%;
   width: auto;
@@ -205,6 +201,45 @@ i:hover {
 
 i:active {
   transform: translateY(0.1rem);
+}
+
+.town-delete-btn {
+  color: white;
+  background-color: red;
+  border: 1px solid red;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.delete-modal {
+  background-color: white;
+  padding: 1rem;
+}
+
+.cancel-delete-btn {
+  color: black;
+  background-color: lightgray;
+  border: 1px solid lightgray;
+}
+
+.confirm-delete-btn {
+  color: white;
+  background-color: red;
+  border: 1px solid red;
+}
+
+.cancel-delete-btn,
+.confirm-delete-btn {
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.confirm-modal:hover {
+  color: black;
 }
 
 /* Progress Bar */
@@ -335,6 +370,10 @@ i:active {
   top: 0;
   width: 100%;
   height: 100vh;
+}
+
+.fish-modal {
+  width: 400px;
 }
 
 .modal-title {
@@ -481,7 +520,6 @@ i:active {
 .modal-content {
   margin: 1rem;
   border-radius: 5px;
-  width: 450px;
 }
 
 .month-active {
@@ -561,6 +599,10 @@ i:active {
 
 .align-baseline {
   align-items: baseline;
+}
+
+.justify-flex-end {
+  justify-content: flex-end;
 }
 
 .space-between {
