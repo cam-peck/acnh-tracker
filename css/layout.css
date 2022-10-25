@@ -96,6 +96,10 @@ body {
     align-items: center;
   }
 
+  .new-villager-input {
+    width: 25%;
+  }
+
   .birthday-quote-div {
     margin-bottom: 2rem;
   }
@@ -168,6 +172,11 @@ body {
 
   h3 {
     font-size: 1rem;
+  }
+
+  .new-villager-input {
+    width: 40%;
+    min-width: 150px;
   }
 
   .news-card {
