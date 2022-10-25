@@ -333,10 +333,15 @@ function renderTown(townObj) {
 }
 
 function createDefaultText() {
-  const output = document.createElement('p');
-  output.className = 'text-align-center default-text';
-  output.textContent = 'No towns have been recorded... yet!';
-  return output;
+  const $textDiv = document.createElement('div');
+  $textDiv.className = 'row justify-and-align-center';
+
+  const $textP = document.createElement('p');
+  $textP.className = 'default-text';
+  $textP.textContent = 'No towns have been recorded... yet!';
+
+  $textDiv.append($textP);
+  return $textDiv;
 }
 
 function createBirthdayDefaultText() {

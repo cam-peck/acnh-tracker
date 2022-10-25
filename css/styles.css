@@ -39,6 +39,7 @@ a {
 }
 
 .town-form-title {
+  margin: 0;
   font-weight: 500;
   font-size: 2rem;
 }
@@ -723,6 +724,10 @@ i:active {
 
 .mtb-half-rem {
   margin: 0.5rem 0;
+}
+
+.mtb-1-rem {
+  margin: 1rem 0;
 }
 
 .mtb-0 {

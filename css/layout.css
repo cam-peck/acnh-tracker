@@ -109,6 +109,13 @@ body {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .town-form-title {
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .header-bg-wrapper {
     position: fixed;
