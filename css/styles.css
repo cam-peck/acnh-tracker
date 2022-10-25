@@ -138,6 +138,7 @@ a {
 .town-fruit-header {
   width: 10%;
   max-width: 60px;
+  margin-right: 0.25rem;
 }
 
 .news-divider {
