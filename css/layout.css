@@ -53,6 +53,7 @@ body {
 
 .fruit-card {
   flex-basis: 17%;
+  align-items: center;
 }
 
 .villager-card {
