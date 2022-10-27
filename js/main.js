@@ -1207,22 +1207,38 @@ const $infoContainer = document.querySelector('.info-container');
 // Fish, Bug, & Sea Collection Uniques // (fbs --> fish / bug /sea)
 
 function renderTimeLocationInfo(creatureObj) {
-  /*  <li class="loc-time-box row-no-wrap mb-half-rem">
-  *     <div class="column-25 flex-column gap-half-rem">
-  *       <p class="blue-sm-tag">Location</p>
-  *       <p class="blue-sm-tag">Time</p>
+  /*  <li class="loc-time-box mb-half-rem">
+  *     <div class="row">
+  *       <div class="fb-25 flex-column gap-half-rem">
+  *         <p class="blue-sm-tag">Location</p>
+  *       </div>
+  *       <div class="fb-75 flex-column gap-half-rem">
+  *         <p class="white-info-tag location">Pond</p>
+  *       </div>
   *     </div>
-  *     <div class="column-75 flex-column gap-half-rem">
-  *       <p class="white-info-tag location">Pond</p>
-  *       <p class="white-info-tag time">9 AM - 4 PM</p>
+  *     <div class="row">
+  *       <div class="fb-25 flex-column gap-half-rem">
+  *         <p class="blue-sm-tag">Time</p>
+  *       </div>
+  *       <div class="fb-75 flex-column gap-half-rem">
+  *         <p class="white-info-tag location">9 AM - 4 PM</p>
+  *       </div>
   *     </div>
   *  </li>
   */
   const $locTimeLi = document.createElement('li');
-  $locTimeLi.className = 'loc-time-box row-no-wrap mb-half-rem';
+  $locTimeLi.className = 'loc-time-box row-no-wrap mb-half-rem flex-column gap-half-rem';
 
-  const $labelDiv = document.createElement('div');
-  $labelDiv.className = 'column-25 flex-column gap-half-rem';
+  const $timeRowDiv = document.createElement('div');
+  $timeRowDiv.className = 'row-no-wrap';
+
+  const $locationRowDiv = document.createElement('div');
+  $locationRowDiv.className = 'row-no-wrap';
+
+  const $locationCol25Div = document.createElement('div');
+  $locationCol25Div.className = 'fb-25 flex-column gap-half-rem';
+  const $locationCol75Div = document.createElement('div');
+  $locationCol75Div.className = 'fb-75 flex-column gap-half-rem';
 
   const $locationP = document.createElement('p');
   $locationP.className = 'blue-sm-tag';
@@ -1231,42 +1247,49 @@ function renderTimeLocationInfo(creatureObj) {
   $timeP.classList = 'blue-sm-tag';
   $timeP.textContent = 'Time';
 
-  const $infoDiv = document.createElement('div');
-  $infoDiv.className = 'column-75 flex-column gap-half-rem';
+  const $timeCol25Div = document.createElement('div');
+  $timeCol25Div.className = 'fb-25 flex-column gap-half-rem';
+  const $timeCol75Div = document.createElement('div');
+  $timeCol75Div.className = 'fb-75 flex-column gap-half-rem';
 
   const $locationInfoP = document.createElement('p');
   $locationInfoP.className = 'white-info-tag';
   $locationInfoP.textContent = creatureObj.location;
-
   const $timeInfoP = document.createElement('p');
   $timeInfoP.className = 'white-info-tag';
   $timeInfoP.textContent = creatureObj['north-availability'][0].time;
 
-  $labelDiv.append($locationP, $timeP);
-  $infoDiv.append($locationInfoP, $timeInfoP);
-  $locTimeLi.append($labelDiv, $infoDiv);
+  $timeCol75Div.append($timeInfoP);
+  $timeCol25Div.append($timeP);
+  $timeRowDiv.append($timeCol25Div, $timeCol75Div);
+
+  $locationCol75Div.append($locationInfoP);
+  $locationCol25Div.append($locationP);
+  $locationRowDiv.append($locationCol25Div, $locationCol75Div);
+
+  $locTimeLi.append($locationRowDiv, $timeRowDiv);
 
   return $locTimeLi;
 }
 
 function renderMonths(columnWidth, creatureObj) {
-  /*   <div class="columnWidth row-no-wrap gap-1-rem justify-around month-container">
-  *       <div class="fb-20">
+  /*   <div class="columnWidth row-no-wrap gap-1-rem justify-between month-container">
+  *       <div class="months-column">
   *         <div data-month-id="1" class="month-card month-active">Jan</div>
   *         <div data-month-id="5" class="month-card">May</div>
   *         <div data-month-id="9" class="month-card">Sep</div>
   *       </div>
-  *       <div class="fb-20">
+  *       <div class="months-column">
   *         <div data-month-id="2" class="month-card month-active">Feb</div>
   *         <div data-month-id="6" class="month-card">Jun</div>
   *         <div data-month-id="10" class="month-card">Oct</div>
   *       </div>
-  *       <div class="fb-20">
+  *       <div class="months-column">
   *         <div data-month-id="3" class="month-card month-active">Mar</div>
   *         <div data-month-id="7" class="month-card">Jul</div>
   *         <div data-month-id="11" class="month-card month-active">Nov</div>
   *       </div>
-  *       <div class="fb-20">
+  *       <div class="months-column">
   *         <div data-month-id="4" class="month-card month-active">Apr</div>
   *         <div data-month-id="8" class="month-card">Aug</div>
   *         <div data-month-id="12" class="month-card month-active">Dec</div>
@@ -1276,7 +1299,7 @@ function renderMonths(columnWidth, creatureObj) {
   const monthsNameArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const monthDivs = [];
   const $monthContainerDiv = document.createElement('div');
-  $monthContainerDiv.className = 'row-no-wrap gap-1-rem justify-around month-container';
+  $monthContainerDiv.className = 'row-no-wrap gap-1-rem justify-between month-container';
   $monthContainerDiv.classList.add(`column-${columnWidth}`);
 
   for (let i = 0; i < monthsNameArray.length; i++) {
@@ -1291,19 +1314,19 @@ function renderMonths(columnWidth, creatureObj) {
   }
 
   const $monthColumnDiv1 = document.createElement('div');
-  $monthColumnDiv1.className = 'fb-20';
+  $monthColumnDiv1.className = 'months-column';
   $monthColumnDiv1.append(monthDivs[0], monthDivs[4], monthDivs[8]);
 
   const $monthColumnDiv2 = document.createElement('div');
-  $monthColumnDiv2.className = 'fb-20';
+  $monthColumnDiv2.className = 'months-column';
   $monthColumnDiv2.append(monthDivs[1], monthDivs[5], monthDivs[9]);
 
   const $monthColumnDiv3 = document.createElement('div');
-  $monthColumnDiv3.className = 'fb-20';
+  $monthColumnDiv3.className = 'months-column';
   $monthColumnDiv3.append(monthDivs[2], monthDivs[6], monthDivs[10]);
 
   const $monthColumnDiv4 = document.createElement('div');
-  $monthColumnDiv4.className = 'fb-20';
+  $monthColumnDiv4.className = 'months-column';
   $monthColumnDiv4.append(monthDivs[3], monthDivs[7], monthDivs[11]);
 
   $monthContainerDiv.append($monthColumnDiv1, $monthColumnDiv2, $monthColumnDiv3, $monthColumnDiv4);
@@ -1316,15 +1339,15 @@ function renderMonths(columnWidth, creatureObj) {
 function renderFishInfo(fishObject) {
   /* <li class="uniques-box">
   *   <div class="row-no-wrap mb-half-rem">
-  *     <div class="column-25 flex-column gap-half-rem">
+  *     <div class="fb-25 flex-column gap-half-rem">
   *       <p class="blue-sm-tag">Shadow</p>
   *     </div>
-  *     <div class="column-75 flex-column gap-half-rem">
+  *     <div class="fb-75 flex-column gap-half-rem">
   *       <p class="blue-med-tag">Seasonality</p>
   *     </div>
   *   </div>
   *   <div class="row-no-wrap gap-half-rem">
-  *     <div class="column-25 text-align-center fish-shadow-card">
+  *     <div class="text-align-center fish-shadow-card">
   *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
   *       <p class="fish-size-label row justify-and-align-center">6</p>
   *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
@@ -1340,14 +1363,14 @@ function renderFishInfo(fishObject) {
   $labelDiv.className = 'row-no-wrap mb-half-rem';
 
   const $shadowColumnDiv = document.createElement('div');
-  $shadowColumnDiv.className = 'column-25 flex-column gap-half-rem';
+  $shadowColumnDiv.className = 'fb-25 flex-column gap-half-rem';
 
   const $shadowColumnP = document.createElement('p');
   $shadowColumnP.className = 'blue-sm-tag';
   $shadowColumnP.textContent = 'Shadow';
 
   const $seasonColumnDiv = document.createElement('div');
-  $seasonColumnDiv.className = 'column-75 flex-column gap-half-rem';
+  $seasonColumnDiv.className = 'fb-75 flex-column gap-half-rem';
 
   const $seasonColumnP = document.createElement('p');
   $seasonColumnP.className = 'blue-med-tag';
@@ -1357,7 +1380,7 @@ function renderFishInfo(fishObject) {
   $infoDiv.className = 'row-no-wrap gap-half-rem';
 
   const $shadowInfoDiv = document.createElement('div');
-  $shadowInfoDiv.className = 'column-25 text-align-center fish-shadow-card';
+  $shadowInfoDiv.className = 'text-align-center fish-shadow-card';
 
   const $shadowImg = document.createElement('img');
   $shadowImg.className = 'fish-size-img shadow';
@@ -1420,22 +1443,22 @@ function renderBugInfo(bugObject) {
 function renderSeaInfo(seaObject) {
   /* <li class="uniques-box">
   *   <div class="row-no-wrap mb-half-rem">
-  *     <div class="column-25">
+  *     <div class="fb-25">
   *       <p class="blue-sm-tag">Speed</p>
   *     <div class="column-75 flex-column gap-half-rem">
   *       <p class="white-info-tag">Fast</p>
   *     </div>
   *   </div>
   *   <div class="row-no-wrap mb-half-rem">
-  *     <div class="column-25 flex-column gap-half-rem">
+  *     <div class="fb-25 flex-column gap-half-rem">
   *       <p class="blue-sm-tag">Shadow</p>
   *     </div>
-  *     <div class="column-75 flex-column gap-half-rem">
+  *     <div class="fb-75 flex-column gap-half-rem">
   *       <p class="blue-med-tag">Seasonality</p>
   *     </div>
   *   </div>
   *   <div class="row-no-wrap gap-half-rem">
-  *     <div class="column-25 text-align-center fish-shadow-card">
+  *     <div class="fb-25 text-align-center fish-shadow-card">
   *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
   *       <p class="fish-size-label row justify-and-align-center">6</p>
   *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
@@ -1451,10 +1474,10 @@ function renderSeaInfo(seaObject) {
   $speedDiv.className = 'row-no-wrap mb-half-rem';
 
   const $speedLabelColumn = document.createElement('div');
-  $speedLabelColumn.className = 'column-25';
+  $speedLabelColumn.className = 'fb-25';
 
   const $speedInfoColumn = document.createElement('div');
-  $speedInfoColumn.className = 'column-75';
+  $speedInfoColumn.className = 'fb-75';
 
   const $speedLabelP = document.createElement('p');
   $speedLabelP.textContent = 'Speed';
@@ -1468,14 +1491,14 @@ function renderSeaInfo(seaObject) {
   $labelDiv.className = 'row-no-wrap mb-half-rem';
 
   const $shadowColumnDiv = document.createElement('div');
-  $shadowColumnDiv.className = 'column-25 flex-column gap-half-rem';
+  $shadowColumnDiv.className = 'fb-25 flex-column gap-half-rem';
 
   const $shadowColumnP = document.createElement('p');
   $shadowColumnP.className = 'blue-sm-tag';
   $shadowColumnP.textContent = 'Shadow';
 
   const $seasonColumnDiv = document.createElement('div');
-  $seasonColumnDiv.className = 'column-75 flex-column gap-half-rem';
+  $seasonColumnDiv.className = 'fb-75 flex-column gap-half-rem';
 
   const $seasonColumnP = document.createElement('p');
   $seasonColumnP.className = 'blue-med-tag';
@@ -1485,7 +1508,7 @@ function renderSeaInfo(seaObject) {
   $infoDiv.className = 'row-no-wrap gap-half-rem';
 
   const $shadowInfoDiv = document.createElement('div');
-  $shadowInfoDiv.className = 'column-25 text-align-center fish-shadow-card';
+  $shadowInfoDiv.className = 'fb-25 text-align-center fish-shadow-card';
 
   const $shadowImg = document.createElement('img');
   $shadowImg.className = 'fish-size-img shadow';
@@ -1522,11 +1545,11 @@ function renderSeaInfo(seaObject) {
 
 function renderFossilInfo(fossilObj) {
   /* <li class="row-no-wrap mb-half-rem">
-  *   <div class="column-25 flex-column gap-half-rem">
+  *   <div class="fb-25 flex-column gap-half-rem">
   *     <p class="blue-sm-tag">Group</p>
   *     <p class="blue-sm-tag">HHA</p>
   *   </div>
-  *   <div class="column-75 flex-column gap-half-rem">
+  *   <div class="fb-75 flex-column gap-half-rem">
   *     <p class="white-info-tag location">Spinosaurus</p>
   *     p class="white-info-tag time">85</p>
   *   </div>
@@ -1536,7 +1559,7 @@ function renderFossilInfo(fossilObj) {
   $uniquesLi.className = 'row-no-wrap mb-half-rem';
 
   const $labelDiv = document.createElement('div');
-  $labelDiv.className = 'column-25 flex-column gap-half-rem';
+  $labelDiv.className = 'fb-25 flex-column gap-half-rem';
 
   const $groupP = document.createElement('p');
   $groupP.className = 'blue-sm-tag';
@@ -1547,7 +1570,7 @@ function renderFossilInfo(fossilObj) {
   $hhaP.textContent = 'HHA';
 
   const $infoDiv = document.createElement('div');
-  $infoDiv.className = 'column-75 flex-column gap-half-rem';
+  $infoDiv.className = 'fb-75 flex-column gap-half-rem';
 
   const $groupInfoP = document.createElement('p');
   $groupInfoP.className = 'white-info-tag';
@@ -1569,12 +1592,12 @@ function renderFossilInfo(fossilObj) {
 function renderArtInfo(artObject) {
   /* <li class="uniques-box">
   /*   <div class="row-no-wrap mb-half-rem">
-  *     <div class="column-25 flex-column gap-half-rem">
+  *     <div class="fb-25 flex-column gap-half-rem">
   *       <p class="blue-sm-tag">Name</p>
   *       <p class="blue-sm-tag">Author</p>
   *       <p class="blue-sm-tag">Year</p>
   *     </div>
-  *     <div class="column-75 flex-column gap-half-rem">
+  *     <div class="fb-75 flex-column gap-half-rem">
   *       <p class="white-info-tag">artObject.art_name</p>
   *       <p class="white-info-tag">artObject.author</p>
   *       <p class="white-info-tag">artObject.year</p>
@@ -1599,7 +1622,7 @@ function renderArtInfo(artObject) {
   $artExtraInfoDiv.className = 'row-no-wrap mb-half-rem';
 
   const $artLabelColumn = document.createElement('div');
-  $artLabelColumn.className = 'column-25 flex-column gap-half-rem';
+  $artLabelColumn.className = 'fb-25 flex-column gap-half-rem';
 
   const $realNameLabelP = document.createElement('p');
   $realNameLabelP.className = 'blue-sm-tag';
@@ -1614,7 +1637,7 @@ function renderArtInfo(artObject) {
   $realTimeLabelP.textContent = 'Time';
 
   const $artInfoColumn = document.createElement('div');
-  $artInfoColumn.className = 'column-75 flex-column gap-half-rem';
+  $artInfoColumn.className = 'fb-75 flex-column gap-half-rem';
 
   const $realNameInfoP = document.createElement('p');
   $realNameInfoP.className = 'white-info-tag';
@@ -1778,9 +1801,10 @@ function getFishShadowImg(shadowSize) { // returns the appropriate link and labe
 function getSeaShadowImg(shadowSize, shadowSpeed) {
   const apiSeaShadowSizes = {
     Tiny: { src: 'images/Sea/sea-small.jpg', label: 1 },
-    Small: { src: 'images/Sea/sea-small.jpg', label: 2 },
-    Medium: { src: 'images/Sea/sea-medium.jpg', label: 3 },
-    Large: { src: 'images/Sea/sea-large.jpg', label: 4 }
+    Small: { src: 'images/Sea/sea-small.jpg', label: 1 },
+    Medium: { src: 'images/Sea/sea-medium.jpg', label: 2 },
+    Large: { src: 'images/Sea/sea-large.jpg', label: 3 },
+    'Very large': { src: 'images/Sea/sea-large.jpg', label: 3 }
   };
   for (const key in apiSeaShadowSizes) {
     if (shadowSize === key) {

@@ -114,13 +114,6 @@ body {
   }
 }
 
-@media screen and (max-width: 400px) {
-  .town-form-title {
-    width: 100%;
-    padding-bottom: 1rem;
-  }
-}
-
 @media screen and (max-width: 768px) {
   .header-bg-wrapper {
     position: fixed;
@@ -194,5 +187,21 @@ body {
 
   .slide {
     min-width: 80px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  h1,
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  .town-form-title {
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+
+  .month-container {
+    overflow-x: scroll;
   }
 }
