@@ -53,6 +53,7 @@ body {
 
 .fruit-card {
   flex-basis: 17%;
+  align-items: center;
 }
 
 .villager-card {
@@ -93,6 +94,10 @@ body {
   .daily-news-bottom {
     justify-content: center;
     align-items: center;
+  }
+
+  .new-villager-input {
+    width: 25%;
   }
 
   .birthday-quote-div {
@@ -162,6 +167,11 @@ body {
     font-size: 1rem;
   }
 
+  .new-villager-input {
+    width: 40%;
+    min-width: 150px;
+  }
+
   .news-card {
     width: 100%;
     margin: 1rem 0;
@@ -177,5 +187,21 @@ body {
 
   .slide {
     min-width: 80px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  h1,
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  .town-form-title {
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+
+  .month-container {
+    overflow-x: scroll;
   }
 }

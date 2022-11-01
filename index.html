@@ -45,7 +45,7 @@
       <form class="town-form" action="" method="GET">
 
         <div class="row">
-          <div class="column-full">
+          <div class="column-full mtb-1-rem">
             <h1 class="town-form-title">New Town</h1>
           </div>
         </div>
@@ -134,7 +134,7 @@
 
     <!-- User Can View Their Towns -->
     <div class="hidden" data-view="town-entries">
-      <div class="row column-full justify-between align-center text-align-center">
+      <div class="row column-full justify-between align-center mtb-1-rem">
         <h1 class="town-form-title">ACNH Tracker</h1>
         <button class="add-town-btn" type="button">ADD TOWN</button>
       </div>
@@ -195,11 +195,12 @@
         <!-- Daily News (Events) -->
         <div class="row event-container">
           <div class="pb-1-rem gray-border-rule">
-            <div class="row-no-wrap justify-and-align-center">
-              <div class="flex-10">
-                <img class="pr-1-rem gray-dashed-rule event-hat" src="images/Events/event_icon.png" alt="event-icon">
+            <div class="row justify-and-align-center">
+              <div class="row-no-wrap align-center mb-1-rem">
+                <img class="calendar-icon" src="images/Events/event_icon.png" alt="event-icon">
+                <h2>Upcoming Events</h2>
               </div>
-              <div class="flex-90 news-data">
+              <div class="news-data">
                 <ul class="events-container flex-column gap-1-rem"></ul>
               </div>
             </div>
@@ -215,7 +216,9 @@
           <h3 class="fw-500 mtb-half-rem">Click on a collection to open its page.</h3>
         </li>
         <li data-collection-type-id="fish" class="row-no-wrap align-center">
-          <img class="home-page collection-img" src="images/Collections/fish-col.png">
+          <div class="collection-image-wrapper">
+            <img class="home-page collection-img" src="images/Collections/fish-col.png">
+          </div>
           <div class="home-page progress">
             <div class="progress-bar"></div>
           </div>
@@ -224,7 +227,9 @@
           </div>
         </li>
         <li data-collection-type-id="bugs" class="row-no-wrap align-center">
-          <img class="home-page collection-img" src="images/Collections/butterfly-col.png">
+          <div class="collection-image-wrapper">
+            <img class="home-page collection-img" src="images/Collections/butterfly-col.png">
+          </div>
           <div class="home-page progress">
             <div class="progress-bar"></div>
           </div>
@@ -233,7 +238,9 @@
           </div>
         </li>
         <li data-collection-type-id="sea" class="row-no-wrap align-center">
-          <img class="home-page collection-img" src="images/Collections/sea-col.png">
+          <div class="collection-image-wrapper">
+            <img class="home-page collection-img" src="images/Collections/sea-col.png">
+          </div>
           <div class="home-page progress">
             <div class="progress-bar"></div>
           </div>
@@ -242,7 +249,9 @@
           </div>
         </li>
         <li data-collection-type-id="fossils" class="row-no-wrap align-center">
-          <img class="home-page collection-img" src="images/Collections/fossil-col.png">
+          <div class="collection-image-wrapper">
+            <img class="home-page collection-img" src="images/Collections/fossil-col.png">
+          </div>
           <div class="home-page progress">
             <div class="progress-bar"></div>
           </div>
@@ -251,7 +260,9 @@
           </div>
         </li>
         <li data-collection-type-id="art" class="row-no-wrap align-center">
-          <img class="home-page collection-img" src="images/Collections/art-col.png">
+          <div class="collection-image-wrapper">
+            <img class="home-page collection-img" src="images/Collections/art-col.png">
+          </div>
           <div class="home-page progress">
             <div class="progress-bar"></div>
           </div>
@@ -269,7 +280,9 @@
         <h2 class="collection-page-date today-date"></h2>
       </div>
       <div class="row-no-wrap align-center">
-        <img class="collection-img-header collection-img" src="images/Collections/fish-col.png">
+        <div class="collection-image-wrapper">
+          <img class="collection-img-header collection-img" src="images/Collections/fish-col.png">
+        </div>
         <div class="progress current-collection">
           <div class="progress-bar current-collection"></div>
         </div>
