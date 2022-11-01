@@ -1065,6 +1065,7 @@ function renderTable(itemArray) {
 }
 
 function renderCollection(collectionType) {
+  closeModal();
   switch (collectionType) {
     case 'fish':
       if (data.collectionData.fish === undefined) { // if a user collection does not exist create a new one
@@ -1718,6 +1719,10 @@ $acquiredBtn.addEventListener('click', function () {
 });
 
 function renderCollectionModal(itemToRender) { // takes an item name to render for the modal
+  const $modalHeroImgDiv = document.querySelector('.modal-hero-div');
+  if ($modalHeroImgDiv.children.length === 2) { // remove lingering fakes from previous modal
+    $modalHeroImgDiv.children[1].remove();
+  }
   $infoContainer.textContent = ''; // clears modal of all extra add-on information
   for (let i = 0; i < data.collectionData[data.currentCollection].length; i++) {
     if (data.collectionData[data.currentCollection][i].name === itemToRender) {

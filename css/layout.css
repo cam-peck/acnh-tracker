@@ -205,3 +205,18 @@ body {
     overflow-x: scroll;
   }
 }
+
+@media screen and (max-height: 758px) {
+  .container > nav {
+    position: relative;
+  }
+
+  .collection-modal {
+    overflow-y: scroll;
+  }
+
+  .modal-content {
+    position: absolute;
+    top: 5rem;
+  }
+}
