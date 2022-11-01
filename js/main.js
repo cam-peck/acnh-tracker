@@ -1338,7 +1338,7 @@ function renderMonths(columnWidth, creatureObj) {
 
 function renderFishInfo(fishObject) {
   /* <li class="uniques-box">
-  *   <div class="row-no-wrap mb-half-rem">
+  *   <div class="row-no-wrap">
   *     <div class="fb-25 flex-column gap-half-rem">
   *       <p class="blue-sm-tag">Shadow</p>
   *     </div>
@@ -1348,8 +1348,8 @@ function renderFishInfo(fishObject) {
   *   </div>
   *   <div class="row-no-wrap gap-half-rem">
   *     <div class="text-align-center fish-shadow-card">
-  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
   *       <p class="fish-size-label row justify-and-align-center">6</p>
+  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
   *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
   *     </div>
   *     renderMonthsHere()
@@ -1360,7 +1360,7 @@ function renderFishInfo(fishObject) {
   $uniquesLi.classList = 'uniques-box';
 
   const $labelDiv = document.createElement('div');
-  $labelDiv.className = 'row-no-wrap mb-half-rem';
+  $labelDiv.className = 'row-no-wrap';
 
   const $shadowColumnDiv = document.createElement('div');
   $shadowColumnDiv.className = 'fb-25 flex-column gap-half-rem';
@@ -1382,6 +1382,9 @@ function renderFishInfo(fishObject) {
   const $shadowInfoDiv = document.createElement('div');
   $shadowInfoDiv.className = 'text-align-center fish-shadow-card';
 
+  const $shadowImgDiv = document.createElement('div');
+  $shadowImgDiv.className = 'position-relative';
+
   const $shadowImg = document.createElement('img');
   $shadowImg.className = 'fish-size-img shadow';
   const curFishShadowData = getFishShadowImg(fishObject.shadow);
@@ -1400,7 +1403,8 @@ function renderFishInfo(fishObject) {
 
   const $monthsDiv = renderMonths(75, fishObject);
 
-  $shadowInfoDiv.append($shadowImg, $shadowP, $shadowLink);
+  $shadowImgDiv.append($shadowImg, $shadowP);
+  $shadowInfoDiv.append($shadowImgDiv, $shadowLink);
   $infoDiv.append($shadowInfoDiv, $monthsDiv);
   $seasonColumnDiv.append($seasonColumnP);
   $shadowColumnDiv.append($shadowColumnP);
