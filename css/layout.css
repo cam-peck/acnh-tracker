@@ -220,3 +220,9 @@ body {
     top: 5rem;
   }
 }
+
+@media screen and (min-height: 758px) {
+  .modal {
+    align-items: center;
+  }
+}

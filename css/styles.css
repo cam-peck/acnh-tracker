@@ -381,7 +381,6 @@ i:active {
 .modal {
   display: flex;
   justify-content: center;
-  align-items: center;
   position: fixed;
   z-index: 1;
   left: 0;
