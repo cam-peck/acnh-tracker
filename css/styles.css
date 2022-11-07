@@ -195,6 +195,12 @@ a {
   background-color: white;
 }
 
+.event-header {
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .calendar-icon {
   width: 50px;
   height: auto;
