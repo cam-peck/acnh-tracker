@@ -933,7 +933,7 @@ function get10DaysForward() { // returns an array of valid dates to check
   const todayDay = todaysDate.getDate();
   const todayMonth = todaysDate.getMonth() + 1;
   const todayYear = todaysDate.getFullYear();
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     let ForwardDay = todayDay + i;
     let ForwardMonth = todayMonth;
     let ForwardYear = todayYear;
