@@ -1841,7 +1841,7 @@ function inventoryCollection(collectionType) { // returns a string with the curr
     const currentCollectionMax = collectionMaxes[collectionType];
     return currentCollectionCount + '/' + currentCollectionMax;
   } else { // catch case that collection data is not created yet
-    return '0/80';
+    return `0/${collectionMaxes[collectionType]}`;
   }
 }
 
