@@ -612,6 +612,15 @@ i:active {
   cursor: pointer;
 }
 
+/* Profile */
+.town-image-container {
+  width: 100%;
+}
+
+.my-town-img {
+  width: 100%;
+}
+
 /* Functional CSS Classes */
 
 .justify-end {

@@ -558,6 +558,7 @@ const $navCollections = document.querySelector('.collections-nav');
 const $hamburgerBtn = document.querySelector('.hamburger');
 const $navbarLinksDiv = document.querySelector('.navbar-links');
 const $navbarLinks = document.querySelectorAll('.nav-link');
+const $aboutBtn = document.querySelector('.about-nav');
 
 $hamburgerBtn.addEventListener('click', () => {
   $navbarLinksDiv.classList.toggle('active');
@@ -603,8 +604,16 @@ $navCollections.addEventListener('click', function (event) {
   }
 });
 
+$aboutBtn.addEventListener('click', function (event) {
+  viewSwap('about-page');
+});
+
 function signOut() { // signs the user out of their current town, clearing all data fields and saving their session data
   if (data.view === 'town-entry-form' && !data.editing) {
+    viewSwap('town-entries');
+    return;
+  }
+  if (data.view === 'about-page') {
     viewSwap('town-entries');
     return;
   }
