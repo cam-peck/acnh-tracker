@@ -613,7 +613,7 @@ function signOut() { // signs the user out of their current town, clearing all d
     viewSwap('town-entries');
     return;
   }
-  if (data.view === 'about-page') {
+  if (data.view === 'about-page' & !data.currentTown) {
     viewSwap('town-entries');
     return;
   }
