@@ -674,7 +674,9 @@ function getVillagerNames() { // call the API and grab all villager names and ic
 
 function getCurrentEvents() { // call the API and grab current events
   const xhr = new XMLHttpRequest();
-  const params = 'month=October&year=2022';
+  const thisMonth = new Date().getMonth() + 1; // 0-indexed
+  const thisYear = new Date().getFullYear();
+  const params = `month=${thisMonth}&year=${thisYear}`;
   xhr.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params);
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
@@ -687,7 +689,13 @@ function getCurrentEvents() { // call the API and grab current events
       }
     }
     const xhr2 = new XMLHttpRequest();
-    const params2 = 'month=November&year=2022';
+    let nextMonth = new Date().getMonth() + 2;
+    let nextYear = new Date().getFullYear();
+    if (nextMonth === 13) {
+      nextMonth = 1;
+      nextYear += 1;
+    }
+    const params2 = `month=${nextMonth}&year=${nextYear}`;
     xhr2.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params2);
     xhr2.responseType = 'json';
     xhr2.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
