@@ -527,8 +527,10 @@ function renderEvent(eventObj) {
   const $newImg = document.createElement('img');
   if (eventObj.type === 'Event') {
     $newImg.src = 'images/Events/trophy-icon.png';
-  } else if (eventObj.type === 'Nook Shopping') {
+  } else if (eventObj.type === 'Nook Shopping' || eventObj.type === 'Shopping season') {
     $newImg.src = 'images/Events/shopping-cart.png';
+  } else if (eventObj.type === 'Season') {
+    $newImg.src = 'images/Events/seasons-icon.png';
   } else {
     $newImg.src = 'images/Events/recipe-icon.png';
   }
