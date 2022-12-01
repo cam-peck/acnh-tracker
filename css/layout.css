@@ -64,11 +64,17 @@ h3 {
 .fruit-card {
   flex-basis: 17%;
   align-items: center;
+  max-width: 80px;
 }
 
 .new-villager-input {
   width: 40%;
   min-width: 150px;
+}
+
+.town-form-title {
+  width: 100%;
+  padding-bottom: 1rem;
 }
 
 .villager-card {
@@ -94,6 +100,25 @@ h3 {
 
 .slide {
   min-width: 80px;
+}
+
+/* Modal */
+
+.container > nav {
+  position: relative;
+}
+
+.collection-modal {
+  overflow-y: scroll;
+}
+
+.modal-content {
+  position: absolute;
+  top: 5rem;
+}
+
+.month-container {
+  overflow-x: scroll;
 }
 
 /* NavBar */
@@ -133,6 +158,17 @@ h3 {
   opacity: 0.8;
 }
 
+@media screen and (min-width: 410px) {
+  .town-form-title {
+    width: auto;
+    padding-bottom: 0;
+  }
+
+  .month-container {
+    overflow-x: hidden;
+  }
+}
+
 @media screen and (min-width: 768px) {
   body {
     padding-top: 0;
@@ -157,36 +193,6 @@ h3 {
 
   .column-half {
     width: 50%;
-  }
-
-  .navbar-links {
-    width: auto;
-    display: flex;
-    flex-direction: row;
-  }
-
-  .navbar-links li {
-    padding: 1rem 1.5rem;
-  }
-
-  .navbar-links ul {
-    width: auto;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .nav-links li:last-child {
-    margin-bottom: 0;
-  }
-
-  .hamburger {
-    display: none;
-  }
-
-  .header-bg-wrapper {
-    position: relative;
-    width: 100%;
-    opacity: 1;
   }
 
   .daily-news-bottom {
@@ -218,25 +224,45 @@ h3 {
   .slide {
     min-width: 100px;
   }
-}
 
-@media screen and (max-width: 400px) {
-  h1,
-  h2 {
-    font-size: 1.1rem;
+  /* NavBar */
+
+  .navbar-links {
+    width: auto;
+    display: flex;
+    flex-direction: row;
   }
 
-  .town-form-title {
+  .navbar-links li {
+    padding: 1rem 1.5rem;
+  }
+
+  .navbar-links ul {
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .nav-links li:last-child {
+    margin-bottom: 0;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .header-bg-wrapper {
+    position: relative;
     width: 100%;
-    padding-bottom: 1rem;
-  }
-
-  .month-container {
-    overflow-x: scroll;
+    opacity: 1;
   }
 }
 
-@media screen and (max-height: 758px) {
+@media screen and (min-height: 758px) {
+  .modal {
+    align-items: center;
+  }
+
   .container > nav {
     position: relative;
   }
@@ -246,13 +272,7 @@ h3 {
   }
 
   .modal-content {
-    position: absolute;
-    top: 5rem;
-  }
-}
-
-@media screen and (min-height: 758px) {
-  .modal {
-    align-items: center;
+    position: relative;
+    top: 0;
   }
 }
