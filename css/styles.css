@@ -612,6 +612,34 @@ i:active {
   cursor: pointer;
 }
 
+/* Profile */
+.town-image-container {
+  width: 100%;
+  margin-bottom: 3.5rem;
+}
+
+.town-image-container-no-m {
+  width: 100%;
+}
+
+.my-town-img {
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid rgb(228, 228, 228);
+
+  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.about-me-intro {
+  line-height: 2;
+  background-color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
 /* Functional CSS Classes */
 
 .justify-end {
@@ -727,12 +755,20 @@ i:active {
   padding-bottom: 4rem;
 }
 
+.m-0 {
+  margin: 0;
+}
+
 .mb-1-three-quarter-rem {
   margin-bottom: 1.75rem;
 }
 
 .mb-1-rem {
   margin-bottom: 1rem;
+}
+
+.mb-3-rem {
+  margin-bottom: 3rem;
 }
 
 .mb-three-quarter-rem {
