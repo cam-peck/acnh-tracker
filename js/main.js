@@ -109,7 +109,7 @@ function searchVillagers(requestDidFail) { // search through the villagers and s
   const $loadingSpinner = document.querySelector('.lds-dual-ring');
   if (requestDidFail) {
     $loadingSpinner.remove();
-    $villagerEntryList.append(renderServerErrorMessage('Sorry... Nookipedia encountered an error. Check the status at https://api.nookipedia.com/'));
+    $villagerEntryList.append(renderServerErrorMessage());
     return;
   }
   $villagerDatalist.textContent = '';
@@ -829,12 +829,15 @@ function getFishCollectionItems() {
     renderTable(sortedFish); // render the fish table for the main collection page
     data.collectionData.fish = sortedFish;
   });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
+  });
   xhr.send();
 }
 
 function getBugCollectionItems() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.nookipedia.com/nh/bugs');
+  xhr.open('GET', 'https://api.nookipedia.com/nh/bugsss');
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
@@ -858,6 +861,9 @@ function getBugCollectionItems() {
     const sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the bugs by number property
     renderTable(sortedBugs); // render the fish table for the main collection page
     data.collectionData.bugs = sortedBugs;
+  });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
   });
   xhr.send();
 }
@@ -890,6 +896,9 @@ function getSeaCollectionItems() {
     renderTable(sortedSea); // render the fish table for the main collection page
     data.collectionData.sea = sortedSea;
   });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
+  });
   xhr.send();
 }
 
@@ -914,6 +923,9 @@ function getFossilCollectionItems() {
     const sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
     renderTable(sortedFossils); // render the fish table for the main collection page
     data.collectionData.fossils = sortedFossils;
+  });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
   });
   xhr.send();
 }
@@ -947,12 +959,15 @@ function getArtCollectionItems() {
     renderTable(sortedArt); // render the fish table for the main collection page
     data.collectionData.art = sortedArt;
   });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
+  });
   xhr.send();
 }
 
-function renderServerErrorMessage(message) {
+function renderServerErrorMessage() {
   const $errorMessage = document.createElement('p');
-  $errorMessage.textContent = message;
+  $errorMessage.textContent = 'Nookipedia encountered an error and did not send data. Double-check your internet, and then check the server status at https://api.nookipedia.com/';
   $errorMessage.className = 'server-error-msg';
   return $errorMessage;
 }
@@ -1155,9 +1170,14 @@ function renderIcon(object) { // render an icon square with data from acnhObject
   return $cardDiv;
 }
 
-function renderTable(itemArray) {
+function renderTable(itemArray, requestDidFail) {
   const $collectionsLoadingSpinner = document.querySelector('.collections-loading-spinner');
   $collectionsLoadingSpinner.remove();
+  if (requestDidFail) {
+    const $errorMessage = renderServerErrorMessage();
+    $currentCollectionContainer.append($errorMessage);
+    return;
+  }
   const columnLength = 5;
   let $newLi;
   for (let i = 0; i < itemArray.length; i++) {
