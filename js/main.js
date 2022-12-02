@@ -103,7 +103,13 @@ $searchVillagerBtn.addEventListener('click', function (event) {
   getVillagerNames();
 });
 
-function searchVillagers(event) { // search through the villagers and show them to the user
+function searchVillagers(requestDidFail) { // search through the villagers and show them to the user
+  const $loadingSpinner = document.querySelector('.lds-dual-ring');
+  if (requestDidFail) {
+    $loadingSpinner.remove();
+    $villagerEntryList.append(renderServerErrorMessage('Sorry... Nookipedia encountered an error. Check the status at https://api.nookipedia.com/'));
+    return;
+  }
   $villagerDatalist.textContent = '';
   $addVillagerInput.classList.toggle('hidden');
   $addVillagerBtn.classList.toggle('hidden');
@@ -113,7 +119,6 @@ function searchVillagers(event) { // search through the villagers and show them 
     $villagerDataTag.value = allVillagers[i].name;
     $villagerDatalist.append($villagerDataTag);
   }
-  const $loadingSpinner = document.querySelector('.lds-dual-ring');
   $loadingSpinner.remove();
 }
 
@@ -690,6 +695,13 @@ function getVillagerNames() { // call the API and grab all villager names and ic
     }
     searchVillagers();
   });
+  xhr.onload = () => {
+    if (xhr.status !== 200) {
+      searchVillagers('request failed');
+
+    }
+  };
+
   xhr.send();
 }
 
@@ -884,6 +896,13 @@ function getArtCollectionItems() {
     data.collectionData.art = sortedArt;
   });
   xhr.send();
+}
+
+function renderServerErrorMessage(message) {
+  const $errorMessage = document.createElement('p');
+  $errorMessage.textContent = message;
+  $errorMessage.className = 'server-error-msg';
+  return $errorMessage;
 }
 
 // Date Functions //

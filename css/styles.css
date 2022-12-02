@@ -892,3 +892,10 @@ i:active {
 .br-bottom-right {
   border-bottom-right-radius: 5px;
 }
+
+/* Error Messages */
+
+.server-error-msg {
+  color: firebrick;
+  font-size: 1.25rem;
+}
