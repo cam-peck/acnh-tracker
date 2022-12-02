@@ -808,6 +808,7 @@ function getFishCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhFish = [];
+    let errorHasRun = false;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentFish = {};
       currentFish.name = xhr.response[i].name;
@@ -823,6 +824,14 @@ function getFishCollectionItems() {
       currentFish['south-availability'] = xhr.response[i].south.availability_array;
       currentFish['south-months'] = xhr.response[i].south.months_array;
       currentFish.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentFish) {
+          if (currentFish[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          }
+        }
+        errorHasRun = true;
+      }
       acnhFish.push(currentFish);
     }
     const sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fish by number property
@@ -837,11 +846,12 @@ function getFishCollectionItems() {
 
 function getBugCollectionItems() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.nookipedia.com/nh/bugsss');
+  xhr.open('GET', 'https://api.nookipedia.com/nh/bugs');
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhBugs = [];
+    let errorHasRun = false;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentBug = {};
       currentBug.name = xhr.response[i].name;
@@ -856,6 +866,14 @@ function getBugCollectionItems() {
       currentBug['south-availability'] = xhr.response[i].south.availability_array;
       currentBug['south-months'] = xhr.response[i].south.months_array;
       currentBug.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentBug) {
+          if (currentBug[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          }
+        }
+        errorHasRun = true;
+      }
       acnhBugs.push(currentBug);
     }
     const sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the bugs by number property
@@ -875,6 +893,7 @@ function getSeaCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhSea = [];
+    let errorHasRun = false;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentSea = {};
       currentSea.name = xhr.response[i].name;
@@ -890,6 +909,14 @@ function getSeaCollectionItems() {
       currentSea['south-availability'] = xhr.response[i].south.availability_array;
       currentSea['south-months'] = xhr.response[i].south.months_array;
       currentSea.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentSea) {
+          if (currentSea[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          }
+        }
+        errorHasRun = true;
+      }
       acnhSea.push(currentSea);
     }
     const sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the sea creatures by number property
@@ -909,6 +936,7 @@ function getFossilCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhFossils = [];
+    let errorHasRun = false;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentFossil = {};
       currentFossil.name = xhr.response[i].name;
@@ -918,6 +946,14 @@ function getFossilCollectionItems() {
       currentFossil['fossil-group'] = xhr.response[i].fossil_group;
       currentFossil['hha-score'] = xhr.response[i].hha_base;
       currentFossil.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentFossil) {
+          if (currentFossil[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          }
+        }
+        errorHasRun = true;
+      }
       acnhFossils.push(currentFossil);
     }
     const sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
@@ -937,6 +973,7 @@ function getArtCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhArt = [];
+    let errorHasRun;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentArt = {};
       currentArt.name = xhr.response[i].name;
@@ -953,6 +990,14 @@ function getArtCollectionItems() {
       currentArt.availability = xhr.response[i].availability;
       currentArt.authenticity = xhr.response[i].authenticity;
       currentArt.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentArt) {
+          if (currentArt[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          }
+        }
+        errorHasRun = true;
+      }
       acnhArt.push(currentArt);
     }
     const sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
@@ -1861,6 +1906,9 @@ function renderCollectionModal(itemToRender) { // takes an item name to render f
     if (data.collectionData[data.currentCollection][i].name === itemToRender) {
       data.currentCollectionItem = data.collectionData[data.currentCollection][i];
       $heroImg.src = data.collectionData[data.currentCollection][i].imageUrl;
+      if (!$heroImg.src) {
+        $heroImg.src = 'images/image-not-found.png';
+      }
       if (data.currentCollection === 'fish' || data.currentCollection === 'bugs' || data.currentCollection === 'sea') {
         $infoContainer.append(renderTimeLocationInfo(data.collectionData[data.currentCollection][i]));
       }
