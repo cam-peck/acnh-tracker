@@ -120,6 +120,9 @@ function searchVillagers(requestDidFail) { // search through the villagers and s
     $villagerDatalist.append($villagerDataTag);
   }
   $loadingSpinner.remove();
+  if ($villagerEntryList.children.length === 0) {
+    $villagerEntryList.append(renderEmptySearchVillagerMsg());
+  }
 }
 
 $addVillagerBtn.addEventListener('click', addVillager);
@@ -132,6 +135,10 @@ function addVillager() { // add a villager to both the DOM and the data model
           $addVillagerInput.value = '';
           return;
         }
+      }
+      if (data.currentVillagers.length === 0 && $villagerEntryList.children.length === 1) { // default message is currently appended
+        const $defaultMessage = document.querySelector('.default-villager-search-msg');
+        $defaultMessage.remove();
       }
       $villagerEntryList.append(createVillagerIcon(allVillagers[i].name, allVillagers[i].icon));
       data.currentVillagers.push(allVillagers[i]);
@@ -146,15 +153,29 @@ function removeVillager() {
   for (let i = 0; i < data.currentVillagers.length; i++) {
     if (data.currentVillagers[i].name === $addVillagerInput.value) { // ensure the villager we're deleting is in currentVillagers
       const $entryChildren = $villagerEntryList.children;
-      for (let j = 0; i < $entryChildren.length; j++) { // start iterating at 1 because 0 index is add button
+      for (let j = 0; i < $entryChildren.length; j++) {
         if ($entryChildren[j].getAttribute('data-villager-id') === $addVillagerInput.value) {
           $entryChildren[j].remove();
           data.currentVillagers.splice(i, 1);
-          break;
+          if ($villagerEntryList.children.length === 0) { // append default message if list is now empty
+            $villagerEntryList.append(renderEmptySearchVillagerMsg());
+          }
+          return;
         }
       }
     }
   }
+  console.log('villager not found'); // villager user entered does not exist
+}
+
+function renderEmptySearchVillagerMsg() {
+  const $messageLi = document.createElement('li');
+  const $messageP = document.createElement('p');
+  $messageP.textContent = 'No current villagers... Add one using the input below!';
+  $messageLi.className = 'default-villager-search-msg';
+
+  $messageLi.append($messageP);
+  return $messageLi;
 }
 
 function renderLoadingSpinner() {
@@ -602,6 +623,9 @@ $addTownBtn.addEventListener('click', function (event) { // swap to entry form v
   data.currentVillagers = [];
   clearFruits();
   clearVillagers();
+  if (allVillagers.length !== 0) {
+    $villagerEntryList.append(renderEmptySearchVillagerMsg());
+  }
   viewSwap('town-entry-form');
 });
 
@@ -698,7 +722,6 @@ function getVillagerNames() { // call the API and grab all villager names and ic
   xhr.onload = () => {
     if (xhr.status !== 200) {
       searchVillagers('request failed');
-
     }
   };
 

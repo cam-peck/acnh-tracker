@@ -98,6 +98,12 @@ a {
   color: white;
 }
 
+.default-villager-search-msg {
+  font-style: italic;
+  opacity: 0.7;
+  margin: 0.25rem 0;
+}
+
 /* View Towns */
 
 .town-hero-img {
