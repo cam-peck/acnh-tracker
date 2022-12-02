@@ -30,12 +30,14 @@ const $addVillagerBtn = document.querySelector('.add-villager-btn');
 const $removeVillagerBtn = document.querySelector('.remove-villager-btn');
 const $villagerDatalist = document.querySelector('.villager-datalist');
 const $villagerEntryList = document.querySelector('.villager-entry-list');
+const $villagerNotFound = document.querySelector('.villager-not-found-text');
 const $townForm = document.querySelector('.town-form');
 const $formTitle = document.querySelector('.town-form-title');
 const $imageInput = document.querySelector('.image-input');
 const $townImage = document.querySelector('.town-img');
 const $townDeleteBtn = document.querySelector('.town-delete-btn');
 const $townContainer = document.querySelector('.town-container');
+const $currentCollectionContainer = document.querySelector('.current-collection-container');
 const $slideContainer = document.querySelector('.slider-container');
 
 // New Town Input Form //
@@ -96,12 +98,20 @@ function clearFruits() { // resets the fruits on page reload
 }
 
 $searchVillagerBtn.addEventListener('click', function (event) {
-  if (allVillagers.length === 0) {
-    getVillagerNames();
-  }
+  const $loadingSpinner = renderLoadingSpinner();
+  const $searchVillagerLi = document.querySelector('.search-villager-li');
+  $searchVillagerLi.remove();
+  $villagerEntryList.append($loadingSpinner);
+  getVillagerNames();
 });
 
-function searchVillagers(event) { // search through the villagers and show them to the user
+function searchVillagers(requestDidFail) { // search through the villagers and show them to the user
+  const $loadingSpinner = document.querySelector('.lds-dual-ring');
+  if (requestDidFail) {
+    $loadingSpinner.remove();
+    $villagerEntryList.append(renderServerErrorMessage());
+    return;
+  }
   $villagerDatalist.textContent = '';
   $addVillagerInput.classList.toggle('hidden');
   $addVillagerBtn.classList.toggle('hidden');
@@ -111,41 +121,98 @@ function searchVillagers(event) { // search through the villagers and show them 
     $villagerDataTag.value = allVillagers[i].name;
     $villagerDatalist.append($villagerDataTag);
   }
+  $loadingSpinner.remove();
+  if ($villagerEntryList.children.length === 0) {
+    $villagerEntryList.append(renderEmptySearchVillagerMsg());
+  }
 }
 
 $addVillagerBtn.addEventListener('click', addVillager);
 
 function addVillager() { // add a villager to both the DOM and the data model
   for (let i = 0; i < allVillagers.length; i++) {
-    if (allVillagers[i].name === $addVillagerInput.value && data.currentVillagers.length < 10) {
+    if (allVillagers[i].name === toTitleCase($addVillagerInput.value)) {
       for (let j = 0; j < data.currentVillagers.length; j++) { // check for same villagers
         if (data.currentVillagers[j].name === allVillagers[i].name) {
           $addVillagerInput.value = '';
+          $villagerNotFound.classList.remove('hidden');
+          $villagerNotFound.textContent = 'You already have that villager.';
           return;
         }
       }
+      if (data.currentVillagers.length === 10) {
+        $villagerNotFound.classList.remove('hidden');
+        $villagerNotFound.textContent = 'You have the maximum 10 villagers. Remove one before adding another.';
+        return;
+      }
+      if (data.currentVillagers.length === 0 && $villagerEntryList.children.length === 1) { // default message is currently appended
+        const $defaultMessage = document.querySelector('.default-villager-search-msg');
+        $defaultMessage.remove();
+      }
       $villagerEntryList.append(createVillagerIcon(allVillagers[i].name, allVillagers[i].icon));
       data.currentVillagers.push(allVillagers[i]);
+      $addVillagerInput.value = '';
+      $villagerNotFound.classList.add('hidden');
+      return;
     }
   }
-  $addVillagerInput.value = '';
+  $villagerNotFound.classList.remove('hidden');
+  $villagerNotFound.textContent = `The villager "${toTitleCase($addVillagerInput.value)}" does not exist in ACNH.`;
 }
 
 $removeVillagerBtn.addEventListener('click', removeVillager);
 
 function removeVillager() {
   for (let i = 0; i < data.currentVillagers.length; i++) {
-    if (data.currentVillagers[i].name === $addVillagerInput.value) { // ensure the villager we're deleting is in currentVillagers
+    if (data.currentVillagers[i].name === toTitleCase($addVillagerInput.value)) { // ensure the villager we're deleting is in currentVillagers
       const $entryChildren = $villagerEntryList.children;
-      for (let j = 1; i < $entryChildren.length; j++) { // start iterating at 1 because 0 index is add button
-        if ($entryChildren[j].getAttribute('data-villager-id') === $addVillagerInput.value) {
+      for (let j = 0; i < $entryChildren.length; j++) {
+        if ($entryChildren[j].getAttribute('data-villager-id') === toTitleCase($addVillagerInput.value)) {
           $entryChildren[j].remove();
           data.currentVillagers.splice(i, 1);
-          break;
+          $addVillagerInput.value = '';
+          $villagerNotFound.classList.add('hidden');
+          if ($villagerEntryList.children.length === 0) { // append default message if list is now empty
+            $villagerEntryList.append(renderEmptySearchVillagerMsg());
+          }
+          return;
         }
       }
     }
   }
+  $villagerNotFound.classList.remove('hidden');
+  $villagerNotFound.textContent = 'You don\'t currently have that villager.';
+}
+
+function renderEmptySearchVillagerMsg() {
+  const $messageLi = document.createElement('li');
+  const $messageP = document.createElement('p');
+  $messageP.textContent = 'No current villagers... Add one using the input below!';
+  $messageLi.className = 'default-villager-search-msg';
+
+  $messageLi.append($messageP);
+  return $messageLi;
+}
+
+function renderLoadingSpinner() {
+  const $loadingSpinner = document.createElement('div');
+  $loadingSpinner.className = 'lds-dual-ring';
+
+  return $loadingSpinner;
+}
+
+function renderLargeLoadingSpinner() {
+  // <div class="justify-and-align-center row height-50vh collections-loading-spinner">
+  //   <div class="lds-dual-ring"></div>
+  // </div>
+  const $container = document.createElement('div');
+  $container.className = 'justify-and-align-center row height-50vh collections-loading-spinner';
+
+  const $largeLoadingSpinner = document.createElement('div');
+  $largeLoadingSpinner.className = 'lds-dual-ring-large';
+
+  $container.append($largeLoadingSpinner);
+  return $container;
 }
 
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
@@ -209,10 +276,15 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
 }
 
 function clearVillagers() { // clears villagers from the DOM
-  while ($villagerEntryList.children.length > 1) {
-    const $lastVillager = $villagerEntryList.lastChild;
-    $lastVillager.remove();
+  if (allVillagers.length === 0) { // villagers have not yet loaded
+    while ($villagerEntryList.children.length > 1) {
+      const $lastVillager = $villagerEntryList.lastChild;
+      $lastVillager.remove();
+    }
+  } else if (allVillagers.length !== 0) { // villagers have loaded
+    $villagerEntryList.textContent = '';
   }
+
 }
 
 $townForm.addEventListener('submit', function (event) { // handle submitting a town (either new or edit)
@@ -581,6 +653,9 @@ $addTownBtn.addEventListener('click', function (event) { // swap to entry form v
   data.currentVillagers = [];
   clearFruits();
   clearVillagers();
+  if (allVillagers.length !== 0) {
+    $villagerEntryList.append(renderEmptySearchVillagerMsg());
+  }
   viewSwap('town-entry-form');
 });
 
@@ -650,6 +725,9 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
   if (dataView === 'town-entry-form' && data.editing) { // if page is refreshed and was editing
     addEditTownText();
   }
+  if (dataView === 'town-entry-form' && !data.editing && data.currentVillagers.length !== 0) { // on refresh of new town page
+    data.currentVillagers = [];
+  }
 }
 
 // ACNH Data Functions //
@@ -671,6 +749,11 @@ function getVillagerNames() { // call the API and grab all villager names and ic
     }
     searchVillagers();
   });
+  xhr.onload = () => {
+    if (xhr.status !== 200) {
+      searchVillagers('request failed');
+    }
+  };
   xhr.send();
 }
 
@@ -725,6 +808,7 @@ function getFishCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhFish = [];
+    let errorHasRun = false;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentFish = {};
       currentFish.name = xhr.response[i].name;
@@ -740,11 +824,22 @@ function getFishCollectionItems() {
       currentFish['south-availability'] = xhr.response[i].south.availability_array;
       currentFish['south-months'] = xhr.response[i].south.months_array;
       currentFish.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentFish) {
+          if (!currentFish[key] && !errorHasRun) {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          }
+        }
+        errorHasRun = true;
+      }
       acnhFish.push(currentFish);
     }
     const sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fish by number property
     renderTable(sortedFish); // render the fish table for the main collection page
     data.collectionData.fish = sortedFish;
+  });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
   });
   xhr.send();
 }
@@ -756,6 +851,7 @@ function getBugCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhBugs = [];
+    let errorHasRun = false;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentBug = {};
       currentBug.name = xhr.response[i].name;
@@ -770,11 +866,22 @@ function getBugCollectionItems() {
       currentBug['south-availability'] = xhr.response[i].south.availability_array;
       currentBug['south-months'] = xhr.response[i].south.months_array;
       currentBug.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentBug) {
+          if (!currentBug[key] && !errorHasRun) {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+            errorHasRun = true;
+          }
+        }
+      }
       acnhBugs.push(currentBug);
     }
     const sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the bugs by number property
     renderTable(sortedBugs); // render the fish table for the main collection page
     data.collectionData.bugs = sortedBugs;
+  });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
   });
   xhr.send();
 }
@@ -786,6 +893,7 @@ function getSeaCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhSea = [];
+    let errorHasRun = false;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentSea = {};
       currentSea.name = xhr.response[i].name;
@@ -801,11 +909,22 @@ function getSeaCollectionItems() {
       currentSea['south-availability'] = xhr.response[i].south.availability_array;
       currentSea['south-months'] = xhr.response[i].south.months_array;
       currentSea.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentSea) {
+          if (!currentSea[key] && !errorHasRun) {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+            errorHasRun = true;
+          }
+        }
+      }
       acnhSea.push(currentSea);
     }
     const sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the sea creatures by number property
     renderTable(sortedSea); // render the fish table for the main collection page
     data.collectionData.sea = sortedSea;
+  });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
   });
   xhr.send();
 }
@@ -817,6 +936,7 @@ function getFossilCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhFossils = [];
+    let errorHasRun = false;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentFossil = {};
       currentFossil.name = xhr.response[i].name;
@@ -826,11 +946,22 @@ function getFossilCollectionItems() {
       currentFossil['fossil-group'] = xhr.response[i].fossil_group;
       currentFossil['hha-score'] = xhr.response[i].hha_base;
       currentFossil.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentFossil) {
+          if (!currentFossil[key] && !errorHasRun) {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+            errorHasRun = true;
+          }
+        }
+      }
       acnhFossils.push(currentFossil);
     }
     const sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
     renderTable(sortedFossils); // render the fish table for the main collection page
     data.collectionData.fossils = sortedFossils;
+  });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
   });
   xhr.send();
 }
@@ -842,6 +973,7 @@ function getArtCollectionItems() {
   xhr.setRequestHeader('X-API-KEY', '1caa9517-345b-49e4-8fdb-c52f0c49432f');
   xhr.addEventListener('load', function () {
     const acnhArt = [];
+    let errorHasRun;
     for (let i = 0; i < xhr.response.length; i++) {
       const currentArt = {};
       currentArt.name = xhr.response[i].name;
@@ -858,13 +990,32 @@ function getArtCollectionItems() {
       currentArt.availability = xhr.response[i].availability;
       currentArt.authenticity = xhr.response[i].authenticity;
       currentArt.acquired = false;
+      if (!errorHasRun) {
+        for (const key in currentArt) {
+          if (!currentArt[key] && !errorHasRun) {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+            errorHasRun = true;
+          }
+        }
+        errorHasRun = true;
+      }
       acnhArt.push(currentArt);
     }
     const sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
     renderTable(sortedArt); // render the fish table for the main collection page
     data.collectionData.art = sortedArt;
   });
+  xhr.addEventListener('error', function () {
+    renderTable(null, 'request failed');
+  });
   xhr.send();
+}
+
+function renderServerErrorMessage() {
+  const $errorMessage = document.createElement('p');
+  $errorMessage.textContent = 'Nookipedia encountered an error and did not send data. Double-check your internet, and then check the server status at https://api.nookipedia.com/';
+  $errorMessage.className = 'server-error-msg';
+  return $errorMessage;
 }
 
 // Date Functions //
@@ -1065,7 +1216,14 @@ function renderIcon(object) { // render an icon square with data from acnhObject
   return $cardDiv;
 }
 
-function renderTable(itemArray) {
+function renderTable(itemArray, requestDidFail) {
+  const $collectionsLoadingSpinner = document.querySelector('.collections-loading-spinner');
+  $collectionsLoadingSpinner.remove();
+  if (requestDidFail) {
+    const $errorMessage = renderServerErrorMessage();
+    $currentCollectionContainer.append($errorMessage);
+    return;
+  }
   const columnLength = 5;
   let $newLi;
   for (let i = 0; i < itemArray.length; i++) {
@@ -1085,6 +1243,8 @@ function renderTable(itemArray) {
 
 function renderCollection(collectionType) {
   closeModal();
+  const $collectionsLoadingSpinner = renderLargeLoadingSpinner();
+  $currentCollectionContainer.prepend($collectionsLoadingSpinner);
   switch (collectionType) {
     case 'fish':
       if (data.collectionData.fish === undefined) { // if a user collection does not exist create a new one
@@ -1206,7 +1366,7 @@ function toTitleCase(string) {
   let output = '';
   output += string[0].toUpperCase();
   for (let i = 1; i < string.length; i++) {
-    output += string[i];
+    output += string[i].toLowerCase();
   }
   return output;
 }
@@ -1747,6 +1907,9 @@ function renderCollectionModal(itemToRender) { // takes an item name to render f
     if (data.collectionData[data.currentCollection][i].name === itemToRender) {
       data.currentCollectionItem = data.collectionData[data.currentCollection][i];
       $heroImg.src = data.collectionData[data.currentCollection][i].imageUrl;
+      if (!$heroImg.src) {
+        $heroImg.src = 'images/image-not-found.png';
+      }
       if (data.currentCollection === 'fish' || data.currentCollection === 'bugs' || data.currentCollection === 'sea') {
         $infoContainer.append(renderTimeLocationInfo(data.collectionData[data.currentCollection][i]));
       }

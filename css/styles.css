@@ -54,11 +54,15 @@ a {
   font-size: 1rem;
   padding: 0.5rem;
   border: 1px solid #d5d5d5;
-  border-radius: 3px;
+}
+
+.new-villager-input {
+  border-radius: 3px 0 0 3px;
 }
 
 .town-form-input {
   width: 100%;
+  border-radius: 3px;
 }
 
 .town-form-btn,
@@ -96,6 +100,35 @@ a {
   width: 60px;
   height: 60px;
   color: white;
+}
+
+.add-villager-btn {
+  color: rgb(37, 185, 94);
+  font-size: 1.25rem;
+  border: 1px solid gray;
+  border-right: 1px dashed gray;
+  padding: 0.5rem;
+  border-radius: 3px 0 0 3px;
+}
+
+.remove-villager-btn {
+  color: rgb(245, 112, 112);
+  font-size: 1.25rem;
+  border: 1px solid gray;
+  border-left: 0;
+  padding: 0.5rem;
+  border-radius: 0 3px 3px 0;
+}
+
+.default-villager-search-msg {
+  font-style: italic;
+  opacity: 0.7;
+  margin: 0.25rem 0;
+}
+
+.villager-not-found-text {
+  color: firebrick;
+  font-style: italic;
 }
 
 /* View Towns */
@@ -639,6 +672,64 @@ i:active {
   margin-top: 1rem;
 }
 
+/* Loading Spinner */
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-dual-ring::after {
+  content: " ";
+  display: block;
+  width: 50px;
+  height: 50px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-color: #0092e3 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+.lds-dual-ring-large {
+  display: inline-block;
+  width: 180px;
+  height: 180px;
+}
+
+.lds-dual-ring-large::after {
+  content: " ";
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-color: #0092e3 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lds-dual-ring-large {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* Functional CSS Classes */
 
 .justify-end {
@@ -861,4 +952,15 @@ i:active {
 
 .br-bottom-right {
   border-bottom-right-radius: 5px;
+}
+
+.height-50vh {
+  height: 50vh;
+}
+
+/* Error Messages */
+
+.server-error-msg {
+  color: firebrick;
+  font-size: 1.25rem;
 }
