@@ -1,5 +1,15 @@
 body {
   font-family: Roboto, "Trebuchet MS", Avenir, sans-serif;
+  padding-top: 60px;
+}
+
+h1,
+h2 {
+  font-size: 1.25rem;
+}
+
+h3 {
+  font-size: 1rem;
 }
 
 .hidden {
@@ -7,7 +17,7 @@ body {
 }
 
 .container {
-  max-width: 575px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -54,19 +64,126 @@ body {
 .fruit-card {
   flex-basis: 17%;
   align-items: center;
+  max-width: 80px;
+}
+
+.new-villager-input {
+  width: 40%;
+  min-width: 150px;
+}
+
+.town-form-title {
+  width: 100%;
+  padding-bottom: 1rem;
 }
 
 .villager-card {
   display: flex;
 }
 
+.home-villager-icon-holder {
+  display: none;
+}
+
 .news-card {
-  width: 40%;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.birthday-quote-div {
+  margin-bottom: 1rem;
+}
+
+.news-data {
+  margin-left: 0.5rem;
+}
+
+.slide {
+  min-width: 80px;
+}
+
+/* Modal */
+
+.container > nav {
+  position: relative;
+}
+
+.collection-modal {
+  overflow-y: scroll;
+}
+
+.modal-content {
+  position: absolute;
+  top: 5rem;
+}
+
+.month-container {
+  overflow-x: scroll;
+}
+
+/* NavBar */
+
+.navbar-links ul {
+  width: 100%;
+  flex-direction: column;
+}
+
+.navbar-links li {
+  text-align: end;
+  padding: 0.75rem;
+}
+
+.navbar-links {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  user-select: none;
+}
+
+.navbar-links.active {
+  display: flex;
+  transform: scale(1, 1);
+}
+
+.nav-links li:last-child {
+  margin-bottom: 0.25rem;
+}
+
+.header-bg-wrapper {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+  opacity: 0.8;
+}
+
+@media screen and (min-width: 410px) {
+  .town-form-title {
+    width: auto;
+    padding-bottom: 0;
+  }
+
+  .month-container {
+    overflow-x: hidden;
+  }
 }
 
 @media screen and (min-width: 768px) {
-  .container {
-    max-width: 900px;
+  body {
+    padding-top: 0;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
   }
 
   .column-full,
@@ -78,22 +195,13 @@ body {
     width: 50%;
   }
 
-  nav {
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .navbar-links li {
-    padding: 1rem 1.5rem;
-  }
-
-  .hamburger {
-    display: none;
-  }
-
   .daily-news-bottom {
     justify-content: center;
     align-items: center;
+  }
+
+  .home-villager-icon-holder {
+    display: flex;
   }
 
   .new-villager-input {
@@ -109,104 +217,52 @@ body {
     align-items: center;
   }
 
+  .news-card {
+    width: 40%;
+  }
+
   .slide {
     min-width: 100px;
   }
-}
 
-@media screen and (max-width: 768px) {
-  .header-bg-wrapper {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 999;
-    opacity: 0.8;
-  }
+  /* NavBar */
 
-  body {
-    padding-top: 60px;
-  }
-
-  .navbar-links ul {
-    width: 100%;
-    flex-direction: column;
+  .navbar-links {
+    width: auto;
+    display: flex;
+    flex-direction: row;
   }
 
   .navbar-links li {
-    text-align: end;
-    padding: 0.75rem;
+    padding: 1rem 1.5rem;
   }
 
-  .navbar-links {
-    width: 100%;
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    user-select: none;
-  }
-
-  .navbar-links.active {
-    display: flex;
-    transform: scale(1, 1);
+  .navbar-links ul {
+    width: auto;
+    flex-direction: row;
+    align-items: center;
   }
 
   .nav-links li:last-child {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0;
   }
 
-  .home-villager-icon-holder {
+  .hamburger {
     display: none;
   }
 
-  h1,
-  h2 {
-    font-size: 1.25rem;
-  }
-
-  h3 {
-    font-size: 1rem;
-  }
-
-  .new-villager-input {
-    width: 40%;
-    min-width: 150px;
-  }
-
-  .news-card {
+  .header-bg-wrapper {
+    position: relative;
     width: 100%;
-    margin: 1rem 0;
-  }
-
-  .birthday-quote-div {
-    margin-bottom: 1rem;
-  }
-
-  .news-data {
-    margin-left: 0.5rem;
-  }
-
-  .slide {
-    min-width: 80px;
+    opacity: 1;
   }
 }
 
-@media screen and (max-width: 400px) {
-  h1,
-  h2 {
-    font-size: 1.1rem;
+@media screen and (min-height: 758px) {
+  .modal {
+    align-items: center;
   }
 
-  .town-form-title {
-    width: 100%;
-    padding-bottom: 1rem;
-  }
-
-  .month-container {
-    overflow-x: scroll;
-  }
-}
-
-@media screen and (max-height: 758px) {
   .container > nav {
     position: relative;
   }
@@ -216,13 +272,7 @@ body {
   }
 
   .modal-content {
-    position: absolute;
-    top: 5rem;
-  }
-}
-
-@media screen and (min-height: 758px) {
-  .modal {
-    align-items: center;
+    position: relative;
+    top: 0;
   }
 }
