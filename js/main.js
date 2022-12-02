@@ -96,9 +96,11 @@ function clearFruits() { // resets the fruits on page reload
 }
 
 $searchVillagerBtn.addEventListener('click', function (event) {
-  if (allVillagers.length === 0) {
-    getVillagerNames();
-  }
+  const $loadingSpinner = renderLoadingSpinner();
+  const $searchVillagerLi = document.querySelector('.search-villager-li');
+  $searchVillagerLi.remove();
+  $villagerEntryList.append($loadingSpinner);
+  getVillagerNames();
 });
 
 function searchVillagers(event) { // search through the villagers and show them to the user
@@ -111,6 +113,8 @@ function searchVillagers(event) { // search through the villagers and show them 
     $villagerDataTag.value = allVillagers[i].name;
     $villagerDatalist.append($villagerDataTag);
   }
+  const $loadingSpinner = document.querySelector('.lds-dual-ring');
+  $loadingSpinner.remove();
 }
 
 $addVillagerBtn.addEventListener('click', addVillager);
@@ -137,7 +141,7 @@ function removeVillager() {
   for (let i = 0; i < data.currentVillagers.length; i++) {
     if (data.currentVillagers[i].name === $addVillagerInput.value) { // ensure the villager we're deleting is in currentVillagers
       const $entryChildren = $villagerEntryList.children;
-      for (let j = 1; i < $entryChildren.length; j++) { // start iterating at 1 because 0 index is add button
+      for (let j = 0; i < $entryChildren.length; j++) { // start iterating at 1 because 0 index is add button
         if ($entryChildren[j].getAttribute('data-villager-id') === $addVillagerInput.value) {
           $entryChildren[j].remove();
           data.currentVillagers.splice(i, 1);
@@ -146,6 +150,13 @@ function removeVillager() {
       }
     }
   }
+}
+
+function renderLoadingSpinner() {
+  const $loadingSpinner = document.createElement('div');
+  $loadingSpinner.className = 'lds-dual-ring';
+
+  return $loadingSpinner;
 }
 
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
@@ -209,10 +220,15 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
 }
 
 function clearVillagers() { // clears villagers from the DOM
-  while ($villagerEntryList.children.length > 1) {
-    const $lastVillager = $villagerEntryList.lastChild;
-    $lastVillager.remove();
+  if (allVillagers.length === 0) { // villagers have not yet loaded
+    while ($villagerEntryList.children.length > 1) {
+      const $lastVillager = $villagerEntryList.lastChild;
+      $lastVillager.remove();
+    }
+  } else if (allVillagers.length !== 0) { // villagers have loaded
+    $villagerEntryList.textContent = '';
   }
+
 }
 
 $townForm.addEventListener('submit', function (event) { // handle submitting a town (either new or edit)
@@ -649,6 +665,9 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
   }
   if (dataView === 'town-entry-form' && data.editing) { // if page is refreshed and was editing
     addEditTownText();
+  }
+  if (dataView === 'town-entry-form' && !data.editing && data.currentVillagers.length !== 0) { // on refresh of new town page
+    data.currentVillagers = [];
   }
 }
 
