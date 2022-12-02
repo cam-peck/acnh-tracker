@@ -130,7 +130,7 @@ $addVillagerBtn.addEventListener('click', addVillager);
 
 function addVillager() { // add a villager to both the DOM and the data model
   for (let i = 0; i < allVillagers.length; i++) {
-    if (allVillagers[i].name === $addVillagerInput.value) {
+    if (allVillagers[i].name === toTitleCase($addVillagerInput.value)) {
       for (let j = 0; j < data.currentVillagers.length; j++) { // check for same villagers
         if (data.currentVillagers[j].name === allVillagers[i].name) {
           $addVillagerInput.value = '';
@@ -156,17 +156,17 @@ function addVillager() { // add a villager to both the DOM and the data model
     }
   }
   $villagerNotFound.classList.remove('hidden');
-  $villagerNotFound.textContent = 'We could\'t find that villager...';
+  $villagerNotFound.textContent = `The villager "${toTitleCase($addVillagerInput.value)}" does not exist in ACNH.`;
 }
 
 $removeVillagerBtn.addEventListener('click', removeVillager);
 
 function removeVillager() {
   for (let i = 0; i < data.currentVillagers.length; i++) {
-    if (data.currentVillagers[i].name === $addVillagerInput.value) { // ensure the villager we're deleting is in currentVillagers
+    if (data.currentVillagers[i].name === toTitleCase($addVillagerInput.value)) { // ensure the villager we're deleting is in currentVillagers
       const $entryChildren = $villagerEntryList.children;
       for (let j = 0; i < $entryChildren.length; j++) {
-        if ($entryChildren[j].getAttribute('data-villager-id') === $addVillagerInput.value) {
+        if ($entryChildren[j].getAttribute('data-villager-id') === toTitleCase($addVillagerInput.value)) {
           $entryChildren[j].remove();
           data.currentVillagers.splice(i, 1);
           $addVillagerInput.value = '';
@@ -180,7 +180,7 @@ function removeVillager() {
     }
   }
   $villagerNotFound.classList.remove('hidden');
-  $villagerNotFound.textContent = 'We could\'t find that villager...';
+  $villagerNotFound.textContent = 'You don\'t currently have that villager.';
 }
 
 function renderEmptySearchVillagerMsg() {
@@ -1282,7 +1282,7 @@ function toTitleCase(string) {
   let output = '';
   output += string[0].toUpperCase();
   for (let i = 1; i < string.length; i++) {
-    output += string[i];
+    output += string[i].toLowerCase();
   }
   return output;
 }
