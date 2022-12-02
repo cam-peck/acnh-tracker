@@ -104,6 +104,11 @@ a {
   margin: 0.25rem 0;
 }
 
+.villager-not-found-text {
+  color: firebrick;
+  font-style: italic;
+}
+
 /* View Towns */
 
 .town-hero-img {

@@ -30,6 +30,7 @@ const $addVillagerBtn = document.querySelector('.add-villager-btn');
 const $removeVillagerBtn = document.querySelector('.remove-villager-btn');
 const $villagerDatalist = document.querySelector('.villager-datalist');
 const $villagerEntryList = document.querySelector('.villager-entry-list');
+const $villagerNotFound = document.querySelector('.villager-not-found-text');
 const $townForm = document.querySelector('.town-form');
 const $formTitle = document.querySelector('.town-form-title');
 const $imageInput = document.querySelector('.image-input');
@@ -129,12 +130,19 @@ $addVillagerBtn.addEventListener('click', addVillager);
 
 function addVillager() { // add a villager to both the DOM and the data model
   for (let i = 0; i < allVillagers.length; i++) {
-    if (allVillagers[i].name === $addVillagerInput.value && data.currentVillagers.length < 10) {
+    if (allVillagers[i].name === $addVillagerInput.value) {
       for (let j = 0; j < data.currentVillagers.length; j++) { // check for same villagers
         if (data.currentVillagers[j].name === allVillagers[i].name) {
           $addVillagerInput.value = '';
+          $villagerNotFound.classList.remove('hidden');
+          $villagerNotFound.textContent = 'You already have that villager.';
           return;
         }
+      }
+      if (data.currentVillagers.length === 10) {
+        $villagerNotFound.classList.remove('hidden');
+        $villagerNotFound.textContent = 'You have the maximum 10 villagers. Remove one before adding another.';
+        return;
       }
       if (data.currentVillagers.length === 0 && $villagerEntryList.children.length === 1) { // default message is currently appended
         const $defaultMessage = document.querySelector('.default-villager-search-msg');
@@ -142,9 +150,13 @@ function addVillager() { // add a villager to both the DOM and the data model
       }
       $villagerEntryList.append(createVillagerIcon(allVillagers[i].name, allVillagers[i].icon));
       data.currentVillagers.push(allVillagers[i]);
+      $addVillagerInput.value = '';
+      $villagerNotFound.classList.add('hidden');
+      return;
     }
   }
-  $addVillagerInput.value = '';
+  $villagerNotFound.classList.remove('hidden');
+  $villagerNotFound.textContent = 'We could\'t find that villager...';
 }
 
 $removeVillagerBtn.addEventListener('click', removeVillager);
@@ -157,6 +169,8 @@ function removeVillager() {
         if ($entryChildren[j].getAttribute('data-villager-id') === $addVillagerInput.value) {
           $entryChildren[j].remove();
           data.currentVillagers.splice(i, 1);
+          $addVillagerInput.value = '';
+          $villagerNotFound.classList.add('hidden');
           if ($villagerEntryList.children.length === 0) { // append default message if list is now empty
             $villagerEntryList.append(renderEmptySearchVillagerMsg());
           }
@@ -165,7 +179,8 @@ function removeVillager() {
       }
     }
   }
-  console.log('villager not found'); // villager user entered does not exist
+  $villagerNotFound.classList.remove('hidden');
+  $villagerNotFound.textContent = 'We could\'t find that villager...';
 }
 
 function renderEmptySearchVillagerMsg() {
