@@ -692,7 +692,35 @@ i:active {
   animation: lds-dual-ring 1.2s linear infinite;
 }
 
+.lds-dual-ring-large {
+  display: inline-block;
+  width: 180px;
+  height: 180px;
+}
+
+.lds-dual-ring-large::after {
+  content: " ";
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-color: #0092e3 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
 @keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lds-dual-ring-large {
   0% {
     transform: rotate(0deg);
   }
@@ -924,6 +952,10 @@ i:active {
 
 .br-bottom-right {
   border-bottom-right-radius: 5px;
+}
+
+.height-50vh {
+  height: 50vh;
 }
 
 /* Error Messages */

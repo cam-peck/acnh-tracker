@@ -37,6 +37,7 @@ const $imageInput = document.querySelector('.image-input');
 const $townImage = document.querySelector('.town-img');
 const $townDeleteBtn = document.querySelector('.town-delete-btn');
 const $townContainer = document.querySelector('.town-container');
+const $currentCollectionContainer = document.querySelector('.current-collection-container');
 const $slideContainer = document.querySelector('.slider-container');
 
 // New Town Input Form //
@@ -198,6 +199,20 @@ function renderLoadingSpinner() {
   $loadingSpinner.className = 'lds-dual-ring';
 
   return $loadingSpinner;
+}
+
+function renderLargeLoadingSpinner() {
+  // <div class="justify-and-align-center row height-50vh collections-loading-spinner">
+  //   <div class="lds-dual-ring"></div>
+  // </div>
+  const $container = document.createElement('div');
+  $container.className = 'justify-and-align-center row height-50vh collections-loading-spinner';
+
+  const $largeLoadingSpinner = document.createElement('div');
+  $largeLoadingSpinner.className = 'lds-dual-ring-large';
+
+  $container.append($largeLoadingSpinner);
+  return $container;
 }
 
 function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
@@ -739,7 +754,6 @@ function getVillagerNames() { // call the API and grab all villager names and ic
       searchVillagers('request failed');
     }
   };
-
   xhr.send();
 }
 
@@ -1142,6 +1156,8 @@ function renderIcon(object) { // render an icon square with data from acnhObject
 }
 
 function renderTable(itemArray) {
+  const $collectionsLoadingSpinner = document.querySelector('.collections-loading-spinner');
+  $collectionsLoadingSpinner.remove();
   const columnLength = 5;
   let $newLi;
   for (let i = 0; i < itemArray.length; i++) {
@@ -1161,6 +1177,8 @@ function renderTable(itemArray) {
 
 function renderCollection(collectionType) {
   closeModal();
+  const $collectionsLoadingSpinner = renderLargeLoadingSpinner();
+  $currentCollectionContainer.prepend($collectionsLoadingSpinner);
   switch (collectionType) {
     case 'fish':
       if (data.collectionData.fish === undefined) { // if a user collection does not exist create a new one
