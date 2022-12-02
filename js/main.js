@@ -826,7 +826,7 @@ function getFishCollectionItems() {
       currentFish.acquired = false;
       if (!errorHasRun) {
         for (const key in currentFish) {
-          if (currentFish[key] === '') {
+          if (!currentFish[key] && !errorHasRun) {
             alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
           }
         }
@@ -868,11 +868,11 @@ function getBugCollectionItems() {
       currentBug.acquired = false;
       if (!errorHasRun) {
         for (const key in currentBug) {
-          if (currentBug[key] === '') {
+          if (!currentBug[key] && !errorHasRun) {
             alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+            errorHasRun = true;
           }
         }
-        errorHasRun = true;
       }
       acnhBugs.push(currentBug);
     }
@@ -911,11 +911,11 @@ function getSeaCollectionItems() {
       currentSea.acquired = false;
       if (!errorHasRun) {
         for (const key in currentSea) {
-          if (currentSea[key] === '') {
+          if (!currentSea[key] && !errorHasRun) {
             alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+            errorHasRun = true;
           }
         }
-        errorHasRun = true;
       }
       acnhSea.push(currentSea);
     }
@@ -948,11 +948,11 @@ function getFossilCollectionItems() {
       currentFossil.acquired = false;
       if (!errorHasRun) {
         for (const key in currentFossil) {
-          if (currentFossil[key] === '') {
+          if (!currentFossil[key] && !errorHasRun) {
             alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+            errorHasRun = true;
           }
         }
-        errorHasRun = true;
       }
       acnhFossils.push(currentFossil);
     }
@@ -992,8 +992,9 @@ function getArtCollectionItems() {
       currentArt.acquired = false;
       if (!errorHasRun) {
         for (const key in currentArt) {
-          if (currentArt[key] === '') {
+          if (!currentArt[key] && !errorHasRun) {
             alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+            errorHasRun = true;
           }
         }
         errorHasRun = true;
