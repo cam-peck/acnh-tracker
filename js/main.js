@@ -524,7 +524,10 @@ $townContainer.addEventListener('click', function (event) { // on 'jump back in'
   }
 });
 
-function renderHomePage(townObj) {
+function renderHomePage(townObj, requestDidFail) {
+  if (requestDidFail) {
+    alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  Check your internet, and then check the server status at https://api.nookipedia.com/');
+  }
   const birthdayVillagers = [];
 
   // render the town data //
@@ -796,7 +799,13 @@ function getCurrentEvents() { // call the API and grab current events
         renderHomePage(data.currentTown);
       }
     });
+    xhr2.addEventListener('error', function () {
+      renderHomePage(null, 'request failed');
+    });
     xhr2.send();
+  });
+  xhr.addEventListener('error', function () {
+    renderHomePage(null, 'request failed');
   });
   xhr.send();
 }
@@ -827,7 +836,7 @@ function getFishCollectionItems() {
       if (!errorHasRun) {
         for (const key in currentFish) {
           if (!currentFish[key] === '') {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  You can check the server status at https://api.nookipedia.com/');
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and then check the server status at https://api.nookipedia.com/');
           }
         }
         errorHasRun = true;
@@ -869,7 +878,7 @@ function getBugCollectionItems() {
       if (!errorHasRun) {
         for (const key in currentBug) {
           if (!currentBug[key] === '') {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  You can check the server status at https://api.nookipedia.com/');
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  Check your internet, and then check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -912,7 +921,7 @@ function getSeaCollectionItems() {
       if (!errorHasRun) {
         for (const key in currentSea) {
           if (!currentSea[key] === '') {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  You can check the server status at https://api.nookipedia.com/');
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  Check your internet, and then check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -949,7 +958,7 @@ function getFossilCollectionItems() {
       if (!errorHasRun) {
         for (const key in currentFossil) {
           if (!currentFossil[key] === '') {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. You can check the server status at https://api.nookipedia.com/');
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and then check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -993,7 +1002,7 @@ function getArtCollectionItems() {
       if (!errorHasRun) {
         for (const key in currentArt) {
           if (!currentArt[key] === '') {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. You can check the server status at https://api.nookipedia.com/');
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and then check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -1013,7 +1022,7 @@ function getArtCollectionItems() {
 
 function renderServerErrorMessage() {
   const $errorMessage = document.createElement('p');
-  $errorMessage.textContent = 'Nookipedia encountered an error and did not send data.  You can check the server status at https://api.nookipedia.com/';
+  $errorMessage.textContent = 'Nookipedia encountered an error and did not send data.  Check your internet, and then check the server status at https://api.nookipedia.com/';
   $errorMessage.className = 'server-error-msg';
   return $errorMessage;
 }
