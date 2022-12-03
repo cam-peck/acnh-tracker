@@ -826,8 +826,8 @@ function getFishCollectionItems() {
       currentFish.acquired = false;
       if (!errorHasRun) {
         for (const key in currentFish) {
-          if (!currentFish[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentFish[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  You can check the server status at https://api.nookipedia.com/');
           }
         }
         errorHasRun = true;
@@ -868,8 +868,8 @@ function getBugCollectionItems() {
       currentBug.acquired = false;
       if (!errorHasRun) {
         for (const key in currentBug) {
-          if (!currentBug[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentBug[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  You can check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -911,8 +911,8 @@ function getSeaCollectionItems() {
       currentSea.acquired = false;
       if (!errorHasRun) {
         for (const key in currentSea) {
-          if (!currentSea[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentSea[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  You can check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -948,8 +948,8 @@ function getFossilCollectionItems() {
       currentFossil.acquired = false;
       if (!errorHasRun) {
         for (const key in currentFossil) {
-          if (!currentFossil[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentFossil[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. You can check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -992,8 +992,8 @@ function getArtCollectionItems() {
       currentArt.acquired = false;
       if (!errorHasRun) {
         for (const key in currentArt) {
-          if (!currentArt[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentArt[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. You can check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -1013,7 +1013,7 @@ function getArtCollectionItems() {
 
 function renderServerErrorMessage() {
   const $errorMessage = document.createElement('p');
-  $errorMessage.textContent = 'Nookipedia encountered an error and did not send data. Double-check your internet, and then check the server status at https://api.nookipedia.com/';
+  $errorMessage.textContent = 'Nookipedia encountered an error and did not send data.  You can check the server status at https://api.nookipedia.com/';
   $errorMessage.className = 'server-error-msg';
   return $errorMessage;
 }
