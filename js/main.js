@@ -560,13 +560,31 @@ function renderHomePage(townObj, requestDidFail) {
   getRandomQuote();
   $eventsContainer.textContent = '';
   const eventsToRender = filterEvents(thisWeeksEvents);
-  for (let i = 0; i < eventsToRender.length; i++) {
-    $eventsContainer.append(renderEvent(eventsToRender[i]));
+  if (eventsToRender.length === 0) {
+    $eventsContainer.append(renderNoEventText());
+  } else {
+    for (let i = 0; i < eventsToRender.length; i++) {
+      $eventsContainer.append(renderEvent(eventsToRender[i]));
+    }
   }
+
   if (townObj.collectionData) { // if there is previous collection data, assign it to collections
     data.collectionData = townObj.collectionData;
   }
   updateHomeCollectionProgress();
+}
+
+function renderNoEventText() {
+  const $containerLi = document.createElement('li');
+  const $containerDiv = document.createElement('div');
+  const $defaultText = document.createElement('p');
+
+  $defaultText.textContent = 'No events found for the next 10 days...';
+
+  $containerDiv.append($defaultText);
+  $containerLi.append($containerDiv);
+
+  return $containerLi;
 }
 
 function getRandomQuote() {
