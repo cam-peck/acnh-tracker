@@ -219,7 +219,7 @@ function createVillagerIcon(villagerName, imageUrl) { // create a villager icon 
   /*
   * <li data-villager-id="villagerName">
   *  <div class="villager-card justify-and-align-center">
-  *    <img class="villager-icon" src="images/sample_villager.png">
+  *    <img class="villager-icon" src="images/sample_villager.webp">
   *  </div>
   * </li>
   */
@@ -243,7 +243,7 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
   /*
   * <li class="row-no-wrap pl-1-rem align-center" data-villager-id="villagerName">
   *   <div class="villager-card justify-and-align-center">
-  *     <img class="villager-icon" src="images/sample_villager.png">
+  *     <img class="villager-icon" src="images/sample_villager.webp">
   *   </div>
   *   <div class="birthday-text row align-center">
   *     <h3 class="pl-1-rem event-text fw-500">Tangy's Birthday!</h3>
@@ -311,7 +311,7 @@ function handleNewSubmit(event) { // handle the form data from a new town submit
   formData.townVillagers = data.currentVillagers;
   formData.imageLink = $townImage.src;
   data.currentVillagers = [];
-  $townImage.src = 'images/placeholder-image-square.jpg';
+  $townImage.src = 'images/placeholder-image-square.webp';
   formData.entryID = data.nextEntryId;
   data.nextEntryId++;
   data.towns.unshift(formData);
@@ -326,7 +326,7 @@ function handleEditSubmit(event) {
   data.editing.townVillagers = data.currentVillagers;
   data.editing.imageLink = $townImage.src;
   data.currentVillagers = [];
-  $townImage.src = 'images/placeholder-image-square.jpg';
+  $townImage.src = 'images/placeholder-image-square.webp';
   const $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryID}"]`);
   $nodeToReplace.replaceWith(renderTown(data.editing));
   for (let i = 0; i < data.towns.length; i++) {
@@ -371,7 +371,7 @@ function renderTown(townObj) {
 
   const $imageHeroDiv = document.createElement('div');
   $imageHeroDiv.className = 'town-hero-img justify-and-align-center';
-  if (townObj.imageLink !== 'http://localhost:5500/images/placeholder-image-square.jpg') {
+  if (townObj.imageLink !== '/images/placeholder-image-square.webp') {
     $imageHeroDiv.style.backgroundImage = 'url(' + townObj.imageLink + ')';
   } else {
     $imageHeroDiv.classList.add('default-hero-img');
@@ -533,7 +533,7 @@ function renderHomePage(townObj, requestDidFail) {
   // render the town data //
   data.currentTown = townObj;
   for (let i = 0; i < $allFruit.length; i++) {
-    $allFruit[i].src = 'images/Fruits/' + townObj.townFruit + '.png';
+    $allFruit[i].src = 'images/Fruits/' + townObj.townFruit + '.webp';
   }
   for (let i = 0; i < $allDates.length; i++) {
     $allDates[i].textContent = getDate();
@@ -609,7 +609,7 @@ function filterEvents(eventArray) { // filter the events to only show relevant e
 function renderEvent(eventObj) {
   /*
   * <li class="row-no-wrap justify-and-align-center">
-  *   <img class="event-icon fb-5" src="images/Events/shopping-cart.png">
+  *   <img class="event-icon fb-5" src="images/Events/shopping-cart.webp">
   *    <h3 class="event-text fb-85">Grape Harvest Festival Nook Shopping event begins</h3>
   *    <h3 class="fw-500 mtb-0 event-date fb-15">09/01</h3>
   *  </li>
@@ -619,13 +619,13 @@ function renderEvent(eventObj) {
 
   const $newImg = document.createElement('img');
   if (eventObj.type === 'Event') {
-    $newImg.src = 'images/Events/trophy-icon.png';
+    $newImg.src = 'images/Events/trophy-icon.webp';
   } else if (eventObj.type === 'Nook Shopping' || eventObj.type === 'Shopping season') {
-    $newImg.src = 'images/Events/shopping-cart.png';
+    $newImg.src = 'images/Events/shopping-cart.webp';
   } else if (eventObj.type === 'Season') {
-    $newImg.src = 'images/Events/seasons-icon.png';
+    $newImg.src = 'images/Events/seasons-icon.webp';
   } else {
-    $newImg.src = 'images/Events/recipe-icon.png';
+    $newImg.src = 'images/Events/recipe-icon.webp';
   }
   $newImg.className = 'event-icon fb-5';
 
@@ -669,7 +669,7 @@ $navbarLinks.forEach(link => {
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
   $townForm.reset();
-  $townImage.src = 'images/placeholder-image-square.jpg';
+  $townImage.src = 'images/placeholder-image-square.webp';
   $formTitle.textContent = 'New Town';
   data.currentVillagers = [];
   clearFruits();
@@ -740,7 +740,7 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
   }
   if (dataView === 'collections' && $allDates[1].textContent === '') { // if page is refreshed collections needs loaded in
     $allDates[1].textContent = getDate();
-    $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.png';
+    $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.webp';
     renderCollection(data.currentCollection);
   }
   if (dataView === 'town-entry-form' && data.editing) { // if page is refreshed and was editing
@@ -1279,7 +1279,7 @@ function renderCollection(collectionType) {
       } else { // if a user collection does exist, use that one
         renderTable(data.collectionData.fish);
       }
-      $collectionImage.src = 'images/Collections/fish-col.png';
+      $collectionImage.src = 'images/Collections/fish-col.webp';
       $collectionProgressCount.textContent = '0/80';
       data.currentCollection = 'fish';
       break;
@@ -1290,7 +1290,7 @@ function renderCollection(collectionType) {
       } else {
         renderTable(data.collectionData.bugs);
       }
-      $collectionImage.src = 'images/Collections/butterfly-col.png';
+      $collectionImage.src = 'images/Collections/butterfly-col.webp';
       $collectionProgressCount.textContent = '0/80';
       data.currentCollection = 'bugs';
       break;
@@ -1301,7 +1301,7 @@ function renderCollection(collectionType) {
       } else {
         renderTable(data.collectionData.sea);
       }
-      $collectionImage.src = 'images/Collections/sea-col.png';
+      $collectionImage.src = 'images/Collections/sea-col.webp';
       $collectionProgressCount.textContent = '0/40';
       data.currentCollection = 'sea';
       break;
@@ -1312,7 +1312,7 @@ function renderCollection(collectionType) {
       } else {
         renderTable(data.collectionData.fossils);
       }
-      $collectionImage.src = 'images/Collections/fossil-col.png';
+      $collectionImage.src = 'images/Collections/fossil-col.webp';
       $collectionProgressCount.textContent = '0/73';
       data.currentCollection = 'fossils';
       break;
@@ -1323,7 +1323,7 @@ function renderCollection(collectionType) {
       } else {
         renderTable(data.collectionData.art);
       }
-      $collectionImage.src = 'images/Collections/art-col.png';
+      $collectionImage.src = 'images/Collections/art-col.webp';
       $collectionProgressCount.textContent = '0/43';
       data.currentCollection = 'art';
       break;
@@ -1556,7 +1556,7 @@ function renderFishInfo(fishObject) {
   *   <div class="row-no-wrap gap-half-rem">
   *     <div class="text-align-center fish-shadow-card">
   *       <p class="fish-size-label row justify-and-align-center">6</p>
-  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
+  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.webp">
   *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
   *     </div>
   *     renderMonthsHere()
@@ -1670,7 +1670,7 @@ function renderSeaInfo(seaObject) {
   *   </div>
   *   <div class="row-no-wrap gap-half-rem">
   *     <div class="fb-25 text-align-center fish-shadow-card">
-  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
+  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.webp">
   *       <p class="fish-size-label row justify-and-align-center">6</p>
   *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
   *     </div>
@@ -1934,9 +1934,6 @@ function renderCollectionModal(itemToRender) { // takes an item name to render f
     if (data.collectionData[data.currentCollection][i].name === itemToRender) {
       data.currentCollectionItem = data.collectionData[data.currentCollection][i];
       $heroImg.src = data.collectionData[data.currentCollection][i].imageUrl;
-      if (!$heroImg.src) {
-        $heroImg.src = 'images/image-not-found.png';
-      }
       if (data.currentCollection === 'fish' || data.currentCollection === 'bugs' || data.currentCollection === 'sea') {
         $infoContainer.append(renderTimeLocationInfo(data.collectionData[data.currentCollection][i]));
       }
@@ -2000,14 +1997,14 @@ function changeIconFilter(action, iconName) { // either adds or removes the dark
 
 function getFishShadowImg(shadowSize) { // returns the appropriate link and label number for a fish shadow size input
   const apiFishShadowSizes = {
-    Tiny: { src: 'images/Fish/fish-size-1.png', label: 1 },
-    Small: { src: 'images/Fish/fish-size-2.png', label: 2 },
-    Medium: { src: 'images/Fish/fish-size-3.png', label: 3 },
-    Large: { src: 'images/Fish/fish-size-4.png', label: 4 },
-    'Very large': { src: 'images/Fish/fish-size-5.png', label: 5 },
-    Huge: { src: 'images/Fish/fish-size-6.png', label: 6 },
-    'Very large (finned)': { src: 'images/Fish/fish-size-shark.jpg', label: 'fin' },
-    Long: { src: 'images/Fish/fish-size-eel.jpg', label: 'eel' }
+    Tiny: { src: 'images/Fish/fish-size-1.webp', label: 1 },
+    Small: { src: 'images/Fish/fish-size-2.webp', label: 2 },
+    Medium: { src: 'images/Fish/fish-size-3.webp', label: 3 },
+    Large: { src: 'images/Fish/fish-size-4.webp', label: 4 },
+    'Very large': { src: 'images/Fish/fish-size-5.webp', label: 5 },
+    Huge: { src: 'images/Fish/fish-size-6.webp', label: 6 },
+    'Very large (finned)': { src: 'images/Fish/fish-size-shark.webp', label: 'fin' },
+    Long: { src: 'images/Fish/fish-size-eel.webp', label: 'eel' }
   };
   for (const key in apiFishShadowSizes) {
     if (shadowSize === key) {
@@ -2018,11 +2015,11 @@ function getFishShadowImg(shadowSize) { // returns the appropriate link and labe
 
 function getSeaShadowImg(shadowSize, shadowSpeed) {
   const apiSeaShadowSizes = {
-    Tiny: { src: 'images/Sea/sea-small.jpg', label: 1 },
-    Small: { src: 'images/Sea/sea-small.jpg', label: 1 },
-    Medium: { src: 'images/Sea/sea-medium.jpg', label: 2 },
-    Large: { src: 'images/Sea/sea-large.jpg', label: 3 },
-    'Very large': { src: 'images/Sea/sea-large.jpg', label: 3 }
+    Tiny: { src: 'images/Sea/sea-small.webp', label: 1 },
+    Small: { src: 'images/Sea/sea-small.webp', label: 1 },
+    Medium: { src: 'images/Sea/sea-medium.webp', label: 2 },
+    Large: { src: 'images/Sea/sea-large.webp', label: 3 },
+    'Very large': { src: 'images/Sea/sea-large.webp', label: 3 }
   };
   for (const key in apiSeaShadowSizes) {
     if (shadowSize === key) {
