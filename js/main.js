@@ -17,7 +17,7 @@ const villagerQuotes = [
 
 const allVillagers = [];
 const thisWeeksEvents = [];
-const $defaultText = createDefaultText();
+const $noTownDefaultText = createNoTownDefaultText();
 const $birthdayDefText = createBirthdayDefaultText();
 
 // Event Listeners //
@@ -45,7 +45,7 @@ const $slideContainer = document.querySelector('.slider-container');
 window.addEventListener('DOMContentLoaded', function (event) {
   getCurrentEvents();
   if (data.towns.length === 0) {
-    $townContainer.append($defaultText);
+    $townContainer.append($noTownDefaultText);
   }
   if (data.view === 'town-entry-form' && data.editing) {
     prefillEditForm();
@@ -298,7 +298,7 @@ $townForm.addEventListener('submit', function (event) { // handle submitting a t
     handleEditSubmit(event);
   }
   if (data.towns.length !== 0) {
-    $defaultText.remove();
+    $noTownDefaultText.remove();
   }
   $townForm.reset();
   clearFruits();
@@ -408,7 +408,7 @@ function renderTown(townObj) {
   return $parentLi;
 }
 
-function createDefaultText() {
+function createNoTownDefaultText() {
   const $textDiv = document.createElement('div');
   $textDiv.className = 'row justify-and-align-center';
 
@@ -501,6 +501,9 @@ function deleteTown() {
     }
   }
   signOut();
+  if (data.towns.length === 0) {
+    $townContainer.append($noTownDefaultText);
+  }
   viewSwap('town-entries');
 }
 
