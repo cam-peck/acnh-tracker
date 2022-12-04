@@ -1,13 +1,13 @@
 /* exported data */
 
-var data = {
+let data = {
   view: 'town-entries',
   towns: [
     {
       playerName: 'Cameron',
       entryID: 1,
       imageLink: 'https://i.pinimg.com/736x/38/8a/d6/388ad6db4a58b8e7fcb63e5f7e1940d9.jpg',
-      collectionData: {},
+      collectionData: null,
       townFruit: 'cherry',
       townName: 'Mallet Town',
       townVillagers: [
@@ -22,16 +22,16 @@ var data = {
       ]
     }
   ],
-  currentTown: {},
-  currentCollection: '',
-  currentCollectionItem: {},
+  currentTown: null,
+  currentCollection: null,
+  currentCollectionItem: null,
   editing: null,
   nextEntryId: 2,
   currentVillagers: [],
   collectionData: {}
 };
 
-var previousData = localStorage.getItem('acnh-tracker-data');
+const previousData = localStorage.getItem('acnh-tracker-data');
 if (previousData !== null) {
   data = JSON.parse(previousData);
 }

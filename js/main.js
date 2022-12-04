@@ -697,7 +697,7 @@ $navTowns.addEventListener('click', function (event) { // swap to entries view
 });
 
 $navHome.addEventListener('click', function (event) {
-  if (data.view !== 'town-home-page' && data.currentTown !== null) {
+  if (data.view !== 'town-home-page' && data.currentTown) {
     renderHomePage(data.currentTown);
     viewSwap('town-home-page');
   }
@@ -708,7 +708,7 @@ $navCollections.addEventListener('click', function (event) {
   if (data.view !== 'collections' && data.currentCollection !== null) {
     renderCollection(data.currentCollection);
     viewSwap('collections');
-  } else if (data.view === 'town-home-page') {
+  } else if (data.view !== 'collections' && data.currentTown) {
     renderCollection('fish');
     viewSwap('collections');
   }
