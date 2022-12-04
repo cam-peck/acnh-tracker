@@ -697,7 +697,7 @@ $navTowns.addEventListener('click', function (event) { // swap to entries view
 });
 
 $navHome.addEventListener('click', function (event) {
-  if (data.view !== 'town-home-page' && data.currentTown !== null) {
+  if (data.view !== 'town-home-page' && data.currentTown) {
     renderHomePage(data.currentTown);
     viewSwap('town-home-page');
   }
