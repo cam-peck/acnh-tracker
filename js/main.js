@@ -1068,16 +1068,8 @@ function getDate() { // returns todays date
   const currentDay = currentDate.getDate();
   currentDate = currentDate.toDateString();
   const splitDate = currentDate.split(' ');
+  splitDate[0] += ',';
   splitDate.pop();
-  const daysObj = {
-    Sun: 'Sunday,',
-    Mon: 'Monday,',
-    Tue: 'Tuesday,',
-    Wed: 'Wednesday,',
-    Thu: 'Thursday,',
-    Fri: 'Friday',
-    Sat: 'Saturday,'
-  };
   const monthsObj = {
     Jan: 'January',
     Feb: 'Febuary',
@@ -1092,15 +1084,8 @@ function getDate() { // returns todays date
     Nov: 'November',
     Dec: 'December'
   };
-  for (const key in daysObj) {
-    if (splitDate[0] === key) {
-      splitDate[0] = daysObj[key];
-    }
-  }
-  for (const key in monthsObj) {
-    if (splitDate[1] === key) {
-      splitDate[1] = monthsObj[key];
-    }
+  if (monthsObj[splitDate[1]]) {
+    splitDate[1] = monthsObj[splitDate[1]];
   }
   splitDate[2] = currentDay;
   if (currentDay === 1 || currentDay === 21 || currentDay === 31) {
