@@ -786,7 +786,7 @@ function getVillagerNames() { // call the API and grab all villager names and ic
 
 function getCurrentEvents() { // call the API and grab current events
   const xhr = new XMLHttpRequest();
-  const thisMonth = new Date().getMonth() + 5; // 0-indexed
+  const thisMonth = new Date().getMonth() + 1; // 0-indexed
   const thisYear = new Date().getFullYear();
   const params = `month=${thisMonth}&year=${thisYear}`;
   xhr.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params);
@@ -801,7 +801,7 @@ function getCurrentEvents() { // call the API and grab current events
       }
     }
     const xhr2 = new XMLHttpRequest();
-    let nextMonth = new Date().getMonth() + 5;
+    let nextMonth = new Date().getMonth() + 2;
     let nextYear = new Date().getFullYear();
     if (nextMonth === 13) {
       nextMonth = 1;
@@ -821,7 +821,7 @@ function getCurrentEvents() { // call the API and grab current events
       }
       if (data.view === 'town-home-page') {
         renderHomePage(data.currentTown);
-        document.querySelector('.lds-dual-ring').remove();
+        document.querySelector('.search-loading-spinner').remove();
       }
     });
     xhr2.addEventListener('error', function () {
@@ -1612,7 +1612,7 @@ function renderFishInfo(fishObject) {
   const $shadowLink = document.createElement('a');
   $shadowLink.className = 'shadow-reference';
   $shadowLink.setAttribute('target', '_blank');
-  $shadowLink.setAttribute('href', 'https://tunnaa-unnaa.tumblr.com/image/620023127192354817'); // add fishobject info here
+  $shadowLink.setAttribute('href', 'https://tunnaa-unnaa.tumblr.com/image/620023127192354817');
   $shadowLink.textContent = 'Need a reference?';
 
   const $monthsDiv = renderMonths(75, fishObject);
@@ -1706,7 +1706,7 @@ function renderSeaInfo(seaObject) {
   $speedInfoP.className = 'white-info-tag';
 
   const $labelDiv = document.createElement('div');
-  $labelDiv.className = 'row-no-wrap mb-half-rem';
+  $labelDiv.className = 'row-no-wrap';
 
   const $shadowColumnDiv = document.createElement('div');
   $shadowColumnDiv.className = 'fb-25 flex-column gap-half-rem';
@@ -1726,7 +1726,10 @@ function renderSeaInfo(seaObject) {
   $infoDiv.className = 'row-no-wrap gap-half-rem';
 
   const $shadowInfoDiv = document.createElement('div');
-  $shadowInfoDiv.className = 'fb-25 text-align-center fish-shadow-card';
+  $shadowInfoDiv.className = 'text-align-center fish-shadow-card';
+
+  const $shadowImgDiv = document.createElement('div');
+  $shadowImgDiv.className = 'position-relative';
 
   const $shadowImg = document.createElement('img');
   $shadowImg.className = 'fish-size-img shadow';
@@ -1749,7 +1752,8 @@ function renderSeaInfo(seaObject) {
   $speedLabelColumn.append($speedLabelP);
   $speedInfoColumn.append($speedInfoP);
   $speedDiv.append($speedLabelColumn, $speedInfoColumn);
-  $shadowInfoDiv.append($shadowImg, $shadowP, $shadowLink);
+  $shadowImgDiv.append($shadowImg, $shadowP);
+  $shadowInfoDiv.append($shadowImgDiv, $shadowLink);
   $infoDiv.append($shadowInfoDiv, $monthsDiv);
   $seasonColumnDiv.append($seasonColumnP);
   $shadowColumnDiv.append($shadowColumnP);

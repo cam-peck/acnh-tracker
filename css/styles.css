@@ -249,6 +249,10 @@ a {
   min-width: 45px;
 }
 
+.current-collection-container {
+  text-align: center;
+}
+
 /* Edit Town */
 
 i:hover {
