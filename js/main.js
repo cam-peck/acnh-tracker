@@ -106,7 +106,7 @@ $searchVillagerBtn.addEventListener('click', function (event) {
 });
 
 function searchVillagers(requestDidFail) { // search through the villagers and show them to the user
-  const $loadingSpinner = document.querySelector('.lds-dual-ring');
+  const $loadingSpinner = document.querySelector('.search-loading-spinner');
   if (requestDidFail) {
     $loadingSpinner.remove();
     $villagerEntryList.append(renderServerErrorMessage());
@@ -195,10 +195,14 @@ function renderEmptySearchVillagerMsg() {
 }
 
 function renderLoadingSpinner() {
+  const $spinnerContainer = document.createElement('div');
+  $spinnerContainer.className = 'row justify-and-align-center search-loading-spinner';
+
   const $loadingSpinner = document.createElement('div');
   $loadingSpinner.className = 'lds-dual-ring';
 
-  return $loadingSpinner;
+  $spinnerContainer.append($loadingSpinner);
+  return $spinnerContainer;
 }
 
 function renderLargeLoadingSpinner() {
@@ -561,6 +565,8 @@ function renderHomePage(townObj, requestDidFail) {
   $eventsContainer.textContent = '';
   const eventsToRender = filterEvents(thisWeeksEvents);
   if (eventsToRender.length === 0) {
+    const $loadingSpinner = renderLoadingSpinner();
+    $eventsContainer.append($loadingSpinner);
     $eventsContainer.append(renderNoEventText());
   } else {
     for (let i = 0; i < eventsToRender.length; i++) {
@@ -780,7 +786,7 @@ function getVillagerNames() { // call the API and grab all villager names and ic
 
 function getCurrentEvents() { // call the API and grab current events
   const xhr = new XMLHttpRequest();
-  const thisMonth = new Date().getMonth() + 1; // 0-indexed
+  const thisMonth = new Date().getMonth() + 5; // 0-indexed
   const thisYear = new Date().getFullYear();
   const params = `month=${thisMonth}&year=${thisYear}`;
   xhr.open('GET', 'https://api.nookipedia.com/nh/events' + '?' + params);
@@ -795,7 +801,7 @@ function getCurrentEvents() { // call the API and grab current events
       }
     }
     const xhr2 = new XMLHttpRequest();
-    let nextMonth = new Date().getMonth() + 2;
+    let nextMonth = new Date().getMonth() + 5;
     let nextYear = new Date().getFullYear();
     if (nextMonth === 13) {
       nextMonth = 1;
@@ -815,6 +821,7 @@ function getCurrentEvents() { // call the API and grab current events
       }
       if (data.view === 'town-home-page') {
         renderHomePage(data.currentTown);
+        document.querySelector('.lds-dual-ring').remove();
       }
     });
     xhr2.addEventListener('error', function () {
