@@ -705,6 +705,9 @@ $navCollections.addEventListener('click', function (event) {
   if (data.view !== 'collections' && data.currentCollection !== null) {
     renderCollection(data.currentCollection);
     viewSwap('collections');
+  } else if (data.view === 'town-home-page') {
+    renderCollection('fish');
+    viewSwap('collections');
   }
 });
 
@@ -754,6 +757,13 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
   }
   if (dataView === 'town-entry-form' && !data.editing && data.currentVillagers.length !== 0) { // on refresh of new town page
     data.currentVillagers = [];
+  }
+  if (data.currentTown) {
+    $navHome.classList.remove('hidden');
+    $navCollections.classList.remove('hidden');
+  } else {
+    $navHome.classList.add('hidden');
+    $navCollections.classList.add('hidden');
   }
 }
 
@@ -821,7 +831,10 @@ function getCurrentEvents() { // call the API and grab current events
       }
       if (data.view === 'town-home-page') {
         renderHomePage(data.currentTown);
-        document.querySelector('.search-loading-spinner').remove();
+        const $searchSpinner = document.querySelector('.search-loading-spinner');
+        if ($searchSpinner) {
+          $searchSpinner.remove();
+        }
       }
     });
     xhr2.addEventListener('error', function () {
