@@ -17,7 +17,7 @@ const villagerQuotes = [
 
 const allVillagers = [];
 const thisWeeksEvents = [];
-const $defaultText = createDefaultText();
+const $noTownDefaultText = createNoTownDefaultText();
 const $birthdayDefText = createBirthdayDefaultText();
 
 // Event Listeners //
@@ -45,7 +45,7 @@ const $slideContainer = document.querySelector('.slider-container');
 window.addEventListener('DOMContentLoaded', function (event) {
   getCurrentEvents();
   if (data.towns.length === 0) {
-    $townContainer.append($defaultText);
+    $townContainer.append($noTownDefaultText);
   }
   if (data.view === 'town-entry-form' && data.editing) {
     prefillEditForm();
@@ -106,7 +106,7 @@ $searchVillagerBtn.addEventListener('click', function (event) {
 });
 
 function searchVillagers(requestDidFail) { // search through the villagers and show them to the user
-  const $loadingSpinner = document.querySelector('.lds-dual-ring');
+  const $loadingSpinner = document.querySelector('.search-loading-spinner');
   if (requestDidFail) {
     $loadingSpinner.remove();
     $villagerEntryList.append(renderServerErrorMessage());
@@ -195,10 +195,14 @@ function renderEmptySearchVillagerMsg() {
 }
 
 function renderLoadingSpinner() {
+  const $spinnerContainer = document.createElement('div');
+  $spinnerContainer.className = 'row justify-and-align-center search-loading-spinner';
+
   const $loadingSpinner = document.createElement('div');
   $loadingSpinner.className = 'lds-dual-ring';
 
-  return $loadingSpinner;
+  $spinnerContainer.append($loadingSpinner);
+  return $spinnerContainer;
 }
 
 function renderLargeLoadingSpinner() {
@@ -219,7 +223,7 @@ function createVillagerIcon(villagerName, imageUrl) { // create a villager icon 
   /*
   * <li data-villager-id="villagerName">
   *  <div class="villager-card justify-and-align-center">
-  *    <img class="villager-icon" src="images/sample_villager.png">
+  *    <img class="villager-icon" src="images/sample_villager.webp">
   *  </div>
   * </li>
   */
@@ -243,7 +247,7 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
   /*
   * <li class="row-no-wrap pl-1-rem align-center" data-villager-id="villagerName">
   *   <div class="villager-card justify-and-align-center">
-  *     <img class="villager-icon" src="images/sample_villager.png">
+  *     <img class="villager-icon" src="images/sample_villager.webp">
   *   </div>
   *   <div class="birthday-text row align-center">
   *     <h3 class="pl-1-rem event-text fw-500">Tangy's Birthday!</h3>
@@ -294,7 +298,7 @@ $townForm.addEventListener('submit', function (event) { // handle submitting a t
     handleEditSubmit(event);
   }
   if (data.towns.length !== 0) {
-    $defaultText.remove();
+    $noTownDefaultText.remove();
   }
   $townForm.reset();
   clearFruits();
@@ -311,7 +315,7 @@ function handleNewSubmit(event) { // handle the form data from a new town submit
   formData.townVillagers = data.currentVillagers;
   formData.imageLink = $townImage.src;
   data.currentVillagers = [];
-  $townImage.src = 'images/placeholder-image-square.jpg';
+  $townImage.src = 'images/placeholder-image-square.webp';
   formData.entryID = data.nextEntryId;
   data.nextEntryId++;
   data.towns.unshift(formData);
@@ -326,7 +330,7 @@ function handleEditSubmit(event) {
   data.editing.townVillagers = data.currentVillagers;
   data.editing.imageLink = $townImage.src;
   data.currentVillagers = [];
-  $townImage.src = 'images/placeholder-image-square.jpg';
+  $townImage.src = 'images/placeholder-image-square.webp';
   const $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryID}"]`);
   $nodeToReplace.replaceWith(renderTown(data.editing));
   for (let i = 0; i < data.towns.length; i++) {
@@ -371,7 +375,7 @@ function renderTown(townObj) {
 
   const $imageHeroDiv = document.createElement('div');
   $imageHeroDiv.className = 'town-hero-img justify-and-align-center';
-  if (townObj.imageLink !== 'http://localhost:5500/images/placeholder-image-square.jpg') {
+  if (townObj.imageLink !== '/images/placeholder-image-square.webp') {
     $imageHeroDiv.style.backgroundImage = 'url(' + townObj.imageLink + ')';
   } else {
     $imageHeroDiv.classList.add('default-hero-img');
@@ -404,7 +408,7 @@ function renderTown(townObj) {
   return $parentLi;
 }
 
-function createDefaultText() {
+function createNoTownDefaultText() {
   const $textDiv = document.createElement('div');
   $textDiv.className = 'row justify-and-align-center';
 
@@ -497,6 +501,9 @@ function deleteTown() {
     }
   }
   signOut();
+  if (data.towns.length === 0) {
+    $townContainer.append($noTownDefaultText);
+  }
   viewSwap('town-entries');
 }
 
@@ -524,13 +531,16 @@ $townContainer.addEventListener('click', function (event) { // on 'jump back in'
   }
 });
 
-function renderHomePage(townObj) {
+function renderHomePage(townObj, requestDidFail) {
+  if (requestDidFail) {
+    alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  Check your internet, and then check the server status at https://api.nookipedia.com/');
+  }
   const birthdayVillagers = [];
 
   // render the town data //
   data.currentTown = townObj;
   for (let i = 0; i < $allFruit.length; i++) {
-    $allFruit[i].src = 'images/Fruits/' + townObj.townFruit + '.png';
+    $allFruit[i].src = 'images/Fruits/' + townObj.townFruit + '.webp';
   }
   for (let i = 0; i < $allDates.length; i++) {
     $allDates[i].textContent = getDate();
@@ -557,13 +567,33 @@ function renderHomePage(townObj) {
   getRandomQuote();
   $eventsContainer.textContent = '';
   const eventsToRender = filterEvents(thisWeeksEvents);
-  for (let i = 0; i < eventsToRender.length; i++) {
-    $eventsContainer.append(renderEvent(eventsToRender[i]));
+  if (eventsToRender.length === 0) {
+    const $loadingSpinner = renderLoadingSpinner();
+    $eventsContainer.append($loadingSpinner);
+    $eventsContainer.append(renderNoEventText());
+  } else {
+    for (let i = 0; i < eventsToRender.length; i++) {
+      $eventsContainer.append(renderEvent(eventsToRender[i]));
+    }
   }
+
   if (townObj.collectionData) { // if there is previous collection data, assign it to collections
     data.collectionData = townObj.collectionData;
   }
   updateHomeCollectionProgress();
+}
+
+function renderNoEventText() {
+  const $containerLi = document.createElement('li');
+  const $containerDiv = document.createElement('div');
+  const $defaultText = document.createElement('p');
+
+  $defaultText.textContent = 'No events found for the next 10 days...';
+
+  $containerDiv.append($defaultText);
+  $containerLi.append($containerDiv);
+
+  return $containerLi;
 }
 
 function getRandomQuote() {
@@ -588,7 +618,7 @@ function filterEvents(eventArray) { // filter the events to only show relevant e
 function renderEvent(eventObj) {
   /*
   * <li class="row-no-wrap justify-and-align-center">
-  *   <img class="event-icon fb-5" src="images/Events/shopping-cart.png">
+  *   <img class="event-icon fb-5" src="images/Events/shopping-cart.webp">
   *    <h3 class="event-text fb-85">Grape Harvest Festival Nook Shopping event begins</h3>
   *    <h3 class="fw-500 mtb-0 event-date fb-15">09/01</h3>
   *  </li>
@@ -598,13 +628,13 @@ function renderEvent(eventObj) {
 
   const $newImg = document.createElement('img');
   if (eventObj.type === 'Event') {
-    $newImg.src = 'images/Events/trophy-icon.png';
+    $newImg.src = 'images/Events/trophy-icon.webp';
   } else if (eventObj.type === 'Nook Shopping' || eventObj.type === 'Shopping season') {
-    $newImg.src = 'images/Events/shopping-cart.png';
+    $newImg.src = 'images/Events/shopping-cart.webp';
   } else if (eventObj.type === 'Season') {
-    $newImg.src = 'images/Events/seasons-icon.png';
+    $newImg.src = 'images/Events/seasons-icon.webp';
   } else {
-    $newImg.src = 'images/Events/recipe-icon.png';
+    $newImg.src = 'images/Events/recipe-icon.webp';
   }
   $newImg.className = 'event-icon fb-5';
 
@@ -648,7 +678,7 @@ $navbarLinks.forEach(link => {
 
 $addTownBtn.addEventListener('click', function (event) { // swap to entry form view
   $townForm.reset();
-  $townImage.src = 'images/placeholder-image-square.jpg';
+  $townImage.src = 'images/placeholder-image-square.webp';
   $formTitle.textContent = 'New Town';
   data.currentVillagers = [];
   clearFruits();
@@ -677,6 +707,9 @@ $navHome.addEventListener('click', function (event) {
 $navCollections.addEventListener('click', function (event) {
   if (data.view !== 'collections' && data.currentCollection !== null) {
     renderCollection(data.currentCollection);
+    viewSwap('collections');
+  } else if (data.view === 'town-home-page') {
+    renderCollection('fish');
     viewSwap('collections');
   }
 });
@@ -719,7 +752,7 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
   }
   if (dataView === 'collections' && $allDates[1].textContent === '') { // if page is refreshed collections needs loaded in
     $allDates[1].textContent = getDate();
-    $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.png';
+    $allFruit[1].src = 'images/Fruits/' + data.currentTown.townFruit + '.webp';
     renderCollection(data.currentCollection);
   }
   if (dataView === 'town-entry-form' && data.editing) { // if page is refreshed and was editing
@@ -727,6 +760,13 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
   }
   if (dataView === 'town-entry-form' && !data.editing && data.currentVillagers.length !== 0) { // on refresh of new town page
     data.currentVillagers = [];
+  }
+  if (data.currentTown) {
+    $navHome.classList.remove('hidden');
+    $navCollections.classList.remove('hidden');
+  } else {
+    $navHome.classList.add('hidden');
+    $navCollections.classList.add('hidden');
   }
 }
 
@@ -794,9 +834,19 @@ function getCurrentEvents() { // call the API and grab current events
       }
       if (data.view === 'town-home-page') {
         renderHomePage(data.currentTown);
+        const $searchSpinner = document.querySelector('.search-loading-spinner');
+        if ($searchSpinner) {
+          $searchSpinner.remove();
+        }
       }
     });
+    xhr2.addEventListener('error', function () {
+      renderHomePage(null, 'request failed');
+    });
     xhr2.send();
+  });
+  xhr.addEventListener('error', function () {
+    renderHomePage(null, 'request failed');
   });
   xhr.send();
 }
@@ -826,8 +876,8 @@ function getFishCollectionItems() {
       currentFish.acquired = false;
       if (!errorHasRun) {
         for (const key in currentFish) {
-          if (!currentFish[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentFish[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and then check the server status at https://api.nookipedia.com/');
           }
         }
         errorHasRun = true;
@@ -868,8 +918,8 @@ function getBugCollectionItems() {
       currentBug.acquired = false;
       if (!errorHasRun) {
         for (const key in currentBug) {
-          if (!currentBug[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentBug[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  Check your internet, and then check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -911,8 +961,8 @@ function getSeaCollectionItems() {
       currentSea.acquired = false;
       if (!errorHasRun) {
         for (const key in currentSea) {
-          if (!currentSea[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentSea[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing.  Check your internet, and then check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -948,8 +998,8 @@ function getFossilCollectionItems() {
       currentFossil.acquired = false;
       if (!errorHasRun) {
         for (const key in currentFossil) {
-          if (!currentFossil[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentFossil[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and then check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -992,8 +1042,8 @@ function getArtCollectionItems() {
       currentArt.acquired = false;
       if (!errorHasRun) {
         for (const key in currentArt) {
-          if (!currentArt[key] && !errorHasRun) {
-            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and check the server status at https://api.nookipedia.com/');
+          if (!currentArt[key] === '') {
+            alert('Nookipedia left out some data. We\'ll render everything we can, but some data will be missing. Check your internet, and then check the server status at https://api.nookipedia.com/');
             errorHasRun = true;
           }
         }
@@ -1013,7 +1063,7 @@ function getArtCollectionItems() {
 
 function renderServerErrorMessage() {
   const $errorMessage = document.createElement('p');
-  $errorMessage.textContent = 'Nookipedia encountered an error and did not send data. Double-check your internet, and then check the server status at https://api.nookipedia.com/';
+  $errorMessage.textContent = 'Nookipedia encountered an error and did not send data.  Check your internet, and then check the server status at https://api.nookipedia.com/';
   $errorMessage.className = 'server-error-msg';
   return $errorMessage;
 }
@@ -1034,16 +1084,8 @@ function getDate() { // returns todays date
   const currentDay = currentDate.getDate();
   currentDate = currentDate.toDateString();
   const splitDate = currentDate.split(' ');
+  splitDate[0] += ',';
   splitDate.pop();
-  const daysObj = {
-    Sun: 'Sunday,',
-    Mon: 'Monday,',
-    Tue: 'Tuesday,',
-    Wed: 'Wednesday,',
-    Thu: 'Thursday,',
-    Fri: 'Friday',
-    Sat: 'Saturday,'
-  };
   const monthsObj = {
     Jan: 'January',
     Feb: 'Febuary',
@@ -1058,15 +1100,8 @@ function getDate() { // returns todays date
     Nov: 'November',
     Dec: 'December'
   };
-  for (const key in daysObj) {
-    if (splitDate[0] === key) {
-      splitDate[0] = daysObj[key];
-    }
-  }
-  for (const key in monthsObj) {
-    if (splitDate[1] === key) {
-      splitDate[1] = monthsObj[key];
-    }
+  if (monthsObj[splitDate[1]]) {
+    splitDate[1] = monthsObj[splitDate[1]];
   }
   splitDate[2] = currentDay;
   if (currentDay === 1 || currentDay === 21 || currentDay === 31) {
@@ -1252,7 +1287,7 @@ function renderCollection(collectionType) {
       } else { // if a user collection does exist, use that one
         renderTable(data.collectionData.fish);
       }
-      $collectionImage.src = 'images/Collections/fish-col.png';
+      $collectionImage.src = 'images/Collections/fish-col.webp';
       $collectionProgressCount.textContent = '0/80';
       data.currentCollection = 'fish';
       break;
@@ -1263,7 +1298,7 @@ function renderCollection(collectionType) {
       } else {
         renderTable(data.collectionData.bugs);
       }
-      $collectionImage.src = 'images/Collections/butterfly-col.png';
+      $collectionImage.src = 'images/Collections/butterfly-col.webp';
       $collectionProgressCount.textContent = '0/80';
       data.currentCollection = 'bugs';
       break;
@@ -1274,7 +1309,7 @@ function renderCollection(collectionType) {
       } else {
         renderTable(data.collectionData.sea);
       }
-      $collectionImage.src = 'images/Collections/sea-col.png';
+      $collectionImage.src = 'images/Collections/sea-col.webp';
       $collectionProgressCount.textContent = '0/40';
       data.currentCollection = 'sea';
       break;
@@ -1285,7 +1320,7 @@ function renderCollection(collectionType) {
       } else {
         renderTable(data.collectionData.fossils);
       }
-      $collectionImage.src = 'images/Collections/fossil-col.png';
+      $collectionImage.src = 'images/Collections/fossil-col.webp';
       $collectionProgressCount.textContent = '0/73';
       data.currentCollection = 'fossils';
       break;
@@ -1296,7 +1331,7 @@ function renderCollection(collectionType) {
       } else {
         renderTable(data.collectionData.art);
       }
-      $collectionImage.src = 'images/Collections/art-col.png';
+      $collectionImage.src = 'images/Collections/art-col.webp';
       $collectionProgressCount.textContent = '0/43';
       data.currentCollection = 'art';
       break;
@@ -1529,7 +1564,7 @@ function renderFishInfo(fishObject) {
   *   <div class="row-no-wrap gap-half-rem">
   *     <div class="text-align-center fish-shadow-card">
   *       <p class="fish-size-label row justify-and-align-center">6</p>
-  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
+  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.webp">
   *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
   *     </div>
   *     renderMonthsHere()
@@ -1578,7 +1613,7 @@ function renderFishInfo(fishObject) {
   const $shadowLink = document.createElement('a');
   $shadowLink.className = 'shadow-reference';
   $shadowLink.setAttribute('target', '_blank');
-  $shadowLink.setAttribute('href', 'https://tunnaa-unnaa.tumblr.com/image/620023127192354817'); // add fishobject info here
+  $shadowLink.setAttribute('href', 'https://tunnaa-unnaa.tumblr.com/image/620023127192354817');
   $shadowLink.textContent = 'Need a reference?';
 
   const $monthsDiv = renderMonths(75, fishObject);
@@ -1643,7 +1678,7 @@ function renderSeaInfo(seaObject) {
   *   </div>
   *   <div class="row-no-wrap gap-half-rem">
   *     <div class="fb-25 text-align-center fish-shadow-card">
-  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.png">
+  *       <img class="fish-size-img shadow" src="images/Fish/fish-size-6.webp">
   *       <p class="fish-size-label row justify-and-align-center">6</p>
   *       <a class="shadow-reference" target="_blank" href="https://tunnaa-unnaa.tumblr.com/image/620023127192354817">Need a reference?</a>
   *     </div>
@@ -1672,7 +1707,7 @@ function renderSeaInfo(seaObject) {
   $speedInfoP.className = 'white-info-tag';
 
   const $labelDiv = document.createElement('div');
-  $labelDiv.className = 'row-no-wrap mb-half-rem';
+  $labelDiv.className = 'row-no-wrap';
 
   const $shadowColumnDiv = document.createElement('div');
   $shadowColumnDiv.className = 'fb-25 flex-column gap-half-rem';
@@ -1692,7 +1727,10 @@ function renderSeaInfo(seaObject) {
   $infoDiv.className = 'row-no-wrap gap-half-rem';
 
   const $shadowInfoDiv = document.createElement('div');
-  $shadowInfoDiv.className = 'fb-25 text-align-center fish-shadow-card';
+  $shadowInfoDiv.className = 'text-align-center fish-shadow-card';
+
+  const $shadowImgDiv = document.createElement('div');
+  $shadowImgDiv.className = 'position-relative';
 
   const $shadowImg = document.createElement('img');
   $shadowImg.className = 'fish-size-img shadow';
@@ -1715,7 +1753,8 @@ function renderSeaInfo(seaObject) {
   $speedLabelColumn.append($speedLabelP);
   $speedInfoColumn.append($speedInfoP);
   $speedDiv.append($speedLabelColumn, $speedInfoColumn);
-  $shadowInfoDiv.append($shadowImg, $shadowP, $shadowLink);
+  $shadowImgDiv.append($shadowImg, $shadowP);
+  $shadowInfoDiv.append($shadowImgDiv, $shadowLink);
   $infoDiv.append($shadowInfoDiv, $monthsDiv);
   $seasonColumnDiv.append($seasonColumnP);
   $shadowColumnDiv.append($shadowColumnP);
@@ -1907,9 +1946,6 @@ function renderCollectionModal(itemToRender) { // takes an item name to render f
     if (data.collectionData[data.currentCollection][i].name === itemToRender) {
       data.currentCollectionItem = data.collectionData[data.currentCollection][i];
       $heroImg.src = data.collectionData[data.currentCollection][i].imageUrl;
-      if (!$heroImg.src) {
-        $heroImg.src = 'images/image-not-found.png';
-      }
       if (data.currentCollection === 'fish' || data.currentCollection === 'bugs' || data.currentCollection === 'sea') {
         $infoContainer.append(renderTimeLocationInfo(data.collectionData[data.currentCollection][i]));
       }
@@ -1973,14 +2009,14 @@ function changeIconFilter(action, iconName) { // either adds or removes the dark
 
 function getFishShadowImg(shadowSize) { // returns the appropriate link and label number for a fish shadow size input
   const apiFishShadowSizes = {
-    Tiny: { src: 'images/Fish/fish-size-1.png', label: 1 },
-    Small: { src: 'images/Fish/fish-size-2.png', label: 2 },
-    Medium: { src: 'images/Fish/fish-size-3.png', label: 3 },
-    Large: { src: 'images/Fish/fish-size-4.png', label: 4 },
-    'Very large': { src: 'images/Fish/fish-size-5.png', label: 5 },
-    Huge: { src: 'images/Fish/fish-size-6.png', label: 6 },
-    'Very large (finned)': { src: 'images/Fish/fish-size-shark.jpg', label: 'fin' },
-    Long: { src: 'images/Fish/fish-size-eel.jpg', label: 'eel' }
+    Tiny: { src: 'images/Fish/fish-size-1.webp', label: 1 },
+    Small: { src: 'images/Fish/fish-size-2.webp', label: 2 },
+    Medium: { src: 'images/Fish/fish-size-3.webp', label: 3 },
+    Large: { src: 'images/Fish/fish-size-4.webp', label: 4 },
+    'Very large': { src: 'images/Fish/fish-size-5.webp', label: 5 },
+    Huge: { src: 'images/Fish/fish-size-6.webp', label: 6 },
+    'Very large (finned)': { src: 'images/Fish/fish-size-shark.webp', label: 'fin' },
+    Long: { src: 'images/Fish/fish-size-eel.webp', label: 'eel' }
   };
   for (const key in apiFishShadowSizes) {
     if (shadowSize === key) {
@@ -1991,11 +2027,11 @@ function getFishShadowImg(shadowSize) { // returns the appropriate link and labe
 
 function getSeaShadowImg(shadowSize, shadowSpeed) {
   const apiSeaShadowSizes = {
-    Tiny: { src: 'images/Sea/sea-small.jpg', label: 1 },
-    Small: { src: 'images/Sea/sea-small.jpg', label: 1 },
-    Medium: { src: 'images/Sea/sea-medium.jpg', label: 2 },
-    Large: { src: 'images/Sea/sea-large.jpg', label: 3 },
-    'Very large': { src: 'images/Sea/sea-large.jpg', label: 3 }
+    Tiny: { src: 'images/Sea/sea-small.webp', label: 1 },
+    Small: { src: 'images/Sea/sea-small.webp', label: 1 },
+    Medium: { src: 'images/Sea/sea-medium.webp', label: 2 },
+    Large: { src: 'images/Sea/sea-large.webp', label: 3 },
+    'Very large': { src: 'images/Sea/sea-large.webp', label: 3 }
   };
   for (const key in apiSeaShadowSizes) {
     if (shadowSize === key) {

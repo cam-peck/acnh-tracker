@@ -29,6 +29,7 @@ h3 {
 
 .row-no-wrap {
   display: flex;
+  flex-wrap: nowrap;
 }
 
 .flex-column {
