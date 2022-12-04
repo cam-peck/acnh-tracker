@@ -708,7 +708,7 @@ $navCollections.addEventListener('click', function (event) {
   if (data.view !== 'collections' && data.currentCollection !== null) {
     renderCollection(data.currentCollection);
     viewSwap('collections');
-  } else if (data.view === 'town-home-page') {
+  } else if (data.view !== 'collections' && data.currentTown) {
     renderCollection('fish');
     viewSwap('collections');
   }
