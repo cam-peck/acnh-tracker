@@ -19,7 +19,7 @@ When Animal Crossing New Horizons came out during the pandemic, I used a critter
 
 ## Live Deployment
 
-https://cam-peck.github.io/ajax-project/
+https://cam-peck.github.io/acnh-tracker/
 
 ## MVP Features
 
