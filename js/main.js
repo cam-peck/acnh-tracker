@@ -105,7 +105,7 @@ $searchVillagerBtn.addEventListener('click', function (event) {
   getVillagerNames();
 });
 
-function searchVillagers(requestDidFail) { // search through the villagers and show them to the user
+function searchVillagers(requestDidFail) {
   const $loadingSpinner = document.querySelector('.search-loading-spinner');
   if (requestDidFail) {
     $loadingSpinner.remove();
@@ -129,7 +129,7 @@ function searchVillagers(requestDidFail) { // search through the villagers and s
 
 $addVillagerBtn.addEventListener('click', addVillager);
 
-function addVillager() { // add a villager to both the DOM and the data model
+function addVillager() {
   for (let i = 0; i < allVillagers.length; i++) {
     if (allVillagers[i].name === toTitleCase($addVillagerInput.value)) {
       for (let j = 0; j < data.currentVillagers.length; j++) { // check for same villagers
@@ -145,7 +145,7 @@ function addVillager() { // add a villager to both the DOM and the data model
         $villagerNotFound.textContent = 'You have the maximum 10 villagers. Remove one before adding another.';
         return;
       }
-      if (data.currentVillagers.length === 0 && $villagerEntryList.children.length === 1) { // default message is currently appended
+      if (data.currentVillagers.length === 0 && $villagerEntryList.children.length === 1) {
         const $defaultMessage = document.querySelector('.default-villager-search-msg');
         $defaultMessage.remove();
       }
@@ -219,7 +219,7 @@ function renderLargeLoadingSpinner() {
   return $container;
 }
 
-function createVillagerIcon(villagerName, imageUrl) { // create a villager icon and return it
+function createVillagerIcon(villagerName, imageUrl) {
   /*
   * <li data-villager-id="villagerName">
   *  <div class="villager-card justify-and-align-center">
@@ -243,7 +243,7 @@ function createVillagerIcon(villagerName, imageUrl) { // create a villager icon 
   return $newLi;
 }
 
-function createVillagerBDIcon(villagerName, imageUrl) { // create a villager birthday icon and returns it
+function createVillagerBDIcon(villagerName, imageUrl) {
   /*
   * <li class="row-no-wrap pl-1-rem align-center" data-villager-id="villagerName">
   *   <div class="villager-card justify-and-align-center">
@@ -279,7 +279,7 @@ function createVillagerBDIcon(villagerName, imageUrl) { // create a villager bir
   return $newBDLi;
 }
 
-function clearVillagers() { // clears villagers from the DOM
+function clearVillagers() {
   if (allVillagers.length === 0) { // villagers have not yet loaded
     while ($villagerEntryList.children.length > 1) {
       const $lastVillager = $villagerEntryList.lastChild;
@@ -306,7 +306,7 @@ $townForm.addEventListener('submit', function (event) { // handle submitting a t
   viewSwap('town-entries');
 });
 
-function handleNewSubmit(event) { // handle the form data from a new town submit
+function handleNewSubmit(event) {
   event.preventDefault();
   const formData = {};
   formData.playerName = $townForm.elements['char-name'].value;
@@ -549,7 +549,7 @@ function renderHomePage(townObj, requestDidFail) {
   $homeImageCont.src = townObj.imageLink;
   $homeVillagerUl.textContent = '';
 
-  // render the town news //
+  // Render the town news //
   for (let i = 0; i < townObj.townVillagers.length; i++) { // append villagers to top of page
     $homeVillagerUl.append(createVillagerIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
     if (isBirthday(townObj.townVillagers[i])) { // check for birthdays
@@ -602,7 +602,7 @@ function getRandomQuote() {
   $villagerQuoteTag.textContent = '--' + randomQuote.name;
 }
 
-function filterEvents(eventArray) { // filter the events to only show relevant events to user
+function filterEvents(eventArray) {
   const eventsToShow = [];
   const validDays = get10DaysForward();
   for (let i = 0; i < eventArray.length; i++) {
@@ -740,7 +740,7 @@ function signOut() { // signs the user out of their current town, clearing all d
   data.editing = null;
 }
 
-function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
+function viewSwap(dataView) {
   const $dataViews = document.querySelectorAll('[data-view]');
   for (let i = 0; i < $dataViews.length; i++) {
     if ($dataViews[i].getAttribute('data-view') === dataView) {
@@ -770,9 +770,9 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
   }
 }
 
-// ACNH Data Functions //
+// Network Requests //
 
-function getVillagerNames() { // call the API and grab all villager names and icons
+function getVillagerNames() {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
   xhr.responseType = 'json';
@@ -797,7 +797,7 @@ function getVillagerNames() { // call the API and grab all villager names and ic
   xhr.send();
 }
 
-function getCurrentEvents() { // call the API and grab current events
+function getCurrentEvents() {
   const xhr = new XMLHttpRequest();
   const thisMonth = new Date().getMonth() + 1; // 0-indexed
   const thisYear = new Date().getFullYear();
@@ -884,8 +884,8 @@ function getFishCollectionItems() {
       }
       acnhFish.push(currentFish);
     }
-    const sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fish by number property
-    renderTable(sortedFish); // render the fish table for the main collection page
+    const sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedFish);
     data.collectionData.fish = sortedFish;
   });
   xhr.addEventListener('error', function () {
@@ -926,8 +926,8 @@ function getBugCollectionItems() {
       }
       acnhBugs.push(currentBug);
     }
-    const sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the bugs by number property
-    renderTable(sortedBugs); // render the fish table for the main collection page
+    const sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedBugs);
     data.collectionData.bugs = sortedBugs;
   });
   xhr.addEventListener('error', function () {
@@ -969,8 +969,8 @@ function getSeaCollectionItems() {
       }
       acnhSea.push(currentSea);
     }
-    const sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the sea creatures by number property
-    renderTable(sortedSea); // render the fish table for the main collection page
+    const sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedSea);
     data.collectionData.sea = sortedSea;
   });
   xhr.addEventListener('error', function () {
@@ -1006,8 +1006,8 @@ function getFossilCollectionItems() {
       }
       acnhFossils.push(currentFossil);
     }
-    const sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
-    renderTable(sortedFossils); // render the fish table for the main collection page
+    const sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedFossils);
     data.collectionData.fossils = sortedFossils;
   });
   xhr.addEventListener('error', function () {
@@ -1051,8 +1051,8 @@ function getArtCollectionItems() {
       }
       acnhArt.push(currentArt);
     }
-    const sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
-    renderTable(sortedArt); // render the fish table for the main collection page
+    const sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedArt);
     data.collectionData.art = sortedArt;
   });
   xhr.addEventListener('error', function () {
@@ -1115,7 +1115,7 @@ function getDate() { // returns todays date
   }
 }
 
-function get10DaysForward() { // returns an array of valid dates to check
+function get10DaysForward() {
   const validDays = [];
   const monthObj = {
     1: 31,
@@ -1144,13 +1144,13 @@ function get10DaysForward() { // returns an array of valid dates to check
     let ForwardYear = todayYear;
     for (const key in monthObj) {
       if (parseInt(key) === todayMonth) {
-        if (ForwardDay > parseInt(monthObj[key])) { // check if day > day in month object for current month
-          ForwardMonth += 1; // increment the month by 1
-          if (ForwardMonth === 13) { // if it's time for a new year
+        if (ForwardDay > parseInt(monthObj[key])) {
+          ForwardMonth += 1;
+          if (ForwardMonth === 13) {
             ForwardYear += 1;
             ForwardMonth = 1;
           }
-          ForwardDay = ForwardDay - monthObj[key]; // if it is, subtract the value in monthObj at the month from todays date
+          ForwardDay = ForwardDay - monthObj[key];
         }
       }
     }
@@ -1353,26 +1353,26 @@ $slider.addEventListener('mouseup', function (event) { // handles the click even
   }
 });
 
-$slider.addEventListener('mouseover', function (event) { // add
+$slider.addEventListener('mouseover', function (event) {
   handleLabelHover(event);
 });
 
-function handleLabelHover(event) { // add label to currently hovered collection card and remove from rest
+function handleLabelHover(event) {
   if (event.target.tagName === 'IMG') {
     const $collectionLabels = document.querySelectorAll('.label');
     const $hoveredDiv = event.target.closest('div');
     const $hoveredLabel = $hoveredDiv.firstElementChild;
-    for (let i = 0; i < $collectionLabels.length; i++) { // iterate through all labels
-      if ($hoveredLabel === $collectionLabels[i]) { // if label is the one we want...
-        const hoveredDataId = $hoveredDiv.getAttribute(['data-collection-id']); // grab the dataID
-        for (let i = 0; i < data.collectionData[data.currentCollection].length; i++) { // iterate through all collection data
-          if (data.collectionData[data.currentCollection][i].name === hoveredDataId) { // find the collection item that matches the dataID
+    for (let i = 0; i < $collectionLabels.length; i++) {
+      if ($hoveredLabel === $collectionLabels[i]) {
+        const hoveredDataId = $hoveredDiv.getAttribute(['data-collection-id']);
+        for (let i = 0; i < data.collectionData[data.currentCollection].length; i++) {
+          if (data.collectionData[data.currentCollection][i].name === hoveredDataId) {
             if (data.collectionData[data.currentCollection][i].acquired === true) {
-              $hoveredLabel.textContent = toTitleCase(data.collectionData[data.currentCollection][i].name); // if the fish is acquired, add it's name
+              $hoveredLabel.textContent = toTitleCase(data.collectionData[data.currentCollection][i].name);
               $hoveredLabel.classList.remove('label-not-acquired-bg');
               $hoveredLabel.classList.add('label-acquired-bg');
             } else {
-              $hoveredLabel.textContent = '???'; // else, add the question mark text
+              $hoveredLabel.textContent = '???';
               $hoveredLabel.classList.add('label-not-acquired-bg');
               $hoveredLabel.classList.remove('label-acquired-bg');
             }
@@ -1390,7 +1390,7 @@ $slider.addEventListener('mouseleave', function (event) {
   removeAllLabels();
 });
 
-function removeAllLabels(event) { // remove all labels from collection cards
+function removeAllLabels(event) {
   const $collectionLabels = document.querySelectorAll('.label');
   for (let i = 0; i < $collectionLabels.length; i++) {
     $collectionLabels[i].classList.add('hidden');
@@ -1418,8 +1418,6 @@ const $heroImg = document.querySelector('div.fish-modal img.modal-hero-img');
 const $acquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
 const $acquiredIcon = document.querySelector('div.fish-modal i.caught-mark');
 const $infoContainer = document.querySelector('.info-container');
-
-// Fish, Bug, & Sea Collection Uniques // (fbs --> fish / bug /sea)
 
 function renderTimeLocationInfo(creatureObj) {
   /*  <li class="loc-time-box mb-half-rem">
@@ -1994,7 +1992,7 @@ function handleNotAcquiredItem(itemName) {
   updateCurrentCollectionProgress();
 }
 
-function changeIconFilter(action, iconName) { // either adds or removes the dark icon filter
+function changeIconFilter(action, iconName) {
   const $allCards = document.querySelectorAll('.collection-card');
   for (let i = 0; i < $allCards.length; i++) {
     if ($allCards[i].getAttribute(['data-collection-id']) === iconName) {
@@ -2007,7 +2005,7 @@ function changeIconFilter(action, iconName) { // either adds or removes the dark
   }
 }
 
-function getFishShadowImg(shadowSize) { // returns the appropriate link and label number for a fish shadow size input
+function getFishShadowImg(shadowSize) {
   const apiFishShadowSizes = {
     Tiny: { src: 'images/Fish/fish-size-1.webp', label: 1 },
     Small: { src: 'images/Fish/fish-size-2.webp', label: 2 },
@@ -2063,7 +2061,7 @@ function inventoryCollection(collectionType) { // returns a string with the curr
   }
 }
 
-function updateHomeCollectionProgress() { // update collection status of all home page collections
+function updateHomeCollectionProgress() {
   const collections = ['fish', 'bugs', 'sea', 'fossils', 'art'];
   for (let i = 0; i < collections.length; i++) {
     const $currentCollection = document.querySelector(`[data-collection-type-id="${collections[i]}"]`);
