@@ -314,6 +314,9 @@ function handleNewSubmit(event) {
   formData.townFruit = $townForm.elements.fruit.value;
   formData.townVillagers = data.currentVillagers;
   formData.imageLink = $townImage.src;
+  if (formData.imageLink.includes('/images/placeholder-image-square.webp')) { // user did not upload an image
+    formData.imageLink = 'images/timmy-tommy-beach.webp';
+  }
   data.currentVillagers = [];
   $townImage.src = 'images/placeholder-image-square.webp';
   formData.entryID = data.nextEntryId;
