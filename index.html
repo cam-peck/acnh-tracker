@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AJAX Project</title>
+  <meta property="og:title" content="ACNH Tracker">
+  <meta property="og:description" content="A web app for Animal Crossing New Horizons enthusiasts who want to track their town progress.">
+  <meta property="og:image" content="https://cam-peck.github.io/acnh-tracker/images/my-town.webp">
+  <meta property="og:url" content="https://cam-peck.github.io/acnh-tracker/">
+  <title>ACNH Tracker</title>
   <link rel="icon" href="images/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -19,8 +23,9 @@
   <header class="header-bg-wrapper dark-blue-bg">
     <div class="container">
       <nav class="row column-full justify-between align-center">
-        <div>
-          <h2 class="text-white fw-500">ACNH</h2>
+        <div class="row align-center gap-half-rem">
+          <img class="nav-icon" src="images/White_paw_print.webp" alt="icon">
+          <h2 class="text-white fw-500">ACNH Tracker</h2>
         </div>
         <div class="hamburger">
           <span class="bar"></span>
@@ -137,7 +142,7 @@
     <!-- User Can View Their Towns -->
     <div class="hidden" data-view="town-entries">
       <div class="row column-full justify-between align-center mtb-1-rem">
-        <h1 class="town-form-title">ACNH Tracker</h1>
+        <h1 class="town-form-title">All Towns</h1>
         <button class="add-town-btn" type="button">ADD TOWN</button>
       </div>
       <ul class="town-container"></ul>

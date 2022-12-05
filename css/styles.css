@@ -648,6 +648,11 @@ i:active {
   cursor: pointer;
 }
 
+.nav-icon {
+  height: 30px;
+  width: 30px;
+}
+
 /* Profile */
 .town-image-container {
   width: 100%;
