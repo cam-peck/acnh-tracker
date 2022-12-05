@@ -757,20 +757,16 @@ i:active {
   justify-content: center;
 }
 
+.justify-flex-end {
+  justify-content: flex-end;
+}
+
 .align-center {
   align-items: center;
 }
 
 .align-baseline {
   align-items: baseline;
-}
-
-.justify-flex-end {
-  justify-content: flex-end;
-}
-
-.space-between {
-  justify-content: space-between;
 }
 
 .text-align-center {
@@ -791,10 +787,6 @@ i:active {
 
 .gap-2-rem {
   gap: 2rem;
-}
-
-.gap-3-rem {
-  gap: 3rem;
 }
 
 .position-relative {
@@ -914,8 +906,8 @@ i:active {
   flex-basis: 5%;
 }
 
-.fb-20 {
-  flex-basis: 20%;
+.fb-15 {
+  flex-basis: 10%;
 }
 
 .fb-25 {
@@ -926,20 +918,8 @@ i:active {
   flex-basis: 75%;
 }
 
-.fb-80 {
-  flex-basis: 80%;
-}
-
 .fb-85 {
   flex-basis: 85%;
-}
-
-.fb-15 {
-  flex-basis: 10%;
-}
-
-.min-20 {
-  min-width: 20%;
 }
 
 .br-top-left {
