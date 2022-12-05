@@ -549,7 +549,7 @@ function renderHomePage(townObj, requestDidFail) {
   $homeImageCont.src = townObj.imageLink;
   $homeVillagerUl.textContent = '';
 
-  // render the town news //
+  // Render the town news //
   for (let i = 0; i < townObj.townVillagers.length; i++) { // append villagers to top of page
     $homeVillagerUl.append(createVillagerIcon(townObj.townVillagers[i].name, townObj.townVillagers[i].icon));
     if (isBirthday(townObj.townVillagers[i])) { // check for birthdays
@@ -602,7 +602,7 @@ function getRandomQuote() {
   $villagerQuoteTag.textContent = '--' + randomQuote.name;
 }
 
-function filterEvents(eventArray) { // filter the events to only show relevant events to user
+function filterEvents(eventArray) { // filter the events to only show specific date range to the user
   const eventsToShow = [];
   const validDays = get10DaysForward();
   for (let i = 0; i < eventArray.length; i++) {
@@ -740,7 +740,7 @@ function signOut() { // signs the user out of their current town, clearing all d
   data.editing = null;
 }
 
-function viewSwap(dataView) { // takes a dataview as argument and changes to that dataview
+function viewSwap(dataView) {
   const $dataViews = document.querySelectorAll('[data-view]');
   for (let i = 0; i < $dataViews.length; i++) {
     if ($dataViews[i].getAttribute('data-view') === dataView) {
@@ -770,9 +770,9 @@ function viewSwap(dataView) { // takes a dataview as argument and changes to tha
   }
 }
 
-// ACNH Data Functions //
+// Network Requests //
 
-function getVillagerNames() { // call the API and grab all villager names and icons
+function getVillagerNames() {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://acnhapi.com/v1a/villagers');
   xhr.responseType = 'json';
@@ -797,7 +797,7 @@ function getVillagerNames() { // call the API and grab all villager names and ic
   xhr.send();
 }
 
-function getCurrentEvents() { // call the API and grab current events
+function getCurrentEvents() {
   const xhr = new XMLHttpRequest();
   const thisMonth = new Date().getMonth() + 1; // 0-indexed
   const thisYear = new Date().getFullYear();
@@ -884,8 +884,8 @@ function getFishCollectionItems() {
       }
       acnhFish.push(currentFish);
     }
-    const sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fish by number property
-    renderTable(sortedFish); // render the fish table for the main collection page
+    const sortedFish = acnhFish.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedFish);
     data.collectionData.fish = sortedFish;
   });
   xhr.addEventListener('error', function () {
@@ -926,8 +926,8 @@ function getBugCollectionItems() {
       }
       acnhBugs.push(currentBug);
     }
-    const sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the bugs by number property
-    renderTable(sortedBugs); // render the fish table for the main collection page
+    const sortedBugs = acnhBugs.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedBugs);
     data.collectionData.bugs = sortedBugs;
   });
   xhr.addEventListener('error', function () {
@@ -969,8 +969,8 @@ function getSeaCollectionItems() {
       }
       acnhSea.push(currentSea);
     }
-    const sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the sea creatures by number property
-    renderTable(sortedSea); // render the fish table for the main collection page
+    const sortedSea = acnhSea.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedSea);
     data.collectionData.sea = sortedSea;
   });
   xhr.addEventListener('error', function () {
@@ -1006,8 +1006,8 @@ function getFossilCollectionItems() {
       }
       acnhFossils.push(currentFossil);
     }
-    const sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
-    renderTable(sortedFossils); // render the fish table for the main collection page
+    const sortedFossils = acnhFossils.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedFossils);
     data.collectionData.fossils = sortedFossils;
   });
   xhr.addEventListener('error', function () {
@@ -1051,8 +1051,8 @@ function getArtCollectionItems() {
       }
       acnhArt.push(currentArt);
     }
-    const sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1); // sort the fossils by number property
-    renderTable(sortedArt); // render the fish table for the main collection page
+    const sortedArt = acnhArt.sort((a, b) => (a.number > b.number) ? 1 : -1);
+    renderTable(sortedArt);
     data.collectionData.art = sortedArt;
   });
   xhr.addEventListener('error', function () {
@@ -1353,7 +1353,7 @@ $slider.addEventListener('mouseup', function (event) { // handles the click even
   }
 });
 
-$slider.addEventListener('mouseover', function (event) { // add
+$slider.addEventListener('mouseover', function (event) {
   handleLabelHover(event);
 });
 
@@ -1418,8 +1418,6 @@ const $heroImg = document.querySelector('div.fish-modal img.modal-hero-img');
 const $acquiredBtn = document.querySelector('div.fish-modal button.acquired-btn');
 const $acquiredIcon = document.querySelector('div.fish-modal i.caught-mark');
 const $infoContainer = document.querySelector('.info-container');
-
-// Fish, Bug, & Sea Collection Uniques // (fbs --> fish / bug /sea)
 
 function renderTimeLocationInfo(creatureObj) {
   /*  <li class="loc-time-box mb-half-rem">
