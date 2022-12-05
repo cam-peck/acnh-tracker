@@ -1614,7 +1614,7 @@ function renderFishInfo(fishObject) {
   const $shadowLink = document.createElement('a');
   $shadowLink.className = 'shadow-reference';
   $shadowLink.setAttribute('target', '_blank');
-  $shadowLink.setAttribute('href', 'https://tunnaa-unnaa.tumblr.com/image/620023127192354817');
+  $shadowLink.setAttribute('href', 'https://64.media.tumblr.com/314ea6e355653ea89d1b8020e24ac931/b2a8a2dc45eb82a4-56/s2048x3072/6b538687bd2bfb97b5cdad678fc330d8ea436b28.jpg');
   $shadowLink.textContent = 'Need a reference?';
 
   const $monthsDiv = renderMonths(75, fishObject);
