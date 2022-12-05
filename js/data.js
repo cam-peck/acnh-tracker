@@ -35,7 +35,13 @@ const previousData = localStorage.getItem('acnh-tracker-data');
 if (previousData !== null) {
   data = JSON.parse(previousData);
 }
+
 window.addEventListener('beforeunload', function (event) {
-  var dataJSON = JSON.stringify(data);
+  const dataJSON = JSON.stringify(data);
+  localStorage.setItem('acnh-tracker-data', dataJSON);
+});
+
+window.addEventListener('pagehide', function () { // for iOS
+  const dataJSON = JSON.stringify(data);
   localStorage.setItem('acnh-tracker-data', dataJSON);
 });
