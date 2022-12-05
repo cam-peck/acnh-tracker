@@ -682,6 +682,11 @@ i:active {
   margin-top: 1rem;
 }
 
+a.thank-you-link {
+  color: blue;
+  text-decoration: underline;
+}
+
 /* Loading Spinner */
 
 .lds-dual-ring {
